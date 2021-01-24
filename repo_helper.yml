@@ -1,0 +1,27 @@
+# Configuration for 'repo_helper' (https://github.com/domdfcoding/repo_helper)
+---
+modname: 'formate'
+copyright_years: '2020-2021'
+author: 'Dominic Davis-Foster'
+email: 'dominic@davis-foster.co.uk'
+username: 'repo-helper'
+assignee: 'domdfcoding'
+version: '0.0.0'
+license: 'MIT'
+short_desc: 'Python formatting mate.'
+
+enable_conda: false
+
+python_versions:
+ - 3.6
+ - 3.7
+ - 3.8
+ - 3.9
+ - 3.10-dev
+
+keywords:
+ - formatting
+
+classifiers:
+ - "Development Status :: 3 - Alpha"
+ - "Intended Audience :: Developers"

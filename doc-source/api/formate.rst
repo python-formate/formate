@@ -1,0 +1,5 @@
+========
+formate
+========
+
+.. automodule:: formate
