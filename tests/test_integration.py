@@ -15,7 +15,7 @@ from formate import reformat_file
 from formate.__main__ import main
 from formate.config import load_toml
 
-path_sub = re.compile(rf"{tempfile.gettempdir()}[/\\]pytest-of-.*[/\\]pytest-\d+")
+path_sub = re.compile(rf" .*[/\\]pytest-of-.*[/\\]pytest-\d+")
 
 
 @pytest.fixture()
@@ -56,8 +56,8 @@ def test_integration(
 	captured = capsys.readouterr()
 
 	data_dict = {
-			"out": strip_ansi(path_sub.sub("...", captured.out)).split('\n'),
-			"err": strip_ansi(path_sub.sub("...", captured.err)).split('\n')
+			"out": strip_ansi(path_sub.sub(" ...", captured.out)).split('\n'),
+			"err": strip_ansi(path_sub.sub(" ...", captured.err)).split('\n')
 			}
 
 	advanced_data_regression.check(data_dict)
@@ -87,8 +87,8 @@ def test_cli(
 	check_file_output(tmp_pathplus / "code.py", file_regression)
 
 	data_dict = {
-			"out": strip_ansi(path_sub.sub("...", result.stdout)).split('\n'),
-			"err": strip_ansi(path_sub.sub("...", result.stderr)).split('\n')
+			"out": strip_ansi(path_sub.sub(" ...", result.stdout)).split('\n'),
+			"err": strip_ansi(path_sub.sub(" ...", result.stderr)).split('\n')
 			}
 
 	advanced_data_regression.check(data_dict)
