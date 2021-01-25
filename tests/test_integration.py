@@ -15,7 +15,7 @@ from formate import reformat_file
 from formate.__main__ import main
 from formate.config import load_toml
 
-path_sub = re.compile(rf" .*[/\\]pytest-of-.*[/\\]pytest-\d+")
+path_sub = re.compile(rf" .*/pytest-of-.*/pytest-\d+")
 
 
 @pytest.fixture()
