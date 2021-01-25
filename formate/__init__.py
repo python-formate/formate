@@ -163,7 +163,7 @@ class Reformatter:
 
 	def __init__(self, filename: PathLike, config: FormateConfigDict):
 		self.file_to_format = PathPlus(filename)
-		self.filename = filename.as_posix()
+		self.filename = self.file_to_format.as_posix()
 		self.config = config
 		self._unformatted_source = self.file_to_format.read_text()
 		self._reformatted_source: Optional[str] = None
