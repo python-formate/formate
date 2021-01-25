@@ -1,0 +1,11 @@
+
+dtype = Literal[
+	"sphinx_rtd_theme",
+	"sphinx-rtd-theme",
+	"alabaster",
+	"repo_helper_sphinx_theme",
+	"repo-helper-sphinx-theme",
+	"domdf_sphinx_theme",
+	"domdf-sphinx-theme",
+	"furo"
+	]

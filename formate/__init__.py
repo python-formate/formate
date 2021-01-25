@@ -26,8 +26,223 @@ Python formatting mate.
 #  OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
+# stdlib
+from configparser import ConfigParser
+from typing import Iterable, Mapping, Optional
+
+# 3rd party
+import click
+import isort  # type: ignore
+from consolekit.terminal_colours import resolve_color_default
+from consolekit.utils import coloured_diff
+from domdf_python_tools.paths import PathPlus, TemporaryPathPlus
+from domdf_python_tools.stringlist import StringList
+from domdf_python_tools.typing import PathLike
+from domdf_python_tools.words import TAB
+from isort import Config
+from isort.exceptions import FileSkipComment  # type: ignore
+from yapf.yapflib.yapf_api import FormatCode  # type: ignore
+
+# this package
+from formate.classes import FormateConfigDict, Hook
+from formate.config import parse_hooks
+from formate.utils import wants_global_config
+
+__all__ = ["call_hooks", "isort_hook", "yapf_hook", "Reformatter", "reformat_file"]
+
 __author__: str = "Dominic Davis-Foster"
 __copyright__: str = "2020-2021 Dominic Davis-Foster"
 __license__: str = "MIT License"
 __version__: str = "0.0.0"
 __email__: str = "dominic@davis-foster.co.uk"
+
+
+def call_hooks(hooks: Iterable[Hook], source: str) -> str:
+	"""
+	Given a list of hooks (in order), call them in turn to reformat the source.
+
+	:param hooks:
+	:param source: The source to reformat.
+
+	:returns: The reformatted source.
+	"""
+
+	for hook in hooks:
+		source = hook(source)
+
+	return source
+
+
+@wants_global_config
+def isort_hook(source: str, formate_global_config: Optional[Mapping] = None, **kwargs) -> str:
+	r"""
+	Call `isort <https://pypi.org/project/isort/>`_, using the given keyword arguments as its configuration.
+
+	:param source: The source to reformat.
+	:param formate_global_config: The global configuration dictionary. Optional.
+	:param \*\*kwargs:
+
+	:returns: The reformatted source.
+	"""
+
+	if "isort_config_file" in kwargs:
+		isort_config = Config(settings_file=str(kwargs["isort_config_file"]))
+	else:
+		if "line_length" not in kwargs and formate_global_config:
+			kwargs["line_length"] = formate_global_config["line_length"]
+
+		parsed_kwargs = {}
+		import_headings = {}
+
+		for option, value in kwargs.items():
+			if option.startswith("import_heading"):
+				import_headings[option[len("import_heading") + 1:]] = value
+			elif option == "force_to_top":
+				continue  # TODO isort expects a frozenset but I thought it was boolean
+			else:
+				parsed_kwargs[option] = value
+
+		isort_config = Config(import_headings=import_headings, **kwargs)
+
+	try:
+		return isort.code(source, config=isort_config)
+	except FileSkipComment:
+		return source
+
+
+@wants_global_config
+def yapf_hook(source: str, formate_global_config: Optional[Mapping] = None, **kwargs) -> str:
+	r"""
+	Call `yapf <https://github.com/google/yapf>`_, using the given keyword arguments as its configuration.
+
+	:param source: The source to reformat.
+	:param formate_global_config: The global configuration dictionary. Optional.
+	:param \*\*kwargs:
+
+	:returns: The reformatted source.
+	"""
+
+	if "yapf_style" in kwargs:
+		return FormatCode(source, style_config=str(kwargs["yapf_style"]))[0]
+
+	else:
+		if "use_tabs" not in kwargs and formate_global_config:
+			kwargs["use_tabs"] = formate_global_config["indent"] == TAB
+
+		if "column_limit" not in kwargs and formate_global_config:
+			kwargs["column_limit"] = formate_global_config["line_length"]
+
+		with TemporaryPathPlus() as tmpdir:
+			config_file = tmpdir / ".style.yapf"
+
+			config = ConfigParser()
+			config.read_dict({"style": kwargs})
+
+			with config_file.open('w') as fp:
+				config.write(fp)
+
+			return FormatCode(source, style_config=str(config_file))[0]
+
+
+class Reformatter:
+	"""
+	Reformat a Python source file.
+
+	:param filename: The filename to reformat.
+	:param config: The ``formate`` configuration, parsed from a TOML file (or similar).
+	"""
+
+	#: The filename being reformatted.
+	filename: str
+
+	#: The filename being reformatted.
+	file_to_format: PathPlus
+
+	#: The ``formate`` configuration, parsed from a TOML file (or similar).
+	config: FormateConfigDict
+
+	def __init__(self, filename: PathLike, config: FormateConfigDict):
+		self.filename = str(filename)
+		self.file_to_format = PathPlus(filename)
+		self.config = config
+		self._unformatted_source = self.file_to_format.read_text()
+		self._reformatted_source: Optional[str] = None
+
+	def run(self) -> bool:
+		"""
+		Run the reformatter.
+
+		:return: Whether the file was changed.
+		"""
+
+		hooks = parse_hooks(self.config)
+		reformatted_source = StringList(call_hooks(hooks, self._unformatted_source))
+		reformatted_source.blankline(ensure_single=True)
+
+		self._reformatted_source = str(reformatted_source)
+
+		return self._reformatted_source != self._unformatted_source
+
+	def get_diff(self) -> str:
+		"""
+		Returns the diff between the original and reformatted file content.
+		"""
+
+		# Based on yapf
+		# Apache 2.0 License
+
+		if self._reformatted_source is None:
+			raise ValueError("'Reformatter.run()' must be called first!")
+
+		before = self._unformatted_source.split('\n')
+		after = self._reformatted_source.split('\n')
+		return coloured_diff(
+				before,
+				after,
+				self.filename,
+				self.filename,
+				"(original)",
+				"(reformatted)",
+				lineterm='',
+				)
+
+	def to_string(self) -> str:
+		"""
+		Return the reformatted file as a string.
+		"""
+
+		if self._reformatted_source is None:
+			raise ValueError("'Reformatter.run()' must be called first!")
+
+		return self._reformatted_source
+
+	def to_file(self) -> None:
+		"""
+		Write the reformatted source to the original file.
+		"""
+
+		if self._reformatted_source is None:
+			raise ValueError("'Reformatter.run()' must be called first!")
+
+		self.file_to_format.write_text(self._reformatted_source)
+
+
+def reformat_file(filename: PathLike, config: FormateConfigDict):
+	"""
+	Reformat the given file.
+
+	:param filename: The filename to reformat.
+	:param config: The ``formate`` configuration, parsed from a TOML file (or similar).
+	"""
+
+	r = Reformatter(filename, config)
+
+	if r.run():
+		click.echo(r.get_diff(), color=resolve_color_default())
+		ret = 1
+	else:
+		ret = 0
+
+	r.to_file()
+
+	return ret

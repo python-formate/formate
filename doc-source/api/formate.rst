@@ -1,5 +1,5 @@
-========
-formate
-========
+================
+:mod:`formate`
+================
 
 .. automodule:: formate

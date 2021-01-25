@@ -25,3 +25,18 @@ keywords:
 classifiers:
  - "Development Status :: 3 - Alpha"
  - "Intended Audience :: Developers"
+
+entry_points:
+ formate_hooks:
+  - "reformat-generics=formate.reformat_generics:reformat_generics"
+  - "dynamic_quotes=formate.dynamic_quotes:dynamic_quotes"
+  - "noqa_reformat=formate.mini_hooks:noqa_reformat"
+  - "ellipsis_reformat=formate.mini_hooks:ellipsis_reformat"
+  - "collections-import-rewrite=formate.imports:rewrite_collections_abc_imports"
+  - "isort=formate:isort_hook"
+  - "yapf=formate:yapf_hook"
+
+extra_sphinx_extensions:
+ - attr_utils.autoattrs
+
+min_coverage: 95

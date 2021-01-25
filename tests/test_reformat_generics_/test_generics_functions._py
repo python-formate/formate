@@ -1,0 +1,5 @@
+def foo():
+	data: Tuple[int, int, str, float, str, int, bytes, int, int, str, float, str, int, bytes, int, int, str, float, str, int, bytes] = ()
+
+async def acync_foo():
+	data: Tuple[int, int, str, float, str, int, bytes, int, int, str, float, str, int, bytes, int, int, str, float, str, int, bytes] = ()

@@ -134,6 +134,7 @@ Installation
 	:caption: API Reference
 	:glob:
 
+	api/formate
 	api/*
 
 .. toctree::

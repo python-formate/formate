@@ -1,0 +1,8 @@
+
+_ConvertibleType = Union[
+	type,
+	ParamType,
+	Tuple[Union[type, ParamType], ...],
+	Callable[[str], Any],
+	Callable[[Optional[str]], Any]
+	]
