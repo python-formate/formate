@@ -2,7 +2,7 @@
 import pytest
 
 # this package
-from formate import Hook
+from formate.classes import Hook
 from formate.exceptions import HookNotFoundError
 from formate.reformat_generics import reformat_generics
 from formate.utils import import_entry_points, normalize

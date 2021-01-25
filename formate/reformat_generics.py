@@ -64,17 +64,17 @@ while subclasses:
 		subclasses.extend(subclass.__subclasses__())
 
 
-def get_slice_value(slice):  # py36: ast.Index  # py39: ast.Tuple
+def get_slice_value(ast_slice):  # py36: ast.Index  # py39: ast.Tuple
 	"""
 	Return the value of the slice in a Python version-independent way.
 
-	:param slice:
+	:param ast_slice:
 	"""
 
 	if sys.version_info < (3, 9):  # pragma: no cover (py39+)
-		return slice.value
+		return ast_slice.value
 	else:
-		return slice  # pragma: no cover (<py39)
+		return ast_slice  # pragma: no cover (<py39)
 
 
 class Generic:
