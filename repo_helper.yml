@@ -40,3 +40,13 @@ extra_sphinx_extensions:
  - attr_utils.autoattrs
 
 min_coverage: 95
+
+sphinx_conf_epilogue:
+ - html_logo = "../formate.png"
+
+sphinx_html_theme: furo
+standalone_contrib_guide: true
+preserve_custom_theme: true
+
+imgbot_ignore:
+ - "formate.*"
