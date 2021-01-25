@@ -113,6 +113,38 @@ formate
 
 .. end shields
 
+
+Definitions
+--------------
+
+for·​mate
+
+Etymology 1
+************
+
+`formic <https://en.wiktionary.org/wiki/formic#English>`_ +‎ `-ate <https://en.wiktionary.org/wiki/-ate#English>`_
+
+Noun
+^^^^^^
+
+**formate** (plural `formates <https://en.wiktionary.org/wiki/formates#English>`_)
+
+    (`organic chemistry <https://en.wiktionary.org/wiki/organic_chemistry>`_) Any `salt <https://en.wiktionary.org/wiki/salt>`_ or `ester <https://en.wiktionary.org/wiki/ester>`_ of `formic acid <https://en.wiktionary.org/wiki/formic_acid>`_.
+
+
+Etymology 2
+************
+
+Portmanteau of `format <https://en.wiktionary.org/wiki/format#English>`_ +‎ `mate <https://en.wiktionary.org/wiki/mate#English>`_
+
+Noun
+^^^^^^
+
+**formate**
+
+    (`programming <https://en.wiktionary.org/wiki/programming>`_) A :wikipedia:`Python <https://en.wikipedia.org/wiki/Python_(programming_language)>` `autoformatting <https://en.wiktionary.org/wiki/autoformatting>`_ tool.
+
+
 Installation
 ---------------
 
@@ -123,11 +155,6 @@ Installation
 	:github:
 
 .. end installation
-
-.. toctree::
-	:hidden:
-
-	Home<self>
 
 .. toctree::
 	:maxdepth: 3
