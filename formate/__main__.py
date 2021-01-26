@@ -98,6 +98,8 @@ def main(
 		ret_for_file = reformat_file(path, config=config, colour=colour)
 		if ret_for_file == 1 and verbose:
 			click.echo(f"Reformatting {path}.")
+		elif verbose > 1:
+			click.echo(f"Checking {path}.")
 
 		retv |= ret_for_file
 
