@@ -29,7 +29,7 @@ Read and parse formate configuration.
 # stdlib
 from operator import attrgetter
 from types import MappingProxyType
-from typing import List, Mapping, cast
+from typing import Callable, List, Mapping, cast
 
 # 3rd party
 import toml
@@ -40,7 +40,7 @@ from domdf_python_tools.typing import PathLike
 from formate.classes import FormateConfigDict, Hook
 from formate.utils import import_entry_points
 
-__all__ = ["parse_hooks", "parse_global_config", "load_toml"]
+__all__ = ["parse_hooks", "parse_global_config", "load_toml", "wants_global_config"]
 
 
 def parse_hooks(config: Mapping) -> List[Hook]:
@@ -81,3 +81,14 @@ def load_toml(filename: PathLike) -> FormateConfigDict:
 	"""
 
 	return cast(FormateConfigDict, toml.loads(PathPlus(filename).read_text()))
+
+
+def wants_global_config(func: Callable[..., str]) -> Callable[..., str]:
+	"""
+	Decorator to indicate to ``formate`` that the global configuration should be passed to this hook.
+
+	:param func:
+	"""
+
+	func.wants_global_config = True  # type: ignore
+	return func

@@ -21,5 +21,6 @@ To do so, add the following to your
 .. pre-commit::
 	:rev: 0.0.0
 	:hooks: formate
+	:args: --verbose
 
-The ``args:`` option can be used to provide the command line arguments shown above.
+The ``args`` option can be used to provide the command line arguments shown above.

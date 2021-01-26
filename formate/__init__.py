@@ -39,14 +39,10 @@ from domdf_python_tools.paths import PathPlus, TemporaryPathPlus
 from domdf_python_tools.stringlist import StringList
 from domdf_python_tools.typing import PathLike
 from domdf_python_tools.words import TAB
-from isort import Config
-from isort.exceptions import FileSkipComment  # type: ignore
-from yapf.yapflib.yapf_api import FormatCode  # type: ignore
 
 # this package
 from formate.classes import FormateConfigDict, Hook
-from formate.config import parse_hooks
-from formate.utils import wants_global_config
+from formate.config import parse_hooks, wants_global_config
 
 __all__ = ["call_hooks", "isort_hook", "yapf_hook", "Reformatter", "reformat_file"]
 
@@ -55,6 +51,9 @@ __copyright__: str = "2020-2021 Dominic Davis-Foster"
 __license__: str = "MIT License"
 __version__: str = "0.0.0"
 __email__: str = "dominic@davis-foster.co.uk"
+
+# TODO: Ideas for hooks
+# * https://github.com/asottile/add-trailing-comma
 
 
 def call_hooks(hooks: Iterable[Hook], source: str) -> str:
@@ -84,6 +83,10 @@ def isort_hook(source: str, formate_global_config: Optional[Mapping] = None, **k
 
 	:returns: The reformatted source.
 	"""
+
+	# 3rd party
+	from isort import Config
+	from isort.exceptions import FileSkipComment  # type: ignore
 
 	if "isort_config_file" in kwargs:
 		isort_config = Config(settings_file=str(kwargs["isort_config_file"]))
@@ -121,6 +124,9 @@ def yapf_hook(source: str, formate_global_config: Optional[Mapping] = None, **kw
 
 	:returns: The reformatted source.
 	"""
+
+	# 3rd party
+	from yapf.yapflib.yapf_api import FormatCode  # type: ignore
 
 	if "yapf_style" in kwargs:
 		return FormatCode(source, style_config=str(kwargs["yapf_style"]))[0]

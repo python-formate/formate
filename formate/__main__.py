@@ -32,7 +32,7 @@ import sys
 # 3rd party
 import click
 from consolekit import click_command
-from consolekit.options import colour_option, verbose_option
+from consolekit.options import MultiValueOption, colour_option, verbose_option
 
 if False:
 	# stdlib
@@ -50,8 +50,8 @@ __all__ = ["main"]
 		"-e",
 		"--exclude",
 		metavar="PATTERN",
-		type=list,
-		default=None,
+		type=click.STRING,
+		cls=MultiValueOption,
 		help="Patterns for files to exclude from formatting.",
 		)
 @click.option(

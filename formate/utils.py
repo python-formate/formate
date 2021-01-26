@@ -42,7 +42,7 @@ from domdf_python_tools.compat import importlib_metadata
 from formate.classes import EntryPoint, Hook
 from formate.exceptions import HookNotFoundError
 
-__all__ = ["Rewriter", "import_entry_points", "normalize", "wants_global_config"]
+__all__ = ["Rewriter", "import_entry_points", "normalize"]
 
 _normalize_pattern = re.compile(r"[-_.]+")
 
@@ -127,29 +127,6 @@ def import_entry_points(hooks: List[Hook]) -> Dict[str, EntryPoint]:
 			raise HookNotFoundError(hook)
 
 	return {e.name: e for e in (starmap(EntryPoint, entry_points.items()))}
-
-
-def wants_global_config(func: Callable[..., str]) -> Callable[..., str]:
-	"""
-	Decorator to indicate to ``formate`` that the global configuration should be passed to this hook.
-
-	:param func:
-	"""
-
-	func.wants_global_config = True  # type: ignore
-	return func
-
-
-def double_repr(string: str):
-	"""
-	Like :func:`repr`, but tries to use double quotes instead.
-	"""
-
-	# figure out which quote to use; double is preferred
-	if '"' in string and "'" not in string:
-		return repr(string)
-	else:
-		return json.dumps(string, ensure_ascii=False)
 
 
 class Rewriter(ast.NodeVisitor):
