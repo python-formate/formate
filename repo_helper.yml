@@ -22,10 +22,13 @@ python_versions:
 
 keywords:
  - formatting
+ - linting
 
 classifiers:
  - "Development Status :: 3 - Alpha"
  - "Intended Audience :: Developers"
+ - 'Environment :: Console'
+
 
 entry_points:
  formate_hooks:
