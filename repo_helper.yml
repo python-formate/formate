@@ -38,6 +38,8 @@ entry_points:
 
 extra_sphinx_extensions:
  - attr_utils.autoattrs
+ - sphinx_click
+ - sphinx_toolbox.pre_commit
 
 min_coverage: 95
 

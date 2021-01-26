@@ -34,7 +34,7 @@ __all__ = ["ellipsis_reformat", "noqa_reformat"]
 
 def noqa_reformat(source: str) -> str:
 	"""
-	Pull ``# noqa: ...`` comments that immediately follow docstrings back up to the end of the correct line
+	Pull ``# noqa: ...`` comments that immediately follow docstrings back up to the end of the correct line.
 
 	:param source: The source to reformat.
 

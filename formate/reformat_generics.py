@@ -258,12 +258,13 @@ class UnionVisitor(ast.NodeVisitor):  # noqa: D101
 
 def reformat_generics(source: str) -> str:
 	"""
-	Reformats generics in the given source, and returns the reformatted source.
+	Reformats generics (:class:`typing.Generic`, :py:obj:`typing.Union`, :py:obj:`typing.Callable` etc.)
+	in the given source, and returns the reformatted source.
 
 	:param source: The source to reformat.
 
 	:returns: The reformatted source.
-	"""
+	"""  # noqa: D400
 
 	offset = 0
 	buf = StringIO()

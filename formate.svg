@@ -14,8 +14,8 @@
    sodipodi:docname="formate.svg"
    inkscape:version="1.0.1 (0767f8302a, 2020-10-17)"
    inkscape:export-filename="/home/domdf/Python/01 GitHub Repos/04 Programs/formate/formate.png"
-   inkscape:export-xdpi="36"
-   inkscape:export-ydpi="36">
+   inkscape:export-xdpi="23.040001"
+   inkscape:export-ydpi="23.040001">
   <sodipodi:namedview
      pagecolor="#ffffff"
      bordercolor="#666666"
@@ -31,18 +31,14 @@
      showgrid="false"
      showguides="true"
      inkscape:guide-bbox="true"
-     inkscape:zoom="0.16155638"
-     inkscape:cx="-742.46576"
-     inkscape:cy="-1170.7977"
-     inkscape:window-x="59"
+     inkscape:zoom="0.45695043"
+     inkscape:cx="98.23294"
+     inkscape:cy="-349.3044"
+     inkscape:window-x="1979"
      inkscape:window-y="24"
      inkscape:window-maximized="1"
-     inkscape:current-layer="svg2">
-    <sodipodi:guide
-       position="-160.93453,309.87635"
-       orientation="1,0"
-       id="guide8093" />
-  </sodipodi:namedview>
+     inkscape:current-layer="svg2"
+     inkscape:document-rotation="0" />
   <defs
      id="defs4" />
   <metadata
@@ -53,14 +49,10 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
-  <path
-     style="fill:none;stroke:#000000;stroke-width:6;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-     d="m -86.665873,134.87635 v 80"
-     id="path8099" />
   <g
      id="g8151"
      transform="translate(-494.55282,132.81155)">

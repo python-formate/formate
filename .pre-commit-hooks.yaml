@@ -1,0 +1,7 @@
+ - id: formate
+   name: formate
+   entry: formate
+   language: python
+   types: [python]
+   require_serial: false
+   additional_dependencies: []

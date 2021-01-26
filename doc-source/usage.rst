@@ -1,0 +1,25 @@
+========
+Usage
+========
+
+Command Line
+---------------
+
+.. click:: formate.__main__:main
+	:prog: formate
+	:nested: none
+
+
+
+As a ``pre-commit`` hook
+----------------------------
+
+``formate`` can also be used as a `pre-commit <https://pre-commit.com/>`_ hook.
+To do so, add the following to your
+`.pre-commit-config.yaml <https://pre-commit.com/#2-add-a-pre-commit-configuration>`_ file:
+
+.. pre-commit::
+	:rev: 0.0.0
+	:hooks: formate
+
+The ``args:`` option can be used to provide the command line arguments shown above.
