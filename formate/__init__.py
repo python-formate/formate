@@ -33,7 +33,7 @@ from typing import Iterable, Mapping, Optional
 # 3rd party
 import click
 import isort  # type: ignore
-from consolekit.terminal_colours import resolve_color_default
+from consolekit.terminal_colours import ColourTrilean, resolve_color_default
 from consolekit.utils import coloured_diff
 from domdf_python_tools.paths import PathPlus, TemporaryPathPlus
 from domdf_python_tools.stringlist import StringList
@@ -227,18 +227,19 @@ class Reformatter:
 		self.file_to_format.write_text(self._reformatted_source)
 
 
-def reformat_file(filename: PathLike, config: FormateConfigDict):
+def reformat_file(filename: PathLike, config: FormateConfigDict, colour: ColourTrilean = None):
 	"""
 	Reformat the given file.
 
 	:param filename: The filename to reformat.
 	:param config: The ``formate`` configuration, parsed from a TOML file (or similar).
+	:param colour: Whether to force coloured output on (:py:obj:`True`) or off (:py:obj:`False`).
 	"""
 
 	r = Reformatter(filename, config)
 
 	if r.run():
-		click.echo(r.get_diff(), color=resolve_color_default())
+		click.echo(r.get_diff(), color=resolve_color_default(colour))
 		ret = 1
 	else:
 		ret = 0

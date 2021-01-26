@@ -27,25 +27,33 @@ CLI entry point.
 #
 
 # stdlib
-import fnmatch
-import re
 import sys
-from typing import List, Optional
 
 # 3rd party
 import click
-import toml
 from consolekit import click_command
-from domdf_python_tools.paths import PathPlus
+from consolekit.options import colour_option, verbose_option
 
-# this package
-from formate import FormateConfigDict, call_hooks, reformat_file
-from formate.config import load_toml, parse_hooks
+if False:
+	# stdlib
+	from typing import List, Optional
+
+	# 3rd party
+	from consolekit.terminal_colours import ColourTrilean
 
 __all__ = ["main"]
 
 
-@click.argument("filename", type=click.STRING, nargs=-1)
+@colour_option()
+@verbose_option()
+@click.option(
+		"-e",
+		"--exclude",
+		metavar="PATTERN",
+		type=list,
+		default=None,
+		help="Patterns for files to exclude from formatting.",
+		)
 @click.option(
 		"-c",
 		"--config-file",
@@ -54,23 +62,26 @@ __all__ = ["main"]
 		default="formate.toml",
 		show_default=True,
 		)
-@click.option(
-		"-e",
-		"--exclude",
-		metavar="PATTERN",
-		type=list,
-		default=None,
-		help="patterns for files to exclude from formatting",
-		)
+@click.argument("filename", type=click.STRING, nargs=-1)
 @click_command()
 def main(
 		filename: str,
 		config_file: str,
-		exclude: Optional[List[str]],
+		exclude: "Optional[List[str]]",
+		colour: "ColourTrilean" = None,
+		verbose: bool = False,
 		):
 	"""
 	Reformat the given Python source files.
 	"""
+
+	# stdlib
+	import fnmatch
+	import re
+
+	# this package
+	from formate import reformat_file
+	from formate.config import load_toml
 
 	retv = 0
 
@@ -81,30 +92,14 @@ def main(
 			if re.match(fnmatch.translate(pattern), str(path)):
 				continue
 
-		retv |= reformat_file(path, config=config)
+		ret_for_file = reformat_file(path, config=config, colour=colour)
+		if ret_for_file == 1 and verbose:
+			click.echo(f"Reformatting {path}.")
+
+		retv |= ret_for_file
 
 	sys.exit(retv)
 
 
 if __name__ == "__main__":
 	sys.exit(main())
-
-# hooks = parse_hooks(config)
-#
-# for hook in hooks:
-# 	print(hook)
-#
-# print()
-#
-# source = """\
-# class F:
-# 	from collections import (
-# Iterable,
-# 	Counter,
-# 		)
-#
-# print('hello world')
-# """
-#
-# reformatted_source = call_hooks(hooks, source)
-# print(reformatted_source)
