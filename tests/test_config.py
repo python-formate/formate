@@ -2,7 +2,7 @@
 from formate import Hook, parse_hooks
 from formate.config import parse_global_config
 from formate.imports import rewrite_collections_abc_imports
-from formate.mini_hooks import ellipsis_reformat
+from formate.ellipses import ellipsis_reformat
 
 
 def test_parse_hooks():

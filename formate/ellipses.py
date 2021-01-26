@@ -42,6 +42,7 @@ Move ellipses (``...``) for type stubs onto the end of the stub definition.
 # stdlib
 import ast
 import re
+import sys
 from typing import Union
 
 # 3rd party
@@ -85,18 +86,21 @@ class EllipsisRewriter(ast.NodeVisitor):
 		if not isinstance(node.body[0], ast.Expr):
 			return
 
-		if not isinstance(node.body[0].value, ast.Constant):
+		if not isinstance(node.body[0].value, (ast.Constant, ast.Ellipsis)):
 			return
 
-		if not node.body[0].value.value is Ellipsis:
-			return
+		if sys.version_info < (3, 8):  # pragma: no cover (py38+)
+			if not isinstance(node.body[0].value, ast.Ellipsis):
+				return
+
+		else:  # pragma: no cover (<py38)
+			if not node.body[0].value.value is Ellipsis:
+				return
 
 		body_text_range = self.tokens.get_text_range(node)
 		ellipsis_text_range = self.tokens.get_text_range(node.body[0])
 
 		new_source = self.source[:body_text_range[0]]
-		print(new_source)
-		print("===========")
 		node_source = self.source[body_text_range[0]:ellipsis_text_range[1]]
 		source_after = self.source[ellipsis_text_range[1]:]
 
