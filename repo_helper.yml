@@ -29,7 +29,6 @@ classifiers:
  - "Intended Audience :: Developers"
  - 'Environment :: Console'
 
-
 entry_points:
  formate_hooks:
   - "reformat-generics=formate.reformat_generics:reformat_generics"
@@ -39,6 +38,9 @@ entry_points:
   - "collections-import-rewrite=formate.imports:rewrite_collections_abc_imports"
   - "isort=formate:isort_hook"
   - "yapf=formate:yapf_hook"
+
+console_scripts:
+ - "formate=formate.__main__:main"
 
 extra_sphinx_extensions:
  - attr_utils.autoattrs
