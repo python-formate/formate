@@ -21,7 +21,7 @@ from formate.utils import import_entry_points, normalize
 				("foo_bar-baz", "foo-bar-baz"),
 				]
 		)
-def test_normalize(value, expects):
+def test_normalize(value: str, expects: str):
 	assert normalize(value) == expects
 
 

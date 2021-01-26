@@ -40,7 +40,7 @@ def demo_environment(tmp_pathplus):
 
 
 def test_integration(
-		tmp_pathplus,
+		tmp_pathplus: PathPlus,
 		file_regression: FileRegressionFixture,
 		capsys,
 		advanced_data_regression: AdvancedDataRegressionFixture,
@@ -68,7 +68,7 @@ def test_integration(
 
 
 def test_reformatter_class(
-		tmp_pathplus,
+		tmp_pathplus: PathPlus,
 		file_regression: FileRegressionFixture,
 		capsys,
 		advanced_data_regression: AdvancedDataRegressionFixture,
@@ -106,7 +106,7 @@ def test_reformatter_class(
 
 
 def test_cli(
-		tmp_pathplus,
+		tmp_pathplus: PathPlus,
 		file_regression: FileRegressionFixture,
 		capsys,
 		advanced_data_regression: AdvancedDataRegressionFixture,

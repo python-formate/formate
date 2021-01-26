@@ -1,8 +1,8 @@
 # this package
-from formate import Hook, parse_hooks
-from formate.config import parse_global_config
-from formate.imports import rewrite_collections_abc_imports
+from formate.classes import Hook
+from formate.config import parse_global_config, parse_hooks
 from formate.ellipses import ellipsis_reformat
+from formate.imports import rewrite_collections_abc_imports
 
 
 def test_parse_hooks():

@@ -134,7 +134,7 @@ async def foo(): ...
 						),
 				]
 		)
-def test_ellipsis_reformat(code, expected):
+def test_ellipsis_reformat(code: str, expected: str):
 	assert ellipsis_reformat(code) == expected
 
 	assert ellipsis_reformat(expected) == expected
