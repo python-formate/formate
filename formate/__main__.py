@@ -85,7 +85,10 @@ def main(
 
 	retv = 0
 
-	config = load_toml(config_file)
+	try:
+		config = load_toml(config_file)
+	except FileNotFoundError:
+		raise click.UsageError("'formate.toml' not found.")
 
 	for path in filename:
 		for pattern in exclude or []:
