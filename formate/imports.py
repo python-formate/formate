@@ -30,44 +30,23 @@ Converts import statements.
 import ast
 import collections.abc
 import re
-from operator import itemgetter
-from typing import List, Tuple
 
 # 3rd party
-import asttokens  # type: ignore
 from domdf_python_tools.stringlist import DelimitedList
+
+# this package
+from formate.utils import Rewriter
 
 __all__ = ["CollectionsABCRewriter", "rewrite_collections_abc_imports"]
 
 
-class CollectionsABCRewriter(ast.NodeVisitor):
+class CollectionsABCRewriter(Rewriter):
 	"""
 	Identify deprecated :file:`from collections import {<abc>}` imports,
 	and rewrite them as :file:`from collections.abc import {<abc>}`.
 
 	:param source: The source to reformat.
 	"""  # noqa: D400
-
-	def __init__(self, source: str):
-		self.source = source
-		self.tokens = asttokens.ASTTokens(source, parse=True)
-		self.replacements: List[Tuple[Tuple[int, int], str]] = []
-
-	def rewrite(self) -> str:
-		"""
-		Rewrite the imports and return the new source.
-
-		:returns: The reformatted source.
-		"""
-
-		self.visit(self.tokens.tree)
-
-		for (start, end), replacement in sorted(self.replacements, key=itemgetter(0), reverse=True):
-			source_before = self.source[:start]
-			source_after = self.source[end:]
-			self.source = ''.join([source_before, replacement, source_after])
-
-		return self.source
 
 	def visit_ImportFrom(self, node: ast.ImportFrom) -> None:  # noqa: D102
 		if node.level != 0:
@@ -101,7 +80,7 @@ class CollectionsABCRewriter(ast.NodeVisitor):
 		rewritten_imports = [new_imports[0]]
 		rewritten_imports.extend(indent + imp for imp in new_imports[1:])
 
-		self.replacements.append((text_range, '\n'.join(rewritten_imports)))
+		self.record_replacement(text_range, '\n'.join(rewritten_imports))
 
 
 def rewrite_collections_abc_imports(source: str) -> str:

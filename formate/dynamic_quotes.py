@@ -36,39 +36,51 @@ The rules are:
 import ast
 import re
 import sys
-from io import StringIO
-from typing import List
+from typing import Union
 
 # 3rd party
-import asttokens  # type: ignore
+from domdf_python_tools.utils import double_repr_string
 
 # this package
-from formate.utils import double_repr
+from formate.utils import Rewriter
 
 __all__ = ["dynamic_quotes"]
 
 
-class QuoteRewriter(ast.NodeVisitor):  # noqa: D101
-
-	def __init__(self):
-		super().__init__()
-		self.string_nodes: List[ast.Str] = []
+class QuoteRewriter(Rewriter):  # noqa: D101
 
 	if sys.version_info[:2] < (3, 8):  # pragma: no cover (py38+)
 
 		def visit_Str(self, node: ast.Str) -> None:  # noqa: D102
-			self.string_nodes.append(node)
+			self.rewrite_quotes_for_node(node)
 	else:  # pragma: no cover (<py38)
 
 		def visit_Constant(self, node: ast.Constant) -> None:  # noqa: D102
 			if isinstance(node.value, str):
-				self.string_nodes.append(node)
+				self.rewrite_quotes_for_node(node)
 			else:
 				self.generic_visit(node)
 
-	def visit(self, node: ast.AST) -> List[ast.Str]:  # noqa: D102
-		super().visit(node)
-		return self.string_nodes
+	def rewrite_quotes_for_node(self, node: Union[ast.Str, ast.Constant]):
+		text_range = self.tokens.get_text_range(node)
+
+		if text_range == (0, 0):
+			return
+
+		string = self.source[text_range[0]:text_range[1]]
+
+		if string in {'""', "''"}:
+			self.record_replacement(text_range, "''")
+		elif not re.match("^[\"']", string):
+			return
+		elif len(node.s) == 1:
+			self.record_replacement(text_range, repr(node.s))
+		elif '\n' in string:
+			return
+		elif '\n' in node.s or "\\n" in node.s:
+			return
+		else:
+			self.record_replacement(text_range, double_repr_string(node.s))
 
 
 def dynamic_quotes(source: str) -> str:
@@ -80,42 +92,4 @@ def dynamic_quotes(source: str) -> str:
 	:returns: The reformatted source.
 	"""
 
-	offset = 0
-	buf = StringIO()
-	visitor = QuoteRewriter()
-	atok = asttokens.ASTTokens(source, parse=True)
-
-	def key_func(value):
-		return atok.get_text_range(value)[0]
-
-	try:
-		for string_node in sorted(visitor.visit(atok.tree), key=key_func):
-			text_range = atok.get_text_range(string_node)
-
-			if text_range == (0, 0):
-				continue
-
-			buf.write(source[offset:text_range[0]])
-
-			if source[text_range[0]:text_range[1]] in {'""', "''"}:
-				buf.write("''")
-			elif not re.match("^[\"']", source[text_range[0]:text_range[1]]):
-				buf.write(source[text_range[0]:text_range[1]])
-			elif len(string_node.s) == 1:
-				buf.write(repr(string_node.s))
-			elif '\n' in source[text_range[0]:text_range[1]]:
-				buf.write(source[text_range[0]:text_range[1]])
-			elif '\n' in string_node.s or "\\n" in string_node.s:
-				buf.write(source[text_range[0]:text_range[1]])
-			else:
-				buf.write(double_repr(string_node.s))
-
-			offset = text_range[1]
-
-		buf.write(source[offset:])
-
-		return buf.getvalue()
-
-	except NotImplementedError as e:  # pragma: no cover
-		print(f"An error occurred: {e}")
-		return source
+	return QuoteRewriter(source).rewrite()

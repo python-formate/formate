@@ -45,32 +45,18 @@ import re
 import sys
 from typing import Union
 
-# 3rd party
-import asttokens  # type: ignore
+# this package
+from formate.utils import Rewriter
 
 __all__ = ["EllipsisRewriter", "ellipsis_reformat"]
 
 
-class EllipsisRewriter(ast.NodeVisitor):
+class EllipsisRewriter(Rewriter):
 	"""
 	Move ellipses (``...``) for type stubs onto the end of the stub definition.
 
 	:param source: The source to reformat.
 	"""
-
-	def __init__(self, source: str):
-		self.source = source
-		self.tokens = asttokens.ASTTokens(source, parse=True)
-
-	def rewrite(self) -> str:
-		"""
-		Rewrite the imports and return the new source.
-
-		:returns: The reformatted source.
-		"""
-
-		self.visit(self.tokens.tree)
-		return self.source
 
 	def rewrite_ellipsis(
 			self,
@@ -99,15 +85,12 @@ class EllipsisRewriter(ast.NodeVisitor):
 
 		body_text_range = self.tokens.get_text_range(node)
 		ellipsis_text_range = self.tokens.get_text_range(node.body[0])
-
-		new_source = self.source[:body_text_range[0]]
 		node_source = self.source[body_text_range[0]:ellipsis_text_range[1]]
-		source_after = self.source[ellipsis_text_range[1]:]
 
-		new_source += re.sub(r':[\n\s]+\.\.\.', ": ...", node_source)
-		new_source += source_after
-
-		self.source = new_source
+		self.record_replacement(
+				(body_text_range[0], ellipsis_text_range[1]),
+				re.sub(r':[\n\s]+\.\.\.', ": ...", node_source),
+				)
 
 	def visit_FunctionDef(self, node: ast.FunctionDef) -> None:  # noqa: D102
 		self.rewrite_ellipsis(node)

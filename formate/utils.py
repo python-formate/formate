@@ -27,19 +27,22 @@ Utility functions.
 #
 
 # stdlib
+import ast
 import json
 import re
 from itertools import starmap
-from typing import Any, Callable, Dict, List, Optional
+from operator import itemgetter
+from typing import Any, Callable, Dict, List, Optional, Tuple
 
 # 3rd party
+import asttokens  # type: ignore
 from domdf_python_tools.compat import importlib_metadata
 
 # this package
 from formate.classes import EntryPoint, Hook
 from formate.exceptions import HookNotFoundError
 
-__all__ = ["import_entry_points", "normalize", "wants_global_config"]
+__all__ = ["Rewriter", "import_entry_points", "normalize", "wants_global_config"]
 
 _normalize_pattern = re.compile(r"[-_.]+")
 
@@ -147,3 +150,57 @@ def double_repr(string: str):
 		return repr(string)
 	else:
 		return json.dumps(string, ensure_ascii=False)
+
+
+class Rewriter(ast.NodeVisitor):
+	"""
+	ABC for rewriting Python source files from an AST and a token stream.
+	"""
+
+	#: The original source.
+	source: str
+
+	#: The tokenized source.
+	tokens: asttokens.ASTTokens
+
+	replacements: List[Tuple[Tuple[int, int], str]]
+	"""
+	The parts of code to replace.
+
+	Each element comprises a tuple of ``(start char, end char)`` in :attr:`~.source`,
+	and the new text to insert between these positions.
+	"""
+
+	def __init__(self, source: str):
+		self.source = source
+		self.tokens = asttokens.ASTTokens(source, parse=True)
+		self.replacements: List[Tuple[Tuple[int, int], str]] = []
+
+	def rewrite(self) -> str:
+		"""
+		Rewrite the source and return the new source.
+
+		:returns: The reformatted source.
+		"""
+
+		self.visit(self.tokens.tree)
+
+		reformatted_source = self.source
+
+		# Work from the bottom up
+		for (start, end), replacement in sorted(self.replacements, key=itemgetter(0), reverse=True):
+			source_before = reformatted_source[:start]
+			source_after = reformatted_source[end:]
+			reformatted_source = ''.join([source_before, replacement, source_after])
+
+		return reformatted_source
+
+	def record_replacement(self, text_range: Tuple[int, int], new_source: str):
+		"""
+		Record a region of text to be replaced.
+
+		:param text_range: The region of text to be replaced.
+		:param new_source: The new text for that region.
+		"""
+
+		self.replacements.append((text_range, new_source))
