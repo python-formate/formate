@@ -34,7 +34,6 @@ The rules are:
 
 # stdlib
 import ast
-import json
 import re
 import sys
 from io import StringIO
@@ -43,10 +42,10 @@ from typing import List
 # 3rd party
 import asttokens  # type: ignore
 
-__all__ = ["dynamic_quotes"]
-
 # this package
 from formate.utils import double_repr
+
+__all__ = ["dynamic_quotes"]
 
 
 class QuoteRewriter(ast.NodeVisitor):  # noqa: D101

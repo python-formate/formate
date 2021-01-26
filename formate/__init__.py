@@ -191,11 +191,8 @@ class Reformatter:
 		# Based on yapf
 		# Apache 2.0 License
 
-		if self._reformatted_source is None:
-			raise ValueError("'Reformatter.run()' must be called first!")
-
+		after = self.to_string().split('\n')
 		before = self._unformatted_source.split('\n')
-		after = self._reformatted_source.split('\n')
 		return coloured_diff(
 				before,
 				after,
@@ -221,10 +218,7 @@ class Reformatter:
 		Write the reformatted source to the original file.
 		"""
 
-		if self._reformatted_source is None:
-			raise ValueError("'Reformatter.run()' must be called first!")
-
-		self.file_to_format.write_text(self._reformatted_source)
+		self.file_to_format.write_text(self.to_string())
 
 
 def reformat_file(filename: PathLike, config: FormateConfigDict, colour: ColourTrilean = None):
