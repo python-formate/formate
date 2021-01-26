@@ -1,0 +1,10 @@
+
+from collections.abc import Iterable
+# Here's a comment
+
+def foo():
+	pass
+
+# Here's another comment
+
+from collections.abc import Sequence

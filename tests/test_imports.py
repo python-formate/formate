@@ -6,10 +6,43 @@ from pytest_regressions.file_regression import FileRegressionFixture
 # this package
 from formate.imports import CollectionsABCRewriter, rewrite_collections_abc_imports
 
+multiple_imports_spaced_out = """\
+
+from collections import (
+	Iterable,
+	)
+# Here's a comment
+
+def foo():
+	pass
+
+# Here's another comment
+
+from collections import Sequence
+"""
+
+multiple_mixed_imports_spaced_out = """\
+
+from collections import (
+	Iterable,
+	Counter,
+	)
+# Here's a comment
+
+def foo():
+	pass
+
+# Here's another comment
+
+from collections import Sequence
+"""
+
 params = pytest.mark.parametrize(
 		"code",
 		[
 				pytest.param("from collections import (\nIterable,\nCounter,\n)", id="top_level"),
+				pytest.param(multiple_imports_spaced_out, id="multiple_imports_spaced_out"),
+				pytest.param(multiple_mixed_imports_spaced_out, id="multiple_mixed_imports_spaced_out"),
 				pytest.param(
 						"# code.py\n__all__ = ['foo', 'bar']\n\nfrom collections import (\nIterable,\nCounter,\n)",
 						id="top_level_code_before"

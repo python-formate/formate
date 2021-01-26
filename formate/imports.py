@@ -30,10 +30,12 @@ Converts import statements.
 import ast
 import collections.abc
 import re
+from operator import itemgetter
+from typing import List, Tuple
 
 # 3rd party
 import asttokens  # type: ignore
-from domdf_python_tools.stringlist import DelimitedList, StringList
+from domdf_python_tools.stringlist import DelimitedList
 
 __all__ = ["CollectionsABCRewriter", "rewrite_collections_abc_imports"]
 
@@ -49,6 +51,7 @@ class CollectionsABCRewriter(ast.NodeVisitor):
 	def __init__(self, source: str):
 		self.source = source
 		self.tokens = asttokens.ASTTokens(source, parse=True)
+		self.replacements: List[Tuple[Tuple[int, int], str]] = []
 
 	def rewrite(self) -> str:
 		"""
@@ -58,6 +61,12 @@ class CollectionsABCRewriter(ast.NodeVisitor):
 		"""
 
 		self.visit(self.tokens.tree)
+
+		for (start, end), replacement in sorted(self.replacements, key=itemgetter(0), reverse=True):
+			source_before = self.source[:start]
+			source_after = self.source[end:]
+			self.source = ''.join([source_before, replacement, source_after])
+
 		return self.source
 
 	def visit_ImportFrom(self, node: ast.ImportFrom) -> None:  # noqa: D102
@@ -87,19 +96,12 @@ class CollectionsABCRewriter(ast.NodeVisitor):
 		if collections_imports:
 			new_imports.append(f"from collections import {collections_imports:, }")
 
-		new_imports.append('')
-
 		indent = re.split("[A-Za-z]", self.source.split('\n')[node.lineno - 1])[0]
 
-		new_source = self.source[:text_range[0]].split('\n')
-		source_after = self.source[text_range[1]:].split('\n')
+		rewritten_imports = [new_imports[0]]
+		rewritten_imports.extend(indent + imp for imp in new_imports[1:])
 
-		new_source[-1] += new_imports[0]
-		new_source.extend(indent + imp for imp in new_imports[1:])
-		new_source[-1] += source_after[0]
-		new_source.extend(source_after[1:])
-
-		self.source = str(StringList(new_source))
+		self.replacements.append((text_range, '\n'.join(rewritten_imports)))
 
 
 def rewrite_collections_abc_imports(source: str) -> str:
