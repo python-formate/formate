@@ -29,7 +29,7 @@ Small but mighty hooks.
 # stdlib
 import re
 
-__all__ = ["ellipsis_reformat", "noqa_reformat"]
+__all__ = ["noqa_reformat"]
 
 
 def noqa_reformat(source: str) -> str:
@@ -42,28 +42,3 @@ def noqa_reformat(source: str) -> str:
 	"""
 
 	return re.sub(r'"""[\n\s]+#\s+noqa', '"""  # noqa', source)
-
-
-def ellipsis_reformat(source: str) -> str:
-	"""
-	Move ellipses (``...``) for type stubs onto the end of the stub definition.
-
-	Before:
-
-	.. code-block:: python
-
-		def foo(value: str) -> int:
-			...
-
-	After:
-
-	.. code-block:: python
-
-		def foo(value: str) -> int: ...
-
-	:param source: The source to reformat.
-
-	:return: The reformatted source.
-	"""
-
-	return re.sub(r':[\n\s]+\.\.\.', ": ...", source)
