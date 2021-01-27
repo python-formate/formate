@@ -127,4 +127,7 @@ def ellipsis_reformat(source: str) -> str:
 	:return: The reformatted source.
 	"""
 
+	if "..." not in source:
+		return source
+
 	return EllipsisRewriter(source).rewrite()
