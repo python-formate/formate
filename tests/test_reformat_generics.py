@@ -50,15 +50,23 @@ class Foo:
 				pytest.param("Union[str, int, float]", id="Simple Union"),
 				pytest.param("Mapping[str, int]", id="Simple Mapping"),
 				pytest.param("List[str]", id="Simple List"),
-				pytest.param("Tuple[int, int, str, float, str, int, bytes]", id="Simple Tuple"),
-				pytest.param(
-						"Tuple[int, int, str, float, str, int, bytes, int, int, str, float, str, int, bytes, int, int, str, float, str, int, bytes]",
-						id="Long Tuple"
-						),
 				pytest.param("Optional[Callable[[Optional[str]], Any]]", id="Complex Optional"),
 				pytest.param(
 						"_ParamsMappingValueType = Union[str, bytes, int, float, Iterable[Union[str, bytes, int, float]]]",
 						id="Complex Alias 1"
+						),
+				]
+		)
+def test_generics(code, file_regression: FileRegressionFixture):
+	check_file_regression(reformat_generics(code), file_regression, extension="._py")
+
+
+@pytest.mark.parametrize(
+		"code",
+		[
+				pytest.param(
+						"Tuple[int, int, str, float, str, int, bytes, int, int, str, float, str, int, bytes, int, int, str, float, str, int, bytes]",
+						id="Long Tuple"
 						),
 				pytest.param(
 						"_Data = Union[None, str, bytes, MutableMapping[str, Any], Iterable[Tuple[str, Optional[str]]], IO]",
@@ -72,8 +80,15 @@ class Foo:
 				pytest.param(example_5, id="Union in class"),
 				]
 		)
-def test_generics(code, file_regression: FileRegressionFixture):
-	check_file_regression(reformat_generics(code), file_regression, extension="._py")
+@pytest.mark.parametrize(
+		"indent", [
+				pytest.param('\t', id="tab"),
+				pytest.param("    ", id='4'),
+				pytest.param("  ", id='2'),
+				]
+		)
+def test_generics_indented(code, file_regression: FileRegressionFixture, indent: str):
+	check_file_regression(reformat_generics(code, indent=indent), file_regression, extension="._py")
 
 
 def test_generics_functions(file_regression: FileRegressionFixture):

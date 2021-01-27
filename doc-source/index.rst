@@ -158,6 +158,7 @@ Installation
 	usage
 	configuration
 	hooks
+	extending
 	contributing
 	Source
 

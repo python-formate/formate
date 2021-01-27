@@ -1,0 +1,12 @@
+
+class Foo:
+    dtype = typing.Union[
+        typing.List,
+        typing.Tuple,
+        typing.Mapping,
+        typing.MutableMapping,
+        typing.Counter,
+        typing.ChainMap,
+        typing.Collection,
+        foo.bar.baz
+        ]

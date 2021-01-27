@@ -256,12 +256,18 @@ class UnionVisitor(ast.NodeVisitor):  # noqa: D101
 		return self.structure
 
 
-def reformat_generics(source: str) -> str:
-	"""
+def reformat_generics(
+		source: str,
+		formate_global_config: typing.Optional[typing.Mapping] = None,
+		**kwargs,
+		) -> str:
+	r"""
 	Reformats generics (:class:`typing.Generic`, :py:obj:`typing.Union`, :py:obj:`typing.Callable` etc.)
 	in the given source, and returns the reformatted source.
 
 	:param source: The source to reformat.
+	:param formate_global_config: The global configuration dictionary. Optional.
+	:param \*\*kwargs:
 
 	:returns: The reformatted source.
 	"""  # noqa: D400
@@ -270,6 +276,8 @@ def reformat_generics(source: str) -> str:
 	buf = StringIO()
 	visitor = Visitor()
 	atok = asttokens.ASTTokens(source, parse=True)
+
+	indent = (formate_global_config or {}).get("indent", kwargs.get("indent", TAB))
 
 	try:
 		for union_node, union_obj, in_class in visitor.visit(atok.tree):
@@ -288,7 +296,7 @@ def reformat_generics(source: str) -> str:
 			if in_class and len(formatted_obj) > 1:
 				buf.write(formatted_obj[0])
 				buf.write('\n')
-				buf.write(textwrap.indent(str(StringList(formatted_obj[1:])), TAB))
+				buf.write(textwrap.indent(str(StringList(formatted_obj[1:])), indent))
 			elif in_class:
 				buf.write(formatted_obj[0])
 			else:
@@ -298,7 +306,10 @@ def reformat_generics(source: str) -> str:
 
 		buf.write(source[offset:])
 
-		return buf.getvalue()
+		if indent != TAB:
+			return buf.getvalue().expandtabs(len(indent))
+		else:
+			return buf.getvalue()
 
 	except NotImplementedError as e:  # pragma: no cover
 		print(f"An error occurred: {e}")

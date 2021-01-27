@@ -65,7 +65,9 @@ This hook takes no arguments.
 
 Reformats generics (:class:`typing.Generic`, :py:obj:`typing.Union`, :py:obj:`typing.Callable` etc.).
 
-This hook takes no arguments.
+This hook takes a single keyword argument: ``indent``.
+The indent can also be configured via the ``indent`` key in the ``config`` table.
+
 
 
 ``isort``
@@ -75,6 +77,8 @@ Calls `isort <https://pypi.org/project/isort/>`_, using the given keyword argume
 
 This hook only takes keyword arguments.
 
+The max line length can be provided via the ``line_length`` keyword argument or in the ``config`` table as ``line_length``.
+
 
 ``yapf``
 -----------
@@ -82,3 +86,5 @@ This hook only takes keyword arguments.
 Calls `yapf <https://github.com/google/yapf>`_, using the given keyword arguments as its configuration.
 
 This hook only takes keyword arguments.
+
+The indent can be configured via the ``use_tabs`` keyword argument or in the ``config`` table as ``indent``.
