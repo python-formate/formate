@@ -18,7 +18,8 @@ It is easy to create your own hooks to extend ``formate``. A basic hook looks li
 		return source.upper()
 
 
-An entry point must be configured for the hook. For Setuptools:
+An entry point must be configured for the hook.
+For `setuptools <https://setuptools.readthedocs.io/en/latest/userguide/entry_point.html>`_:
 
 .. code-block:: ini
 
