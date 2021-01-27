@@ -163,19 +163,22 @@ def test_cli_verbose_verbose(
 
 	check_file_output(tmp_pathplus / "code.py", file_regression)
 
+	# Calling a second time shouldn't change anything
+	with in_directory(tmp_pathplus):
+		runner = CliRunner(mix_stderr=False)
+		result = runner.invoke(
+				main,
+				args=["code.py", "--no-colour", "--diff", "--verbose", "-v"],
+				)
+
+	assert result.exit_code == 0
+
 	data_dict = {
 			"out": path_sub.sub(" ...", result.stdout).split('\n'),
 			"err": path_sub.sub(" ...", result.stderr).split('\n'),
 			}
 
 	advanced_data_regression.check(data_dict)
-
-	# Calling a second time shouldn't change anything
-	with in_directory(tmp_pathplus):
-		runner = CliRunner(mix_stderr=False)
-		result = runner.invoke(main, args=["code.py", "--verbose"])
-
-	assert result.exit_code == 0
 
 
 @not_pypy("Output differs on PyPy")

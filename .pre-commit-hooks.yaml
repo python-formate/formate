@@ -4,4 +4,7 @@
    language: python
    types: [python]
    require_serial: false
+   args:
+      - --verbose
+      - --diff
    additional_dependencies: []

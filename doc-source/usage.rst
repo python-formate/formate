@@ -24,3 +24,4 @@ To do so, add the following to your
 	:args: --verbose
 
 The ``args`` option can be used to provide the command line arguments shown above.
+By default ``formate`` is run with ``--verbose --diff``

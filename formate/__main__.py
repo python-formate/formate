@@ -109,9 +109,8 @@ def main(
 				click.echo(f"Reformatting {path}.")
 			if show_diff:
 				click.echo(r.get_diff(), color=resolve_color_default(colour))
-		else:
-			if verbose:
-				click.echo(f"Checking {path}.")
+		elif verbose >= 2:
+			click.echo(f"Checking {path}.")
 
 		r.to_file()
 
