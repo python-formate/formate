@@ -28,21 +28,27 @@ Utility functions.
 
 # stdlib
 import ast
-import json
+import os
 import re
+import sys
+from contextlib import contextmanager
 from itertools import starmap
 from operator import itemgetter
-from typing import Any, Callable, Dict, List, Optional, Tuple
+from typing import Dict, List, Tuple
 
 # 3rd party
 import asttokens  # type: ignore
-from domdf_python_tools.compat import importlib_metadata
+import click
+from consolekit import terminal_colours
+from consolekit.tracebacks import TracebackHandler
+from domdf_python_tools.import_tools import discover_entry_points_by_name
+from domdf_python_tools.typing import PathLike
 
 # this package
 from formate.classes import EntryPoint, Hook
 from formate.exceptions import HookNotFoundError
 
-__all__ = ["Rewriter", "import_entry_points", "normalize"]
+__all__ = ["Rewriter", "import_entry_points", "normalize", "SyntaxTracebackHandler", "syntaxerror_for_file"]
 
 _normalize_pattern = re.compile(r"[-_.]+")
 
@@ -57,45 +63,6 @@ def normalize(name: str) -> str:
 	"""
 
 	return _normalize_pattern.sub('-', name).lower()
-
-
-def discover_entry_points_by_name(
-		group_name: str,
-		name_match_func: Optional[Callable[[Any], bool]] = None,
-		object_match_func: Optional[Callable[[Any], bool]] = None,
-		) -> Dict[str, Any]:
-	"""
-	Returns a mapping of entry point names to the entry points in the given category,
-	optionally filtered by ``match_func``.
-
-	.. versionadded:: 2.5.0
-
-	:param group_name: The entry point group name, e.g. ``'entry_points'``.
-	:param name_match_func: Function taking the entry point name and returning :py:obj:`True`
-		if the entry point is to be included in the output.
-	:default name_match_func: :py:obj:`None`, which includes all entry points.
-	:param object_match_func: Function taking an object and returning :py:obj:`True`
-		if the object is to be included in the output.
-	:default object_match_func: :py:obj:`None`, which includes all objects.
-
-	:return: List of matching objects.
-	"""  # noqa: D400
-
-	matching_objects = {}
-
-	for entry_point in importlib_metadata.entry_points().get(group_name, ()):
-
-		if name_match_func is not None and not name_match_func(entry_point.name):
-			continue
-
-		entry_point_obj = entry_point.load()
-
-		if object_match_func is not None and not object_match_func(entry_point_obj):
-			continue
-
-		matching_objects[entry_point.name] = entry_point_obj
-
-	return matching_objects
 
 
 def import_entry_points(hooks: List[Hook]) -> Dict[str, EntryPoint]:
@@ -181,3 +148,33 @@ class Rewriter(ast.NodeVisitor):
 		"""
 
 		self.replacements.append((text_range, new_source))
+
+
+class SyntaxTracebackHandler(TracebackHandler):
+	"""
+	Subclass of :class:`consolekit.tracebacks.TracebackHandler` to additionally handle :exc:`SyntaxError`.
+	"""
+
+	def handle_SyntaxError(self, e: SyntaxError):  # noqa: D102
+		click.echo(terminal_colours.Fore.RED(f"Fatal: {e.__class__.__name__}: {e}"), err=True)
+		sys.exit(126)
+
+
+@contextmanager
+def syntaxerror_for_file(filename: PathLike):
+	"""
+	Context manager to catch :exc:`SyntaxError` and set its filename to ``filename``
+	if the current filename is ``<unknown>``.
+
+	This is useful for syntax errors raised when parsing source into an AST.
+
+	:param filename:
+	"""  # noqa: D400
+
+	try:
+		yield
+	except SyntaxError as e:
+		if e.filename == "<unknown>":
+			e.filename = os.fspath(filename)
+
+		raise e

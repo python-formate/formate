@@ -1,0 +1,5 @@
+err:
+- 'Fatal: SyntaxError: parenthesis is never closed (code.py, lines 10-11)'
+- ''
+out:
+- ''

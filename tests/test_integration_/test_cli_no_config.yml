@@ -1,0 +1,7 @@
+err:
+- 'Usage: main [OPTIONS] [FILENAME]...'
+- ''
+- 'Error: ''formate.toml'' not found.'
+- ''
+out:
+- ''

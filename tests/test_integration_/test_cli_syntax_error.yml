@@ -1,0 +1,5 @@
+err:
+- 'Fatal: SyntaxError: unexpected EOF while parsing (code.py, line 10)'
+- ''
+out:
+- ''

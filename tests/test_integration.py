@@ -3,6 +3,7 @@ import re
 
 # 3rd party
 import pytest
+from coincidence.selectors import not_pypy, only_pypy
 from coincidence.regressions import AdvancedDataRegressionFixture, check_file_output, check_file_regression
 from consolekit.terminal_colours import strip_ansi
 from consolekit.testing import CliRunner, Result
@@ -117,7 +118,10 @@ def test_cli(
 
 	with in_directory(tmp_pathplus):
 		runner = CliRunner(mix_stderr=False)
-		result = runner.invoke(main, catch_exceptions=False, args=["code.py", "--no-colour", "--verbose"])
+		result = runner.invoke(
+				main,
+				args=["code.py", "--no-colour", "--diff", "--verbose"],
+				)
 
 	assert result.exit_code == 1
 
@@ -133,6 +137,145 @@ def test_cli(
 	# Calling a second time shouldn't change anything
 	with in_directory(tmp_pathplus):
 		runner = CliRunner(mix_stderr=False)
-		result = runner.invoke(main, catch_exceptions=False, args=["code.py"])
+		result = runner.invoke(main, args=["code.py"])
 
 	assert result.exit_code == 0
+
+
+def test_cli_verbose_verbose(
+		tmp_pathplus: PathPlus,
+		file_regression: FileRegressionFixture,
+		capsys,
+		advanced_data_regression: AdvancedDataRegressionFixture,
+		demo_environment,
+		):
+
+	result: Result
+
+	with in_directory(tmp_pathplus):
+		runner = CliRunner(mix_stderr=False)
+		result = runner.invoke(
+				main,
+				args=["code.py", "--no-colour", "--diff", "--verbose", "-v"],
+				)
+
+	assert result.exit_code == 1
+
+	check_file_output(tmp_pathplus / "code.py", file_regression)
+
+	data_dict = {
+			"out": path_sub.sub(" ...", result.stdout).split('\n'),
+			"err": path_sub.sub(" ...", result.stderr).split('\n'),
+			}
+
+	advanced_data_regression.check(data_dict)
+
+	# Calling a second time shouldn't change anything
+	with in_directory(tmp_pathplus):
+		runner = CliRunner(mix_stderr=False)
+		result = runner.invoke(main, args=["code.py", "--verbose"])
+
+	assert result.exit_code == 0
+
+
+@not_pypy("Output differs on PyPy")
+def test_cli_syntax_error(
+		tmp_pathplus: PathPlus,
+		file_regression: FileRegressionFixture,
+		capsys,
+		advanced_data_regression: AdvancedDataRegressionFixture,
+		demo_environment,
+		):
+
+	code = [
+			"class F:",
+			"\tfrom collections import (",
+			"Iterable,",
+			"\tCounter,",
+			"\t\t)",
+			'',
+			"\tdef foo(self):",
+			"\t\tpass",
+			'',
+			"print('hello world'",
+			]
+
+	(tmp_pathplus / "code.py").write_lines(code, trailing_whitespace=True)
+
+	result: Result
+
+	with in_directory(tmp_pathplus):
+		runner = CliRunner(mix_stderr=False)
+		result = runner.invoke(main, args=["code.py", "--no-colour", "--verbose"])
+
+	assert result.exit_code == 126
+
+	data_dict = {
+			"out": path_sub.sub(" ...", result.stdout).split('\n'),
+			"err": path_sub.sub(" ...", result.stderr).split('\n'),
+			}
+
+	advanced_data_regression.check(data_dict)
+
+
+@only_pypy("Output differs on PyPy")
+def test_cli_syntax_error_pypy(
+		tmp_pathplus: PathPlus,
+		file_regression: FileRegressionFixture,
+		capsys,
+		advanced_data_regression: AdvancedDataRegressionFixture,
+		demo_environment,
+		):
+
+	code = [
+			"class F:",
+			"\tfrom collections import (",
+			"Iterable,",
+			"\tCounter,",
+			"\t\t)",
+			'',
+			"\tdef foo(self):",
+			"\t\tpass",
+			'',
+			"print('hello world'",
+			]
+
+	(tmp_pathplus / "code.py").write_lines(code, trailing_whitespace=True)
+
+	result: Result
+
+	with in_directory(tmp_pathplus):
+		runner = CliRunner(mix_stderr=False)
+		result = runner.invoke(main, args=["code.py", "--no-colour", "--verbose"])
+
+	assert result.exit_code == 126
+
+	data_dict = {
+			"out": path_sub.sub(" ...", result.stdout).split('\n'),
+			"err": path_sub.sub(" ...", result.stderr).split('\n'),
+			}
+
+	advanced_data_regression.check(data_dict)
+
+
+def test_cli_no_config(
+		tmp_pathplus: PathPlus,
+		file_regression: FileRegressionFixture,
+		capsys,
+		advanced_data_regression: AdvancedDataRegressionFixture,
+		):
+
+	result: Result
+
+	with in_directory(tmp_pathplus):
+		runner = CliRunner(mix_stderr=False)
+		result = runner.invoke(main, args=["--no-colour", "--verbose"])
+
+	assert result.exit_code == 2
+
+	data_dict = {
+			"out": path_sub.sub(" ...", result.stdout).split('\n'),
+			"err": path_sub.sub(" ...", result.stderr).split('\n'),
+			}
+
+	advanced_data_regression.check(data_dict)

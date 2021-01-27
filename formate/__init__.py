@@ -43,6 +43,7 @@ from domdf_python_tools.words import TAB
 # this package
 from formate.classes import FormateConfigDict, Hook
 from formate.config import parse_hooks, wants_global_config
+from formate.utils import syntaxerror_for_file
 
 __all__ = ["call_hooks", "isort_hook", "yapf_hook", "Reformatter", "reformat_file"]
 
@@ -227,9 +228,13 @@ class Reformatter:
 		self.file_to_format.write_text(self.to_string())
 
 
-def reformat_file(filename: PathLike, config: FormateConfigDict, colour: ColourTrilean = None):
+def reformat_file(
+		filename: PathLike,
+		config: FormateConfigDict,
+		colour: ColourTrilean = None,
+		):
 	"""
-	Reformat the given file.
+	Reformat the given file, and show the diff if changes were made.
 
 	:param filename: The filename to reformat.
 	:param config: The ``formate`` configuration, parsed from a TOML file (or similar).
@@ -238,11 +243,11 @@ def reformat_file(filename: PathLike, config: FormateConfigDict, colour: ColourT
 
 	r = Reformatter(filename, config)
 
-	if r.run():
+	with syntaxerror_for_file(filename):
+		ret = r.run()
+
+	if ret:
 		click.echo(r.get_diff(), color=resolve_color_default(colour))
-		ret = 1
-	else:
-		ret = 0
 
 	r.to_file()
 

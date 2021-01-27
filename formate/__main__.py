@@ -28,22 +28,23 @@ CLI entry point.
 
 # stdlib
 import sys
+from typing import List, Optional
 
 # 3rd party
 import click
 from consolekit import click_command
-from consolekit.options import MultiValueOption, colour_option, verbose_option
+from consolekit.options import MultiValueOption, colour_option, flag_option, verbose_option
+from consolekit.terminal_colours import ColourTrilean, resolve_color_default
+from consolekit.tracebacks import handle_tracebacks, traceback_option
 
-if False:
-	# stdlib
-	from typing import List, Optional
-
-	# 3rd party
-	from consolekit.terminal_colours import ColourTrilean
+# this package
+from formate import Reformatter
 
 __all__ = ["main"]
 
 
+@flag_option("--diff", "show_diff", help="Show a diff of changes made")
+@traceback_option()
 @colour_option()
 @verbose_option()
 @click.option(
@@ -70,6 +71,8 @@ def main(
 		exclude: "Optional[List[str]]",
 		colour: "ColourTrilean" = None,
 		verbose: bool = False,
+		show_traceback: bool = False,
+		show_diff: bool = False,
 		):
 	"""
 	Reformat the given Python source files.
@@ -80,8 +83,8 @@ def main(
 	import re
 
 	# this package
-	from formate import reformat_file
 	from formate.config import load_toml
+	from formate.utils import SyntaxTracebackHandler, syntaxerror_for_file
 
 	retv = 0
 
@@ -95,11 +98,22 @@ def main(
 			if re.match(fnmatch.translate(pattern), str(path)):
 				continue
 
-		ret_for_file = reformat_file(path, config=config, colour=colour)
-		if ret_for_file == 1 and verbose:
-			click.echo(f"Reformatting {path}.")
-		elif verbose > 1:
-			click.echo(f"Checking {path}.")
+		r = Reformatter(path, config=config)
+
+		with handle_tracebacks(show_traceback, cls=SyntaxTracebackHandler):
+			with syntaxerror_for_file(path):
+				ret_for_file = r.run()
+
+		if ret_for_file:
+			if verbose:
+				click.echo(f"Reformatting {path}.")
+			if show_diff:
+				click.echo(r.get_diff(), color=resolve_color_default(colour))
+		else:
+			if verbose:
+				click.echo(f"Checking {path}.")
+
+		r.to_file()
 
 		retv |= ret_for_file
 
