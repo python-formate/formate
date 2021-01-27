@@ -183,4 +183,3 @@ class FizzBuzz: ...
 def test_ellipsis_reformat_no_op():
 	code = ["def foo() -> str:", "\tpass"]
 	assert ellipsis_reformat('\n'.join(code)) == '\n'.join(code)
-
