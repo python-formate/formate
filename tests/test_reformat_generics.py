@@ -61,13 +61,13 @@ def test_generics(code, file_regression: FileRegressionFixture):
 	check_file_regression(reformat_generics(code), file_regression, extension="._py")
 
 
+long_tuple = "Tuple[int, int, str, float, str, int, bytes, int, int, str, float, str, int, bytes, int, int, str, float, str, int, bytes]"
+
+
 @pytest.mark.parametrize(
 		"code",
 		[
-				pytest.param(
-						"Tuple[int, int, str, float, str, int, bytes, int, int, str, float, str, int, bytes, int, int, str, float, str, int, bytes]",
-						id="Long Tuple"
-						),
+				pytest.param(long_tuple, id="Long Tuple"),
 				pytest.param(
 						"_Data = Union[None, str, bytes, MutableMapping[str, Any], Iterable[Tuple[str, Optional[str]]], IO]",
 						id="Complex Alias 2"
