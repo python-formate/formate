@@ -3,8 +3,8 @@ import re
 
 # 3rd party
 import pytest
-from coincidence.selectors import not_pypy, only_pypy
 from coincidence.regressions import AdvancedDataRegressionFixture, check_file_output, check_file_regression
+from coincidence.selectors import not_pypy, only_pypy
 from consolekit.terminal_colours import strip_ansi
 from consolekit.testing import CliRunner, Result
 from domdf_python_tools.paths import PathPlus, in_directory

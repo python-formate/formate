@@ -30,6 +30,15 @@ Pull ``# noqa: ...`` comments that immediately follow docstrings back up to the 
 This hook takes no arguments.
 
 
+``check_ast``
+--------------------
+
+Check the source can be parsed as a Python Abstract Syntax Tree.
+This could be called early in the execution -- to check the file is valid before starting reformatting -- and again at the end to ensure no errors were introduced by the reformatting.
+
+This hook takes no arguments.
+
+
 ``ellipsis_reformat``
 -----------------------
 

@@ -27,9 +27,10 @@ Small but mighty hooks.
 #
 
 # stdlib
+import ast
 import re
 
-__all__ = ["noqa_reformat"]
+__all__ = ["noqa_reformat", "check_ast"]
 
 
 def noqa_reformat(source: str) -> str:
@@ -42,3 +43,16 @@ def noqa_reformat(source: str) -> str:
 	"""
 
 	return re.sub(r'"""[\n\s]+#\s+noqa', '"""  # noqa', source)
+
+
+def check_ast(source: str) -> str:
+	"""
+	Check the source can be parsed as a Python Abstract Syntax Tree.
+
+	:param source: The source to check.
+
+	:raises SyntaxError: If the source is not valid Python.
+	"""
+
+	ast.parse(source)
+	return source
