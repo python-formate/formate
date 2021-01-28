@@ -39,6 +39,14 @@ This could be called early in the execution -- to check the file is valid before
 This hook takes no arguments.
 
 
+``squish_stubs``
+--------------------
+
+Squash type stubs by removing unnecessary blank lines.
+
+This hook takes no arguments.
+
+
 ``ellipsis_reformat``
 -----------------------
 
@@ -67,7 +75,6 @@ Reformats generics (:class:`typing.Generic`, :py:obj:`typing.Union`, :py:obj:`ty
 
 This hook takes a single keyword argument: ``indent``.
 The indent can also be configured via the ``indent`` key in the ``config`` table.
-
 
 
 ``isort``

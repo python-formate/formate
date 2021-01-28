@@ -60,6 +60,8 @@ def check_ast(source: str) -> str:
 	:param source: The source to check.
 
 	:raises SyntaxError: If the source is not valid Python.
+
+	:return: The source unchanged.
 	"""
 
 	ast.parse(source)
@@ -76,7 +78,7 @@ def squish_stubs(source: str, filename: PathLike) -> str:
 	:param source: The source to check.
 	:param filename: The name of the source file, to ensure this hook only runs on type stubs.
 
-	:raises SyntaxError: If the source is not valid Python.
+	:return: The reformatted source.
 	"""
 
 	def_re = re.compile(r"^(?:# )?(\s*)def")

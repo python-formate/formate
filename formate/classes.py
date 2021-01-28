@@ -33,6 +33,7 @@ from typing import Any, Callable, Dict, Iterator, List, Mapping, Optional, Seque
 import attr
 from attr_utils.pprinter import pretty_repr
 from attr_utils.serialise import serde
+from domdf_python_tools.typing import PathLike
 from typing_extensions import TypedDict
 
 __all__ = ["HooksMapping", "FormateConfigDict", "ExpandedHookDict", "EntryPoint", "Hook"]
@@ -121,15 +122,18 @@ class Hook:
 			else:
 				yield cls(hook, **hook_config)
 
-	def __call__(self, source: str) -> str:
+	def __call__(self, source: str, filename: PathLike) -> str:
 		"""
 		Call the hook.
 
 		:param source: The source to reformat.
+		:param filename: The name of the source file.
 
 		:return: The reformatted source.
 
 		:raises: :exc:`TypeError` if ``entry_point`` has not been set.
+
+		.. versionchanged:: 0.2.0  Added the ``filename`` argument.
 		"""
 
 		if self.entry_point is None:
@@ -137,10 +141,14 @@ class Hook:
 
 		hook_func = self.entry_point.obj
 
+		kwargs = self.kwargs.copy()
+
 		if getattr(hook_func, "wants_global_config", False):
-			return hook_func(source, *self.args, **self.kwargs, formate_global_config=self.global_config)
-		else:
-			return hook_func(source, *self.args, **self.kwargs)
+			kwargs["formate_global_config"] = self.global_config
+		if getattr(hook_func, "wants_filename", False):
+			kwargs["formate_filename"] = filename
+
+		return hook_func(source, *self.args, **kwargs)
 
 
 @serde

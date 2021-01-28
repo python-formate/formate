@@ -24,4 +24,4 @@ def test_hook_errors():
 			TypeError,
 			match=re.escape("hook 'foo-bar' has no entry point configured."),
 			):
-		hook("print('hello world')")
+		hook("print('hello world')", "<stdin>")

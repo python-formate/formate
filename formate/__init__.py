@@ -57,18 +57,21 @@ __email__: str = "dominic@davis-foster.co.uk"
 # * https://github.com/asottile/add-trailing-comma
 
 
-def call_hooks(hooks: Iterable[Hook], source: str) -> str:
+def call_hooks(hooks: Iterable[Hook], source: str, filename: PathLike) -> str:
 	"""
 	Given a list of hooks (in order), call them in turn to reformat the source.
 
 	:param hooks:
 	:param source: The source to reformat.
+	:param filename: The name of the source file.
 
 	:returns: The reformatted source.
+
+	.. versionchanged:: 0.2.0  Added the ``filename`` argument.
 	"""
 
 	for hook in hooks:
-		source = hook(source)
+		source = hook(source, filename)
 
 	return source
 
@@ -183,7 +186,7 @@ class Reformatter:
 		"""
 
 		hooks = parse_hooks(self.config)
-		reformatted_source = StringList(call_hooks(hooks, self._unformatted_source))
+		reformatted_source = StringList(call_hooks(hooks, self._unformatted_source, self.filename))
 		reformatted_source.blankline(ensure_single=True)
 
 		self._reformatted_source = str(reformatted_source)
