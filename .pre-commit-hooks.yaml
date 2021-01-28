@@ -2,7 +2,7 @@
    name: formate
    entry: formate
    language: python
-   types: [python]
+   types_or: [python, pyi]
    require_serial: false
    args:
       - --verbose

@@ -40,7 +40,7 @@ from domdf_python_tools.typing import PathLike
 from formate.classes import FormateConfigDict, Hook
 from formate.utils import import_entry_points
 
-__all__ = ["parse_hooks", "parse_global_config", "load_toml", "wants_global_config"]
+__all__ = ["parse_hooks", "parse_global_config", "load_toml", "wants_global_config", "wants_filename"]
 
 
 def parse_hooks(config: Mapping) -> List[Hook]:
@@ -87,8 +87,26 @@ def wants_global_config(func: Callable[..., str]) -> Callable[..., str]:
 	"""
 	Decorator to indicate to ``formate`` that the global configuration should be passed to this hook.
 
+	The configuration will be provided as the ``formate_global_config``: :class:`~typing.Mapping` keyword argument.
+
 	:param func:
 	"""
 
 	func.wants_global_config = True  # type: ignore
+	return func
+
+
+def wants_filename(func: Callable[..., str]) -> Callable[..., str]:
+	"""
+	Decorator to indicate to ``formate`` that the filename being reformatted should be passed to this hook.
+
+	The configuration will be provided as the
+	``formate_filename``: :class:`~domdf_python_tools.typing.PathLike` keyword argument.
+
+	.. versionadded:: 0.2.0
+
+	:param func:
+	"""
+
+	func.wants_filename = True  # type: ignore
 	return func

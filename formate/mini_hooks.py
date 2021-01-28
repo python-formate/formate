@@ -30,7 +30,15 @@ Small but mighty hooks.
 import ast
 import re
 
-__all__ = ["noqa_reformat", "check_ast"]
+# 3rd party
+from domdf_python_tools.paths import PathPlus
+from domdf_python_tools.stringlist import StringList
+from domdf_python_tools.typing import PathLike
+
+# this package
+from formate.config import wants_filename
+
+__all__ = ["noqa_reformat", "check_ast", "squish_stubs"]
 
 
 def noqa_reformat(source: str) -> str:
@@ -56,3 +64,54 @@ def check_ast(source: str) -> str:
 
 	ast.parse(source)
 	return source
+
+
+@wants_filename
+def squish_stubs(source: str, filename: PathLike) -> str:
+	"""
+	Squash type stubs by removing unnecessary blank lines.
+
+	.. versionadded:: 2.0.0
+
+	:param source: The source to check.
+	:param filename: The name of the source file, to ensure this hook only runs on type stubs.
+
+	:raises SyntaxError: If the source is not valid Python.
+	"""
+
+	def_re = re.compile(r"^(?:# )?(\s*)def")
+
+	filename = PathPlus(filename)
+
+	if filename.suffix != ".pyi":
+		return source
+
+	source_lines = source.split('\n')
+
+	reformatted_lines = StringList()
+
+	last_line = ''
+
+	for line in source_lines:
+		last_line_m = def_re.match(last_line)
+
+		if last_line_m:
+
+			line_m = def_re.match(line)
+
+			if line_m and last_line_m.group(1) == line_m.group(1):
+				last_line = line
+				reformatted_lines.append(line)
+			elif not line:
+				continue
+			else:
+				last_line = line
+				reformatted_lines.blankline(ensure_single=True)
+				reformatted_lines.append(line)
+		else:
+			last_line = line
+			reformatted_lines.append(line)
+
+	reformatted_lines.blankline(ensure_single=True)
+
+	return str(reformatted_lines)
