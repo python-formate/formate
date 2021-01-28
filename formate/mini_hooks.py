@@ -69,14 +69,14 @@ def check_ast(source: str) -> str:
 
 
 @wants_filename
-def squish_stubs(source: str, filename: PathLike) -> str:
+def squish_stubs(source: str, formate_filename: PathLike) -> str:
 	"""
 	Squash type stubs by removing unnecessary blank lines.
 
-	.. versionadded:: 2.0.0
+	.. versionadded:: 0.2.0
 
 	:param source: The source to check.
-	:param filename: The name of the source file, to ensure this hook only runs on type stubs.
+	:param formate_filename: The name of the source file, to ensure this hook only runs on type stubs.
 
 	:return: The reformatted source.
 	"""
@@ -84,7 +84,7 @@ def squish_stubs(source: str, filename: PathLike) -> str:
 	def_re = re.compile(r"^(?:# )?(\s*)def")
 	deco_re = re.compile(r"^(?:# )?(\s*)@")
 
-	filename = PathPlus(filename)
+	filename = PathPlus(formate_filename)
 
 	if filename.suffix != ".pyi":
 		return source

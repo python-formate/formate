@@ -49,7 +49,7 @@ Hooks may also accept positional and/or keyword arguments, either named or with 
 
 
 Some hooks may require access the the global configuration dict (the ``[config]`` table in ``formate.toml``).
-Hooks can request this by using the :deco:`formate.config.wants_global_config`` decorator,
+Hooks can request this by using the :deco:`formate.config.wants_global_config` decorator,
 which provides the configuration as the ``formate_global_config`` keyword argument:
 
 .. code-block:: python
@@ -70,3 +70,29 @@ which provides the configuration as the ``formate_global_config`` keyword argume
 		indent = formate_global_config.get("indent", "\t")
 
 		return re.sub("(    |\t)", indent, source)
+
+
+Similarly, some hooks may want to know which filename is being reformatted.
+They can request this using the :deco:`formate.config.wants_filename` decorator,
+which provides the configuration as the ``formate_filename`` keyword argument:
+
+.. code-block:: python
+
+	def lint_stubs(source: str, formate_filename: PathLike) -> str:
+		"""
+		Lint Python stub files.
+
+		:param source: The source to check.
+		:param formate_filename: The name of the source file, to ensure this hook only runs on type stubs.
+
+		:return: The reformatted source.
+		"""
+
+		if os.path.splitext(formate_filename)[1] != ".pyi":
+			return source
+
+		...
+
+		return reformatted_source
+
+.. versionadded:: 0.2.0
