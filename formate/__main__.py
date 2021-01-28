@@ -95,7 +95,7 @@ def main(
 	try:
 		config = load_toml(config_file)
 	except FileNotFoundError:
-		raise click.UsageError("'formate.toml' not found.")
+		raise click.UsageError("'formate.toml' not found")
 
 	for path in filename:
 		for pattern in exclude or []:
@@ -106,7 +106,7 @@ def main(
 
 		if path.suffix not in {".py", ".pyi", ''}:
 			if verbose >= 2:
-				click.echo(f"Skipping {path} as it doesn't appear to be a Python file.")
+				click.echo(f"Skipping {path} as it doesn't appear to be a Python file")
 
 			continue
 
@@ -118,11 +118,11 @@ def main(
 
 		if ret_for_file:
 			if verbose:
-				click.echo(f"Reformatting {path}.")
+				click.echo(f"Reformatting {path}")
 			if show_diff:
 				click.echo(r.get_diff(), color=resolve_color_default(colour))
 		elif verbose >= 2:
-			click.echo(f"Checking {path}.")
+			click.echo(f"Checking {path}")
 
 		r.to_file()
 

@@ -1,7 +1,7 @@
 err:
 - ''
 out:
-- Reformatting code.py.
+- Reformatting code.py
 - "--- code.py\t(original)"
 - "+++ code.py\t(reformatted)"
 - '@@ -1,11 +1,11 @@'
