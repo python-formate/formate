@@ -122,11 +122,24 @@ def test_squish_stubs(file_regression: FileRegressionFixture):
 	def print_256_colour_testpattern() -> None: ...
 
 
+
+	def print_512_colour_testpattern() -> None: ...
+
+
 	class AnsiCodes(ABC):
 		_stack: Union[Deque[str], List[str]]
 		_reset: str
 
 		def __init__(self) -> None: ...
+
+
+
+	@overload
+	def foo(hex_colour: str, background: Literal[True] = ...) -> _C: ...
+
+	@overload
+	def foo(hex_colour: str, background: Literal[True] = ...) -> _D: ...
+
 
 	"""
 			)

@@ -80,6 +80,7 @@ def squish_stubs(source: str, filename: PathLike) -> str:
 	"""
 
 	def_re = re.compile(r"^(?:# )?(\s*)def")
+	deco_re = re.compile(r"^(?:# )?(\s*)@")
 
 	filename = PathPlus(filename)
 
@@ -98,15 +99,21 @@ def squish_stubs(source: str, filename: PathLike) -> str:
 		if last_line_m:
 
 			line_m = def_re.match(line)
+			deco_m = deco_re.match(line)
 
 			if line_m and last_line_m.group(1) == line_m.group(1):
 				last_line = line
 				reformatted_lines.append(line)
 			elif not line:
 				continue
+			elif deco_m and last_line_m.group(1) == deco_m.group(1):
+				last_line = line
+				reformatted_lines.blankline(ensure_single=True)
+				reformatted_lines.append(line)
 			else:
 				last_line = line
 				reformatted_lines.blankline(ensure_single=True)
+				reformatted_lines.blankline()
 				reformatted_lines.append(line)
 		else:
 			last_line = line
