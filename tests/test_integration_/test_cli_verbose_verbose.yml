@@ -2,4 +2,5 @@ err:
 - ''
 out:
 - Checking code.py.
+- Skipping code.c as it doesn't appear to be a Python file.
 - ''

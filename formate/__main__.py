@@ -28,7 +28,7 @@ CLI entry point.
 
 # stdlib
 import sys
-from typing import List, Optional
+from typing import Iterable, List, Optional
 
 # 3rd party
 import click
@@ -36,6 +36,7 @@ from consolekit import click_command
 from consolekit.options import MultiValueOption, colour_option, flag_option, verbose_option
 from consolekit.terminal_colours import ColourTrilean, resolve_color_default
 from consolekit.tracebacks import handle_tracebacks, traceback_option
+from domdf_python_tools.typing import PathLike
 
 # this package
 from formate import Reformatter
@@ -66,7 +67,7 @@ __all__ = ["main"]
 @click.argument("filename", type=click.STRING, nargs=-1)
 @click_command()
 def main(
-		filename: str,
+		filename: Iterable[PathLike],
 		config_file: str,
 		exclude: "Optional[List[str]]",
 		colour: "ColourTrilean" = None,
@@ -81,6 +82,9 @@ def main(
 	# stdlib
 	import fnmatch
 	import re
+
+	# 3rd party
+	from domdf_python_tools.paths import PathPlus
 
 	# this package
 	from formate.config import load_toml
@@ -97,6 +101,14 @@ def main(
 		for pattern in exclude or []:
 			if re.match(fnmatch.translate(pattern), str(path)):
 				continue
+
+		path = PathPlus(path)
+
+		if path.suffix not in {".py", ".pyi", ''}:
+			if verbose >= 2:
+				click.echo(f"Skipping {path} as it doesn't appear to be a Python file.")
+
+			continue
 
 		r = Reformatter(path, config=config)
 

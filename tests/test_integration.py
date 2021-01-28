@@ -168,7 +168,7 @@ def test_cli_verbose_verbose(
 		runner = CliRunner(mix_stderr=False)
 		result = runner.invoke(
 				main,
-				args=["code.py", "--no-colour", "--diff", "--verbose", "-v"],
+				args=["code.py", "code.c", "--no-colour", "--diff", "--verbose", "-v"],
 				)
 
 	assert result.exit_code == 0
