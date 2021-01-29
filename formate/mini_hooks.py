@@ -125,14 +125,17 @@ def _breakup_source(source: str) -> List[List[str]]:
 
 		elif line.lstrip().startswith('@'):
 			blocks.append(_Decorator([line]))
+
 		elif line.lstrip().startswith("def "):
 			if isinstance(blocks[-1], _Decorator):
 				blocks[-1] = _DecoratedFunction([*blocks[-1], line])
 			else:
 				blocks.append(_Function([line]))
+
 		elif line.lstrip().startswith("class "):
 			# TODO: decorated classes?
 			blocks.append(_Class([line]))
+
 		elif line.rstrip().startswith(' ') or line.startswith('\t'):
 			if isinstance(blocks[-1], _Class):
 				blocks[-1].append(line)
@@ -144,7 +147,10 @@ def _breakup_source(source: str) -> List[List[str]]:
 				else:
 					blocks.append(_Variables([line]))
 			elif isinstance(blocks[-1], _Function):
-				blocks[-1] = _MultilineFunction([*blocks[-1], line])
+				if re.split("[A-Za-z]", line)[0] == re.split("[A-Za-z]", blocks[-1][-1])[0]:
+					blocks.append(_Variables([line]))
+				else:
+					blocks[-1] = _MultilineFunction([*blocks[-1], line])
 			elif isinstance(blocks[-1], _Variables):
 				blocks[-1].append(line)
 			else:
@@ -164,37 +170,32 @@ def _reformat_blocks(blocks: List[List[str]]):
 
 	while cursor != len(blocks):
 
-		previous = blocks[cursor - 1]
-		current = blocks[cursor]
-
-		if isinstance(previous, (_MultilineFunction, _DecoratedFunction, _Class)):
-			# Add a blank line after _Variables, a multi-line function or a decorated function
+		if isinstance(blocks[cursor - 1], (_MultilineFunction, _DecoratedFunction, _Class)):
+			# Add a blank line after _Variables, a multi-line function, or a decorated function
 			blocks.insert(cursor, [])
 			cursor += 1
-			# previous = blocks[cursor - 1]
-			current = blocks[cursor]
 
-		if isinstance(previous, (_Variables)):
+		if isinstance(blocks[cursor - 1], _Variables):
 			# Add a blank line before and after _Variables
 			blocks.insert(cursor - 1, [])
 			blocks.insert(cursor + 1, [])
 			cursor += 2
-			# previous = blocks[cursor - 1]
-			current = blocks[cursor]
 
-		if isinstance(current, (_DecoratedFunction, _MultilineFunction)):
+		if isinstance(blocks[cursor], _Variables):
+			# Add a blank line before and after _Variables
+			blocks.insert(cursor, [])
+			blocks.insert(cursor + 2, [])
+			cursor += 2
+
+		if isinstance(blocks[cursor], (_DecoratedFunction, _MultilineFunction)):
 			# Add a blank line before a decorated function
 			blocks.insert(cursor, [])
 			cursor += 1
-			# previous = blocks[cursor - 1]
-			current = blocks[cursor]
 
-		if isinstance(current, _Class):
+		if isinstance(blocks[cursor], _Class):
 			blocks.insert(cursor, [])
 			blocks.insert(cursor + 2, [])
 			cursor += 3
-			# previous = blocks[cursor - 1]
-			# current = blocks[cursor]
 
 		cursor += 1
 

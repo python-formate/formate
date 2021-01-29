@@ -194,6 +194,11 @@ def test_squish_stubs(file_regression: FileRegressionFixture):
 		Check = check
 
 
+		def unregister(self, cls: Type) -> Any: ...
+
+		registry: Mapping[Any, Callable[..., _T]]
+
+
 	'''
 			)
 

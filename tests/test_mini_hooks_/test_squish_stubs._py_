@@ -94,3 +94,7 @@ class Foo:
 
 	# non-PEP 8 alias used internally at ESSS
 	Check = check
+
+	def unregister(self, cls: Type) -> Any: ...
+
+	registry: Mapping[Any, Callable[..., _T]]
