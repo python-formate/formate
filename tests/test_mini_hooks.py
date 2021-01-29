@@ -115,6 +115,17 @@ def test_squish_stubs(file_regression: FileRegressionFixture):
 
 		def __call__(self, text) -> str: ...
 
+
+		@classmethod
+		def from_rgb(
+				cls: Type[_C],
+				r: Union[str, int],
+				g: Union[str, int],
+				b: Union[str, int],
+				background: bool = ...
+				) -> _C: ...
+
+
 		@classmethod
 		def from_hex(cls: Type[_C], hex_colour: str, background: bool = ...) -> _C: ...
 

@@ -81,7 +81,7 @@ def squish_stubs(source: str, formate_filename: PathLike) -> str:
 	:return: The reformatted source.
 	"""
 
-	def_re = re.compile(r"^(?:# )?(\s*)def")
+	def_re = re.compile(r"^(?:# )?(\s*)def( .*\($)?")
 	deco_re = re.compile(r"^(?:# )?(\s*)@")
 
 	filename = PathPlus(formate_filename)
@@ -90,33 +90,46 @@ def squish_stubs(source: str, formate_filename: PathLike) -> str:
 		return source
 
 	source_lines = source.split('\n')
-
 	reformatted_lines = StringList()
 
 	last_line = ''
+	in_indented_block = ''
 
 	for line in source_lines:
+		line_m = def_re.match(line)
 		last_line_m = def_re.match(last_line)
+		deco_m = deco_re.match(line)
+
+		if line_m and line_m.group(2):
+			in_indented_block = line_m.group(1)
 
 		if last_line_m:
-
-			line_m = def_re.match(line)
-			deco_m = deco_re.match(line)
 
 			if line_m and last_line_m.group(1) == line_m.group(1):
 				last_line = line
 				reformatted_lines.append(line)
 			elif not line:
+				in_indented_block = ''
 				continue
 			elif deco_m and last_line_m.group(1) == deco_m.group(1):
 				last_line = line
+
 				reformatted_lines.blankline(ensure_single=True)
 				reformatted_lines.append(line)
 			else:
 				last_line = line
-				reformatted_lines.blankline(ensure_single=True)
-				reformatted_lines.blankline()
+
+				if not in_indented_block:
+					reformatted_lines.blankline(ensure_single=True)
+					reformatted_lines.blankline()
+
 				reformatted_lines.append(line)
+
+		elif deco_m and deco_m.group(1):
+			last_line = line
+
+			reformatted_lines.blankline(ensure_single=True)
+			reformatted_lines.append(line)
 		else:
 			last_line = line
 			reformatted_lines.append(line)
