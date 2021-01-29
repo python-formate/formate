@@ -104,7 +104,7 @@ def main(
 
 		path = PathPlus(path)
 
-		if path.suffix not in {".py", ".pyi", ''}:
+		if path.suffix not in {".py", ".pyi", ''} or path.is_dir():
 			if verbose >= 2:
 				click.echo(f"Skipping {path} as it doesn't appear to be a Python file")
 

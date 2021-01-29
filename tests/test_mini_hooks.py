@@ -199,6 +199,21 @@ def test_squish_stubs(file_regression: FileRegressionFixture):
 		registry: Mapping[Any, Callable[..., _T]]
 
 
+	@sphinxify_json_docstring()
+	@append_docstring_from(json.loads)
+	def load(
+			fp: SupportsRead[_LoadsString],
+			*,
+			cls: Optional[Type[json.JSONDecoder]] = ...,
+			object_hook: Optional[Callable[[Dict[Any, Any]], Any]] = ...,
+			parse_float: Optional[Callable[[str], Any]] = ...,
+			parse_int: Optional[Callable[[str], Any]] = ...,
+			parse_constant: Optional[Callable[[str], Any]] = ...,
+			object_pairs_hook: Optional[Callable[[List[Tuple[Any, Any]]], Any]] = ...,
+			**kwargs: Any
+			) -> Any: ...
+
+
 	'''
 			)
 

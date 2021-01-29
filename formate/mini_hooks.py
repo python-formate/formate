@@ -124,7 +124,10 @@ def _breakup_source(source: str) -> List[List[str]]:
 				blocks[-1].append(line)
 
 		elif line.lstrip().startswith('@'):
-			blocks.append(_Decorator([line]))
+			if isinstance(blocks[-1], _Decorator):
+				blocks[-1].append(line)
+			else:
+				blocks.append(_Decorator([line]))
 
 		elif line.lstrip().startswith("def "):
 			if isinstance(blocks[-1], _Decorator):
@@ -140,9 +143,9 @@ def _breakup_source(source: str) -> List[List[str]]:
 			if isinstance(blocks[-1], _Class):
 				blocks[-1].append(line)
 			elif isinstance(blocks[-1], _MultilineFunction):
-				if len(blocks[-1]) < 2 or line.lstrip().startswith(')'):
+				if len(blocks[-1]) < 2:
 					blocks[-1].append(line)
-				elif re.split("[A-Za-z]", line)[0] == re.split("[A-Za-z]", blocks[-1][-1])[0]:
+				elif re.split("[A-Za-z)*_]", line)[0] == re.split("[A-Za-z)*_]", blocks[-1][-1])[0]:
 					blocks[-1].append(line)
 				else:
 					blocks.append(_Variables([line]))
@@ -155,6 +158,7 @@ def _breakup_source(source: str) -> List[List[str]]:
 				blocks[-1].append(line)
 			else:
 				blocks.append(_Variables([line]))
+
 		else:
 			if isinstance(blocks[-1], _Variables):
 				blocks[-1].append(line)
@@ -172,6 +176,12 @@ def _reformat_blocks(blocks: List[List[str]]):
 
 		if isinstance(blocks[cursor - 1], (_MultilineFunction, _DecoratedFunction, _Class)):
 			# Add a blank line after _Variables, a multi-line function, or a decorated function
+			blocks.insert(cursor, [])
+			cursor += 1
+
+		if blocks[cursor] and blocks[cursor - 1] and re.match("^[ \t]+", blocks[cursor - 1][-1]
+																) and not re.match("^[ \t]+", blocks[cursor][0]):
+			# Add a blank line after a dedent
 			blocks.insert(cursor, [])
 			cursor += 1
 
