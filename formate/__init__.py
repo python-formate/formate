@@ -28,7 +28,7 @@ Python formatting mate.
 
 # stdlib
 from configparser import ConfigParser
-from typing import Iterable, Mapping, Optional
+from typing import Iterable, Mapping, Optional, Sequence
 
 # 3rd party
 import click
@@ -76,6 +76,35 @@ def call_hooks(hooks: Iterable[Hook], source: str, filename: PathLike) -> str:
 	return source
 
 
+isort_string_or_sequence = {
+		"skip",
+		"skip_glob",
+		"sections",
+		"known_future_library",
+		"known_third_party",
+		"known_first_party",
+		"known_local_folder",
+		"known_standard_library",
+		"extra_standard_library",
+		"forced_separate",
+		"length_sort_sections",
+		"add_imports",
+		"remove_imports",
+		"single_line_exclusions",
+		"no_lines_before",
+		"sources",
+		"src_paths",
+		"treat_comments_as_code",
+		"supported_extensions",
+		"blocked_extensions",
+		"constants",
+		"classes",
+		"variables",
+		"namespace_packages",
+		}
+# TODO: known_other, dict
+
+
 @wants_global_config
 def isort_hook(source: str, formate_global_config: Optional[Mapping] = None, **kwargs) -> str:
 	r"""
@@ -104,12 +133,20 @@ def isort_hook(source: str, formate_global_config: Optional[Mapping] = None, **k
 		for option, value in kwargs.items():
 			if option.startswith("import_heading"):
 				import_headings[option[len("import_heading") + 1:]] = value
+			elif option in isort_string_or_sequence:
+				if isinstance(value, str):
+					value = (value, )
+				elif not isinstance(value, Sequence):
+					value = (value, )
+
+				parsed_kwargs[option] = value
+
 			elif option == "force_to_top":
-				continue  # TODO isort expects a frozenset but I thought it was boolean
+				continue  # TODO isort expects a frozenset but I thought it was boolean?
 			else:
 				parsed_kwargs[option] = value
 
-		isort_config = Config(import_headings=import_headings, **kwargs)
+		isort_config = Config(import_headings=import_headings, **parsed_kwargs)
 
 	try:
 		return isort.code(source, config=isort_config)
