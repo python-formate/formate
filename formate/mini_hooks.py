@@ -137,11 +137,18 @@ def _breakup_source(source: str) -> List[List[str]]:
 			if isinstance(blocks[-1], _Class):
 				blocks[-1].append(line)
 			elif isinstance(blocks[-1], _MultilineFunction):
-				blocks[-1].append(line)
+				if len(blocks[-1]) < 2 or line.lstrip().startswith(')'):
+					blocks[-1].append(line)
+				elif re.split("[A-Za-z]", line)[0] == re.split("[A-Za-z]", blocks[-1][-1])[0]:
+					blocks[-1].append(line)
+				else:
+					blocks.append(_Variables([line]))
 			elif isinstance(blocks[-1], _Function):
 				blocks[-1] = _MultilineFunction([*blocks[-1], line])
+			elif isinstance(blocks[-1], _Variables):
+				blocks[-1].append(line)
 			else:
-				raise NotImplementedError
+				blocks.append(_Variables([line]))
 		else:
 			if isinstance(blocks[-1], _Variables):
 				blocks[-1].append(line)
@@ -175,9 +182,9 @@ def _reformat_blocks(blocks: List[List[str]]):
 			# previous = blocks[cursor - 1]
 			current = blocks[cursor]
 
-		if isinstance(current, _DecoratedFunction):
+		if isinstance(current, (_DecoratedFunction, _MultilineFunction)):
 			# Add a blank line before a decorated function
-			blocks.insert(cursor - 2, [])
+			blocks.insert(cursor, [])
 			cursor += 1
 			# previous = blocks[cursor - 1]
 			current = blocks[cursor]

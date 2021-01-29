@@ -123,6 +123,12 @@ def test_squish_stubs(file_regression: FileRegressionFixture):
 
 
 		@classmethod
+		def from_code(cls: Type[_C], code: Union[str, int], background: bool = ...) -> _C: ...
+
+
+
+
+		@classmethod
 		def from_rgb(
 				cls: Type[_C],
 				r: Union[str, int],
@@ -164,6 +170,28 @@ def test_squish_stubs(file_regression: FileRegressionFixture):
 			version: Optional[str] = ...,
 			roaming: bool = ...,
 			) -> str: ...
+
+	def print_512_colour_testpattern() -> None: ...
+
+
+	def user_data_dir(
+			appname: Optional[str] = ...,
+			appauthor: Optional[str] = ...,
+			version: Optional[str] = ...,
+			roaming: bool = ...,
+			) -> str: ...
+
+	class Foo:
+
+		def check(
+			self,
+			data_dict: Union[Sequence, Mapping],
+			basename: Optional[str] = ...,
+			fullpath: Optional[str] = ...,
+			) -> None: ...
+
+		# non-PEP 8 alias used internally at ESSS
+		Check = check
 
 
 	'''
