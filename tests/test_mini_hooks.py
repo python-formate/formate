@@ -152,6 +152,14 @@ def test_squish_stubs(file_regression: FileRegressionFixture):
 	def foo(hex_colour: str, background: Literal[True] = ...) -> _D: ...
 
 
+	def user_data_dir(
+			appname: Optional[str] = ...,
+			appauthor: Optional[str] = ...,
+			version: Optional[str] = ...,
+			roaming: bool = ...,
+			) -> str: ...
+
+
 	"""
 			)
 

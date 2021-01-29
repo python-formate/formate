@@ -29,6 +29,7 @@ Small but mighty hooks.
 # stdlib
 import ast
 import re
+from typing import List
 
 # 3rd party
 from domdf_python_tools.paths import PathPlus
@@ -81,59 +82,125 @@ def squish_stubs(source: str, formate_filename: PathLike) -> str:
 	:return: The reformatted source.
 	"""
 
-	def_re = re.compile(r"^(?:# )?(\s*)def( .*\($)?")
-	deco_re = re.compile(r"^(?:# )?(\s*)@")
-
 	filename = PathPlus(formate_filename)
 
 	if filename.suffix != ".pyi":
 		return source
 
-	source_lines = source.split('\n')
-	reformatted_lines = StringList()
+	blocks = _breakup_source(source)
+	return str(_reformat_blocks(blocks))
 
-	last_line = ''
-	in_indented_block = ''
 
-	for line in source_lines:
-		line_m = def_re.match(line)
-		last_line_m = def_re.match(last_line)
-		deco_m = deco_re.match(line)
+class _Variables(list):
+	pass
 
-		if line_m and line_m.group(2):
-			in_indented_block = line_m.group(1)
 
-		if last_line_m:
+class _Class(list):
+	pass
 
-			if line_m and last_line_m.group(1) == line_m.group(1):
-				last_line = line
-				reformatted_lines.append(line)
-			elif not line:
-				in_indented_block = ''
-				continue
-			elif deco_m and last_line_m.group(1) == deco_m.group(1):
-				last_line = line
 
-				reformatted_lines.blankline(ensure_single=True)
-				reformatted_lines.append(line)
+class _Function(list):
+	pass
+
+
+class _DecoratedFunction(_Function):
+	pass
+
+
+class _Decorator(list):
+	pass
+
+
+class _MultilineFunction(_Function):
+	pass
+
+
+def _breakup_source(source: str) -> List[List[str]]:
+	blocks: List[List[str]] = [[]]
+
+	for line in source.split('\n'):
+		if not line.strip():
+			if isinstance(blocks[-1], _Variables):
+				blocks[-1].append(line)
+
+		elif line.lstrip().startswith('@'):
+			blocks.append(_Decorator([line]))
+		elif line.lstrip().startswith("def "):
+			if isinstance(blocks[-1], _Decorator):
+				blocks[-1] = _DecoratedFunction([*blocks[-1], line])
 			else:
-				last_line = line
-
-				if not in_indented_block:
-					reformatted_lines.blankline(ensure_single=True)
-					reformatted_lines.blankline()
-
-				reformatted_lines.append(line)
-
-		elif deco_m and deco_m.group(1):
-			last_line = line
-
-			reformatted_lines.blankline(ensure_single=True)
-			reformatted_lines.append(line)
+				blocks.append(_Function([line]))
+		elif line.lstrip().startswith("class "):
+			# TODO: decorated classes?
+			blocks.append(_Class([line]))
+		elif line.rstrip().startswith(' ') or line.startswith('\t'):
+			if isinstance(blocks[-1], _Class):
+				blocks[-1].append(line)
+			elif isinstance(blocks[-1], _MultilineFunction):
+				blocks[-1].append(line)
+			elif isinstance(blocks[-1], _Function):
+				blocks[-1] = _MultilineFunction([*blocks[-1], line])
+			else:
+				raise NotImplementedError
 		else:
-			last_line = line
-			reformatted_lines.append(line)
+			if isinstance(blocks[-1], _Variables):
+				blocks[-1].append(line)
+			else:
+				blocks.append(_Variables([line]))
 
-	reformatted_lines.blankline(ensure_single=True)
+	return blocks
 
-	return str(reformatted_lines)
+
+def _reformat_blocks(blocks: List[List[str]]):
+
+	cursor = 1
+
+	while cursor != len(blocks):
+
+		previous = blocks[cursor - 1]
+		current = blocks[cursor]
+
+		if isinstance(previous, (_MultilineFunction, _DecoratedFunction, _Class)):
+			# Add a blank line after _Variables, a multi-line function or a decorated function
+			blocks.insert(cursor, [])
+			cursor += 1
+			# previous = blocks[cursor - 1]
+			current = blocks[cursor]
+
+		if isinstance(previous, (_Variables)):
+			# Add a blank line before and after _Variables
+			blocks.insert(cursor - 1, [])
+			blocks.insert(cursor + 1, [])
+			cursor += 2
+			# previous = blocks[cursor - 1]
+			current = blocks[cursor]
+
+		if isinstance(current, _DecoratedFunction):
+			# Add a blank line before a decorated function
+			blocks.insert(cursor - 2, [])
+			cursor += 1
+			# previous = blocks[cursor - 1]
+			current = blocks[cursor]
+
+		if isinstance(current, _Class):
+			blocks.insert(cursor, [])
+			blocks.insert(cursor + 2, [])
+			cursor += 3
+			# previous = blocks[cursor - 1]
+			# current = blocks[cursor]
+
+		cursor += 1
+
+	output = StringList()
+
+	# Remove trailing whitespace from each block
+	for block in blocks:
+		if output and not block and not output[-1]:
+			# Remove duplicate new lines
+			continue
+
+		output.append('\n'.join(block).rstrip())
+
+	output.blankline(ensure_single=True)
+
+	return output
