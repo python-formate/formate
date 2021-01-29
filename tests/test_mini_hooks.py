@@ -69,8 +69,14 @@ def test_check_ast():
 
 def test_squish_stubs(file_regression: FileRegressionFixture):
 	source = dedent(
-			"""\
-
+			'''\
+	#!/usr/bin/env python3
+	#
+	#  __init__.py
+	"""
+	Type stubs for appdirs
+	"""
+	#
 
 	ColourTrilean = Optional[bool]
 
@@ -160,7 +166,7 @@ def test_squish_stubs(file_regression: FileRegressionFixture):
 			) -> str: ...
 
 
-	"""
+	'''
 			)
 
 	check_file_regression(squish_stubs(source, "file.pyi"), file_regression, extension="._py_")

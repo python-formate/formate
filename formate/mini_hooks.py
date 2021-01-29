@@ -201,6 +201,9 @@ def _reformat_blocks(blocks: List[List[str]]):
 
 		output.append('\n'.join(block).rstrip())
 
+	if not output[0]:
+		output.pop(0)
+
 	output.blankline(ensure_single=True)
 
 	return output
