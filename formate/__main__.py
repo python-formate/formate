@@ -68,7 +68,7 @@ __all__ = ["main"]
 @click_command()
 def main(
 		filename: Iterable[PathLike],
-		config_file: str,
+		config_file: PathLike,
 		exclude: "Optional[List[str]]",
 		colour: "ColourTrilean" = None,
 		verbose: bool = False,
