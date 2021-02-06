@@ -1,0 +1,5 @@
+err:
+- 'Fatal: SyntaxError: ''('' was never closed (code.py, line 10)'
+- ''
+out:
+- ''

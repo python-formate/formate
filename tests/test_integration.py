@@ -6,7 +6,7 @@ from typing import Union, no_type_check
 import pytest
 from _pytest.capture import CaptureResult
 from coincidence.regressions import AdvancedDataRegressionFixture, check_file_output, check_file_regression
-from coincidence.selectors import not_pypy, only_pypy
+from coincidence.selectors import max_version, not_pypy, only_pypy
 from consolekit.terminal_colours import strip_ansi
 from consolekit.testing import CliRunner, Result
 from domdf_python_tools.paths import PathPlus, in_directory
@@ -208,6 +208,7 @@ def test_cli_verbose_verbose(
 	check_out(result, advanced_data_regression)
 
 
+@max_version("3.9.9", reason="Output differs on Python 3.10+")
 @not_pypy("Output differs on PyPy")
 def test_cli_syntax_error(
 		tmp_pathplus: PathPlus,
@@ -242,6 +243,38 @@ def test_cli_syntax_error(
 
 @only_pypy("Output differs on PyPy")
 def test_cli_syntax_error_pypy(
+		tmp_pathplus: PathPlus,
+		file_regression: FileRegressionFixture,
+		advanced_data_regression: AdvancedDataRegressionFixture,
+		demo_environment,
+		):
+
+	code = [
+			"class F:",
+			"\tfrom collections import (",
+			"Iterable,",
+			"\tCounter,",
+			"\t\t)",
+			'',
+			"\tdef foo(self):",
+			"\t\tpass",
+			'',
+			"print('hello world'",
+			]
+
+	(tmp_pathplus / "code.py").write_lines(code, trailing_whitespace=True)
+
+	with in_directory(tmp_pathplus):
+		runner = CliRunner(mix_stderr=False)
+		result: Result = runner.invoke(main, args=["code.py", "--no-colour", "--verbose"])
+
+	assert result.exit_code == 126
+
+	check_out(result, advanced_data_regression)
+
+
+@max_version("3.10", reason="Output differs on Python 3.10+")
+def test_cli_syntax_error_py310(
 		tmp_pathplus: PathPlus,
 		file_regression: FileRegressionFixture,
 		advanced_data_regression: AdvancedDataRegressionFixture,
