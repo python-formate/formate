@@ -1,6 +1,6 @@
 # stdlib
 import re
-from typing import Union
+from typing import Union, no_type_check
 
 # 3rd party
 import pytest
@@ -20,6 +20,7 @@ from formate.config import load_toml
 path_sub = re.compile(rf" .*/pytest-of-.*/pytest-\d+")
 
 
+@no_type_check
 def check_out(result: Union[Result, CaptureResult[str]], advanced_data_regression: AdvancedDataRegressionFixture):
 
 	if hasattr(result, "stdout"):
