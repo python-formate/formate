@@ -1,0 +1,10 @@
+class F:
+	# stdlib
+	from collections import Counter
+	from collections.abc import Iterable
+
+	def foo(self):
+		pass
+
+
+print("hello world")

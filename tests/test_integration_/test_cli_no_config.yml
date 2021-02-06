@@ -1,7 +1,7 @@
 err:
 - 'Usage: main [OPTIONS] [FILENAME]...'
 - ''
-- 'Error: ''formate.toml'' not found'
+- 'Error: Config file ''formate.toml'' not found'
 - ''
 out:
 - ''

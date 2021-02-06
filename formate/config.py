@@ -80,7 +80,19 @@ def load_toml(filename: PathLike) -> FormateConfigDict:
 	:param filename:
 	"""
 
-	return cast(FormateConfigDict, toml.loads(PathPlus(filename).read_text()))
+	formate_config: FormateConfigDict = {}
+
+	config = toml.loads(PathPlus(filename).read_text())
+
+	if "tool" in config and "formate" in config["tool"]:
+		config = config["tool"]["formate"]
+
+	if "hooks" in config:
+		formate_config["hooks"] = config["hooks"]
+	if "config" in config:
+		formate_config["config"] = config["config"]
+
+	return formate_config
 
 
 def wants_global_config(func: Callable[..., str]) -> Callable[..., str]:
