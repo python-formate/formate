@@ -6,7 +6,7 @@ from typing import Union, no_type_check
 import pytest
 from _pytest.capture import CaptureResult
 from coincidence.regressions import AdvancedDataRegressionFixture, check_file_output, check_file_regression
-from coincidence.selectors import max_version, not_pypy, only_pypy
+from coincidence.selectors import max_version, min_version, not_pypy, only_pypy
 from consolekit.terminal_colours import strip_ansi
 from consolekit.testing import CliRunner, Result
 from domdf_python_tools.paths import PathPlus, in_directory
@@ -273,7 +273,7 @@ def test_cli_syntax_error_pypy(
 	check_out(result, advanced_data_regression)
 
 
-@max_version("3.10", reason="Output differs on Python 3.10+")
+@min_version("3.10", reason="Output differs on Python 3.10+")
 def test_cli_syntax_error_py310(
 		tmp_pathplus: PathPlus,
 		file_regression: FileRegressionFixture,
