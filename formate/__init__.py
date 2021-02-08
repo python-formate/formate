@@ -39,10 +39,11 @@ from domdf_python_tools.paths import PathPlus, TemporaryPathPlus
 from domdf_python_tools.stringlist import StringList
 from domdf_python_tools.typing import PathLike
 from domdf_python_tools.words import TAB
+from isort.exceptions import FileSkipComment  # type: ignore
 
 # this package
 from formate.classes import FormateConfigDict, Hook
-from formate.config import parse_hooks, wants_global_config
+from formate.config import parse_hooks, wants_filename, wants_global_config
 from formate.utils import syntaxerror_for_file
 
 __all__ = ["call_hooks", "isort_hook", "yapf_hook", "Reformatter", "reformat_file"]
@@ -105,24 +106,27 @@ isort_string_or_sequence = {
 # TODO: known_other, dict
 
 
+@wants_filename
 @wants_global_config
-def isort_hook(source: str, formate_global_config: Optional[Mapping] = None, **kwargs) -> str:
+def isort_hook(
+		source: str,
+		formate_filename: PathLike,
+		formate_global_config: Optional[Mapping] = None,
+		**kwargs,
+		) -> str:
 	r"""
 	Call `isort <https://pypi.org/project/isort/>`_, using the given keyword arguments as its configuration.
 
 	:param source: The source to reformat.
+	:param formate_filename: The path to the file being reformatted.
 	:param formate_global_config: The global configuration dictionary. Optional.
 	:param \*\*kwargs:
 
 	:returns: The reformatted source.
 	"""
 
-	# 3rd party
-	from isort import Config
-	from isort.exceptions import FileSkipComment  # type: ignore
-
 	if "isort_config_file" in kwargs:
-		isort_config = Config(settings_file=str(kwargs["isort_config_file"]))
+		isort_config = isort.Config(settings_file=str(kwargs["isort_config_file"]))
 	else:
 		if "line_length" not in kwargs and formate_global_config:
 			kwargs["line_length"] = formate_global_config["line_length"]
@@ -143,10 +147,15 @@ def isort_hook(source: str, formate_global_config: Optional[Mapping] = None, **k
 
 			elif option == "force_to_top":
 				continue  # TODO isort expects a frozenset but I thought it was boolean?
+			elif option == "remove_redundant_aliases":
+				continue
 			else:
 				parsed_kwargs[option] = value
 
-		isort_config = Config(import_headings=import_headings, **parsed_kwargs)
+		isort_config = isort.Config(import_headings=import_headings, **parsed_kwargs)
+
+	if PathPlus(formate_filename).suffix == ".pyi":
+		object.__setattr__(isort_config, "remove_redundant_aliases", False)
 
 	try:
 		return isort.code(source, config=isort_config)
