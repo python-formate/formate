@@ -172,7 +172,7 @@ def _reformat_blocks(blocks: List[List[str]]):
 
 	cursor = 1
 
-	while cursor != len(blocks):
+	while cursor < len(blocks):
 
 		if isinstance(blocks[cursor - 1], (_MultilineFunction, _DecoratedFunction, _Class)):
 			# Add a blank line after _Variables, a multi-line function, or a decorated function
