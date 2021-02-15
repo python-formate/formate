@@ -208,7 +208,7 @@ def _reformat_blocks(blocks: List[List[str]]):
 		if isinstance(blocks[cursor], _Class):
 
 			if (
-					cursor < len(blocks) and isinstance(blocks[cursor + 1], _Function)
+					cursor + 1 < len(blocks) and isinstance(blocks[cursor + 1], _Function)
 					and not isinstance(blocks[cursor + 1], (_DecoratedFunction, _MultilineFunction))
 					and blocks[cursor][-1].lstrip().startswith("class")
 					):
