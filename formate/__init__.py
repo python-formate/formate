@@ -51,7 +51,7 @@ __all__ = ["call_hooks", "isort_hook", "yapf_hook", "Reformatter", "reformat_fil
 __author__: str = "Dominic Davis-Foster"
 __copyright__: str = "2020-2021 Dominic Davis-Foster"
 __license__: str = "MIT License"
-__version__: str = "0.4.0"
+__version__: str = "0.4.1"
 __email__: str = "dominic@davis-foster.co.uk"
 
 # TODO: Ideas for hooks
@@ -68,7 +68,7 @@ def call_hooks(hooks: Iterable[Hook], source: str, filename: PathLike) -> str:
 
 	:returns: The reformatted source.
 
-	.. versionchanged:: 0.4.0  Added the ``filename`` argument.
+	.. versionchanged:: 0.4.1  Added the ``filename`` argument.
 	"""
 
 	for hook in hooks:

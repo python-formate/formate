@@ -91,7 +91,7 @@ formate
 .. |language| image:: https://img.shields.io/github/languages/top/repo-helper/formate
 	:alt: GitHub top language
 
-.. |commits-since| image:: https://img.shields.io/github/commits-since/repo-helper/formate/v0.4.0
+.. |commits-since| image:: https://img.shields.io/github/commits-since/repo-helper/formate/v0.4.1
 	:target: https://github.com/repo-helper/formate/pulse
 	:alt: GitHub commits since tagged version
 
