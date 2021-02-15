@@ -210,7 +210,7 @@ def _reformat_blocks(blocks: List[List[str]]):
 			if (
 					cursor + 1 < len(blocks) and isinstance(blocks[cursor + 1], _Function)
 					and not isinstance(blocks[cursor + 1], (_DecoratedFunction, _MultilineFunction))
-					and blocks[cursor][-1].lstrip().startswith("class")
+					and blocks[cursor][-1].lstrip().startswith("class") and blocks[cursor + 1][0][0].isspace()
 					):
 				blocks.insert(cursor, [])
 				cursor += 2
