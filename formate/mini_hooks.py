@@ -152,8 +152,11 @@ def _breakup_source(source: str) -> List[List[str]]:
 			elif isinstance(blocks[-1], _Function):
 				if re.split("[A-Za-z]", line)[0] == re.split("[A-Za-z]", blocks[-1][-1])[0]:
 					blocks.append(_Variables([line]))
-				else:
+				elif line.rstrip().endswith(","):
 					blocks[-1] = _MultilineFunction([*blocks[-1], line])
+				else:
+					blocks.append(_Variables([line]))
+
 			elif isinstance(blocks[-1], _Variables):
 				blocks[-1].append(line)
 			else:
@@ -203,9 +206,19 @@ def _reformat_blocks(blocks: List[List[str]]):
 			cursor += 1
 
 		if isinstance(blocks[cursor], _Class):
-			blocks.insert(cursor, [])
-			blocks.insert(cursor + 2, [])
-			cursor += 3
+
+			if (
+					cursor < len(blocks)
+					and isinstance(blocks[cursor+1], _Function)
+					and not isinstance(blocks[cursor+1], (_DecoratedFunction, _MultilineFunction))
+					and blocks[cursor][-1].lstrip().startswith("class")
+				):
+				blocks.insert(cursor, [])
+				cursor += 2
+			else:
+				blocks.insert(cursor, [])
+				blocks.insert(cursor + 2, [])
+				cursor += 3
 
 		cursor += 1
 
