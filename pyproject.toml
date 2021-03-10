@@ -1,3 +1,48 @@
 [build-system]
-requires = [ "setuptools>=40.6.0", "wheel>=0.34.2",]
-build-backend = "setuptools.build_meta"
+requires = [ "whey",]
+build-backend = "whey"
+
+[project]
+name = "formate"
+version = "0.4.2"
+description = "Python formatting mate."
+readme = "README.rst"
+keywords = [ "formatting", "linting",]
+dynamic = [ "requires-python", "classifiers", "dependencies",]
+[[project.authors]]
+email = "dominic@davis-foster.co.uk"
+name = "Dominic Davis-Foster"
+
+[project.license]
+file = "LICENSE"
+
+[project.urls]
+Homepage = "https://github.com/repo-helper/formate"
+"Issue Tracker" = "https://github.com/repo-helper/formate/issues"
+"Source Code" = "https://github.com/repo-helper/formate"
+Documentation = "https://formate.readthedocs.io/en/latest"
+
+[project.scripts]
+formate = "formate.__main__:main"
+
+[tool.whey]
+base-classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Typing :: Typed",
+]
+python-versions = [ "3.6", "3.7", "3.8", "3.9",]
+python-implementations = [ "CPython", "PyPy",]
+platforms = [ "Windows", "macOS", "Linux",]
+license-key = "MIT"
+
+[project.entry-points.formate_hooks]
+reformat-generics = "formate.reformat_generics:reformat_generics"
+dynamic_quotes = "formate.dynamic_quotes:dynamic_quotes"
+noqa_reformat = "formate.mini_hooks:noqa_reformat"
+squish_stubs = "formate.mini_hooks:squish_stubs"
+ellipsis_reformat = "formate.ellipses:ellipsis_reformat"
+collections-import-rewrite = "formate.imports:rewrite_collections_abc_imports"
+isort = "formate:isort_hook"
+yapf = "formate:yapf_hook"
