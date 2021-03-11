@@ -23,7 +23,7 @@ rst_prolog = f""".. |pkgname| replace:: formate
 """
 
 author = "Dominic Davis-Foster"
-project = "formate"
+project = "formate".replace('_', '-')
 slug = re.sub(r'\W+', '-', project.lower())
 release = version = __version__
 copyright = "2020-2021 Dominic Davis-Foster"  # pylint: disable=redefined-builtin
