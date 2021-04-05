@@ -35,6 +35,7 @@ known_third_party = [
     "asttokens",
     "attr_utils",
     "attrs",
+    "backports_entry_points_selectable",
     "click",
     "coincidence",
     "consolekit",

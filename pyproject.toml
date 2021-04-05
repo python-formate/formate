@@ -9,9 +9,11 @@ description = "Python formatting mate."
 readme = "README.rst"
 keywords = [ "formatting", "linting",]
 dynamic = [ "requires-python", "classifiers", "dependencies",]
+
 [[project.authors]]
 email = "dominic@davis-foster.co.uk"
 name = "Dominic Davis-Foster"
+
 
 [project.license]
 file = "LICENSE"
@@ -36,6 +38,10 @@ python-versions = [ "3.6", "3.7", "3.8", "3.9",]
 python-implementations = [ "CPython", "PyPy",]
 platforms = [ "Windows", "macOS", "Linux",]
 license-key = "MIT"
+
+[tool.mkrecipe]
+conda-channels = [ "repo-helper",]
+extras = "all"
 
 [project.entry-points.formate_hooks]
 reformat-generics = "formate.reformat_generics:reformat_generics"
