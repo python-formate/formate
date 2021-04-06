@@ -32,14 +32,14 @@ from typing import Iterable, Mapping, Optional, Sequence
 
 # 3rd party
 import click
-import isort  # type: ignore
+import isort
 from consolekit.terminal_colours import ColourTrilean, resolve_color_default
 from consolekit.utils import coloured_diff
 from domdf_python_tools.paths import PathPlus, TemporaryPathPlus
 from domdf_python_tools.stringlist import StringList
 from domdf_python_tools.typing import PathLike
 from domdf_python_tools.words import TAB
-from isort.exceptions import FileSkipComment  # type: ignore
+from isort.exceptions import FileSkipComment
 
 # this package
 from formate.classes import FormateConfigDict, Hook
