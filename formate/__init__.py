@@ -56,6 +56,12 @@ __email__: str = "dominic@davis-foster.co.uk"
 
 # TODO: Ideas for hooks
 # * https://github.com/asottile/add-trailing-comma
+# * Replace collections imports with their typing equivalents where possible.
+# * nested with block reformat, dependent on linelength
+# * replace typing imports with typing_extensions where necesary. Needs min version flag
+# * replace e.g `import numpy as np` with `import numpy` and update all usages
+# * replace wikdcard import with the things what is imported
+# * replace `exit()` with `sys.exit()` and add import if required
 
 
 def call_hooks(hooks: Iterable[Hook], source: str, filename: PathLike) -> str:
