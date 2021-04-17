@@ -8,4 +8,4 @@ isort<=5.9.0,>=5.5.2
 prettyprinter>=0.18.0
 toml>=0.10.2
 typing-extensions>=3.7.4.3
-yapf==0.30.0
+yapf==0.31.0
