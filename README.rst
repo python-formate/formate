@@ -8,6 +8,16 @@ formate
 
 .. end short_desc
 
+``formate`` runs a series of user-selected hooks which reformat Python source files.
+This can include `changing quote characters`_, `rewriting imports`_, and calling tools such as isort_ and yapf_.
+
+See `the documentation`_ for more information.
+
+.. _changing quote characters: https://formate.readthedocs.io/en/latest/hooks.html#dynamic-quotes
+.. _rewriting imports: https://formate.readthedocs.io/en/latest/hooks.html#collections-import-rewrite
+.. _isort: https://pycqa.github.io/isort/
+.. _yapf: https://github.com/google/yapf
+.. _the documentation: https://formate.readthedocs.io/en/latest/
 
 .. start shields
 

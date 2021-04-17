@@ -4,6 +4,7 @@ Built-in Hooks
 
 ``formate`` ships with several hooks out of the box:
 
+.. _dynamic_quotes:
 
 ``dynamic_quotes``
 --------------------
@@ -12,6 +13,8 @@ Reformats quotes in the given source, and returns the reformatted source.
 
 This hook takes no arguments.
 
+
+.. _collections-import-rewrite:
 
 ``collections-import-rewrite``
 ---------------------------------
@@ -22,6 +25,8 @@ and rewrite them as :file:`from collections.abc import {<abc>}`.
 This hook takes no arguments.
 
 
+.. _noqa_reformat:
+
 ``noqa_reformat``
 --------------------
 
@@ -29,6 +34,8 @@ Pull ``# noqa: ...`` comments that immediately follow docstrings back up to the 
 
 This hook takes no arguments.
 
+
+.. _check_ast:
 
 ``check_ast``
 --------------------
@@ -39,6 +46,8 @@ This could be called early in the execution -- to check the file is valid before
 This hook takes no arguments.
 
 
+.. _squish_stubs:
+
 ``squish_stubs``
 --------------------
 
@@ -46,6 +55,8 @@ Squash type stubs by removing unnecessary blank lines.
 
 This hook takes no arguments.
 
+
+.. _ellipsis_reformat:
 
 ``ellipsis_reformat``
 -----------------------
@@ -68,6 +79,8 @@ Move ellipses (``...``) for type stubs onto the end of the stub definition.
 This hook takes no arguments.
 
 
+.. _reformat-generics:
+
 ``reformat-generics``
 ----------------------
 
@@ -76,6 +89,8 @@ Reformats generics (:class:`typing.Generic`, :py:obj:`typing.Union`, :py:obj:`ty
 This hook takes a single keyword argument: ``indent``.
 The indent can also be configured via the ``indent`` key in the ``config`` table.
 
+
+.. _isort:
 
 ``isort``
 -----------
@@ -86,6 +101,8 @@ This hook only takes keyword arguments.
 
 The max line length can be provided via the ``line_length`` keyword argument or in the ``config`` table as ``line_length``.
 
+
+.. _yapf:
 
 ``yapf``
 -----------
