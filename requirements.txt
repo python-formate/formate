@@ -5,6 +5,7 @@ click>=7.1.2
 consolekit>=1.0.0
 domdf-python-tools>=2.5.0
 isort<=5.9.0,>=5.5.2
+prettyprinter>=0.18.0
 toml>=0.10.2
 typing-extensions>=3.7.4.3
 yapf==0.30.0

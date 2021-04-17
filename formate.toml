@@ -45,6 +45,7 @@ known_third_party = [
     "github",
     "importlib_metadata",
     "isort",
+    "prettyprinter",
     "pytest",
     "pytest_cov",
     "pytest_randomly",

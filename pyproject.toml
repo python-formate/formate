@@ -43,6 +43,9 @@ license-key = "MIT"
 conda-channels = [ "repo-helper",]
 extras = "all"
 
+[tool.dep_checker]
+allowed_unused = [ "prettyprinter",]
+
 [project.entry-points.formate_hooks]
 reformat-generics = "formate.reformat_generics:reformat_generics"
 dynamic_quotes = "formate.dynamic_quotes:dynamic_quotes"
@@ -52,3 +55,6 @@ ellipsis_reformat = "formate.ellipses:ellipsis_reformat"
 collections-import-rewrite = "formate.imports:rewrite_collections_abc_imports"
 isort = "formate:isort_hook"
 yapf = "formate:yapf_hook"
+
+[tool.dep_checker.name_mapping]
+attrs = "attr"
