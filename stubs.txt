@@ -1,3 +1,0 @@
-git+https://github.com/domdfcoding/pytest-regressions-stubs
-types-attrs>=0.1.0
-git+https://github.com/repo-helper/toml@py.typed

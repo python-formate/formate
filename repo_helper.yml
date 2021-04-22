@@ -13,6 +13,9 @@ short_desc: 'Python formatting mate.'
 enable_conda: false
 use_whey: true
 min_coverage: 95
+sphinx_html_theme: furo
+standalone_contrib_guide: true
+preserve_custom_theme: true
 
 python_versions:
  - '3.6'
@@ -54,9 +57,8 @@ extra_sphinx_extensions:
 sphinx_conf_epilogue:
  - html_logo = "../formate.png"
 
-sphinx_html_theme: furo
-standalone_contrib_guide: true
-preserve_custom_theme: true
-
 imgbot_ignore:
  - "formate.*"
+
+mypy_deps:
+ - types-attrs>=0.1.0

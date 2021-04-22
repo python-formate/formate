@@ -46,13 +46,13 @@ from formate.classes import FormateConfigDict, Hook
 from formate.config import parse_hooks, wants_filename, wants_global_config
 from formate.utils import syntaxerror_for_file
 
-__all__ = ["call_hooks", "isort_hook", "yapf_hook", "Reformatter", "reformat_file"]
-
 __author__: str = "Dominic Davis-Foster"
 __copyright__: str = "2020-2021 Dominic Davis-Foster"
 __license__: str = "MIT License"
 __version__: str = "0.4.3"
 __email__: str = "dominic@davis-foster.co.uk"
+
+__all__ = ["call_hooks", "isort_hook", "yapf_hook", "Reformatter", "reformat_file"]
 
 # TODO: Ideas for hooks
 # * https://github.com/asottile/add-trailing-comma
