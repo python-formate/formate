@@ -1,8 +1,7 @@
 # 3rd party
 import pytest
-from coincidence import check_file_regression
+from coincidence.regressions import AdvancedFileRegressionFixture
 from domdf_python_tools.stringlist import StringList
-from pytest_regressions.file_regression import FileRegressionFixture
 
 # this package
 from formate.reformat_generics import reformat_generics
@@ -57,8 +56,8 @@ class Foo:
 						),
 				]
 		)
-def test_generics(code, file_regression: FileRegressionFixture):
-	check_file_regression(reformat_generics(code), file_regression, extension="._py")
+def test_generics(code, advanced_file_regression: AdvancedFileRegressionFixture):
+	advanced_file_regression.check(reformat_generics(code), extension="._py")
 
 
 long_tuple = "Tuple[int, int, str, float, str, int, bytes, int, int, str, float, str, int, bytes, int, int, str, float, str, int, bytes]"
@@ -87,11 +86,11 @@ long_tuple = "Tuple[int, int, str, float, str, int, bytes, int, int, str, float,
 				pytest.param("  ", id='2'),
 				]
 		)
-def test_generics_indented(code, file_regression: FileRegressionFixture, indent: str):
-	check_file_regression(reformat_generics(code, indent=indent), file_regression, extension="._py")
+def test_generics_indented(code, advanced_file_regression: AdvancedFileRegressionFixture, indent: str):
+	advanced_file_regression.check(reformat_generics(code, indent=indent), extension="._py")
 
 
-def test_generics_functions(file_regression: FileRegressionFixture):
+def test_generics_functions(advanced_file_regression: AdvancedFileRegressionFixture):
 	code = StringList([
 			"def foo():",
 			"\tdata: Tuple[int, int, str, float, str, int, bytes, int, int, str, float, str, int, bytes, int, int, str, float, str, int, bytes] = ()",
@@ -100,4 +99,4 @@ def test_generics_functions(file_regression: FileRegressionFixture):
 			"\tdata: Tuple[int, int, str, float, str, int, bytes, int, int, str, float, str, int, bytes, int, int, str, float, str, int, bytes] = ()",
 			])
 
-	check_file_regression(reformat_generics(str(code)), file_regression, extension="._py")
+	advanced_file_regression.check(reformat_generics(str(code)), extension="._py")

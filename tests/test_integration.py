@@ -5,12 +5,11 @@ from typing import Union, no_type_check
 # 3rd party
 import pytest
 from _pytest.capture import CaptureResult
-from coincidence.regressions import AdvancedDataRegressionFixture, check_file_output, check_file_regression
+from coincidence.regressions import AdvancedDataRegressionFixture, AdvancedFileRegressionFixture
 from coincidence.selectors import max_version, min_version, not_pypy, only_pypy
 from consolekit.terminal_colours import strip_ansi
 from consolekit.testing import CliRunner, Result
 from domdf_python_tools.paths import PathPlus, in_directory
-from pytest_regressions.file_regression import FileRegressionFixture
 
 # this package
 from formate import Reformatter, reformat_file
@@ -71,7 +70,7 @@ def demo_pyproject_environment(demo_environment, tmp_pathplus):
 
 def test_integration(
 		tmp_pathplus: PathPlus,
-		file_regression: FileRegressionFixture,
+		advanced_file_regression: AdvancedFileRegressionFixture,
 		capsys,
 		advanced_data_regression: AdvancedDataRegressionFixture,
 		demo_environment,
@@ -80,17 +79,17 @@ def test_integration(
 	config = load_toml(tmp_pathplus / "formate.toml")
 
 	assert reformat_file(tmp_pathplus / "code.py", config) == 1
-	check_file_output(tmp_pathplus / "code.py", file_regression)
+	advanced_file_regression.check_file(tmp_pathplus / "code.py")
 	check_out(capsys.readouterr(), advanced_data_regression)
 
 	# Calling a second time shouldn't change anything
 	assert reformat_file(tmp_pathplus / "code.py", config) == 0
-	check_file_output(tmp_pathplus / "code.py", file_regression)
+	advanced_file_regression.check_file(tmp_pathplus / "code.py")
 
 
 def test_integration_pyproject(
 		tmp_pathplus: PathPlus,
-		file_regression: FileRegressionFixture,
+		advanced_file_regression: AdvancedFileRegressionFixture,
 		capsys,
 		advanced_data_regression: AdvancedDataRegressionFixture,
 		demo_pyproject_environment,
@@ -99,17 +98,17 @@ def test_integration_pyproject(
 	config = load_toml(tmp_pathplus / "pyproject.toml")
 
 	assert reformat_file(tmp_pathplus / "code.py", config) == 1
-	check_file_output(tmp_pathplus / "code.py", file_regression)
+	advanced_file_regression.check_file(tmp_pathplus / "code.py")
 	check_out(capsys.readouterr(), advanced_data_regression)
 
 	# Calling a second time shouldn't change anything
 	assert reformat_file(tmp_pathplus / "code.py", config) == 0
-	check_file_output(tmp_pathplus / "code.py", file_regression)
+	advanced_file_regression.check_file(tmp_pathplus / "code.py")
 
 
 def test_reformatter_class(
 		tmp_pathplus: PathPlus,
-		file_regression: FileRegressionFixture,
+		advanced_file_regression: AdvancedFileRegressionFixture,
 		capsys,
 		advanced_data_regression: AdvancedDataRegressionFixture,
 		demo_environment,
@@ -131,8 +130,8 @@ def test_reformatter_class(
 	assert r.run() == 1
 	r.to_file()
 
-	check_file_output(tmp_pathplus / "code.py", file_regression)
-	check_file_regression(r.to_string(), file_regression, extension="._py_")
+	advanced_file_regression.check_file(tmp_pathplus / "code.py")
+	advanced_file_regression.check(r.to_string(), extension="._py_")
 
 	captured = capsys.readouterr()
 
@@ -142,12 +141,12 @@ def test_reformatter_class(
 	# Calling a second time shouldn't change anything
 	assert reformat_file(tmp_pathplus / "code.py", config) == 0
 
-	check_file_output(tmp_pathplus / "code.py", file_regression)
+	advanced_file_regression.check_file(tmp_pathplus / "code.py")
 
 
 def test_cli(
 		tmp_pathplus: PathPlus,
-		file_regression: FileRegressionFixture,
+		advanced_file_regression: AdvancedFileRegressionFixture,
 		advanced_data_regression: AdvancedDataRegressionFixture,
 		demo_environment,
 		):
@@ -163,7 +162,7 @@ def test_cli(
 
 	assert result.exit_code == 1
 
-	check_file_output(tmp_pathplus / "code.py", file_regression)
+	advanced_file_regression.check_file(tmp_pathplus / "code.py")
 
 	check_out(result, advanced_data_regression)
 
@@ -177,7 +176,7 @@ def test_cli(
 
 def test_cli_verbose_verbose(
 		tmp_pathplus: PathPlus,
-		file_regression: FileRegressionFixture,
+		advanced_file_regression: AdvancedFileRegressionFixture,
 		advanced_data_regression: AdvancedDataRegressionFixture,
 		demo_environment,
 		):
@@ -193,7 +192,7 @@ def test_cli_verbose_verbose(
 
 	assert result.exit_code == 1
 
-	check_file_output(tmp_pathplus / "code.py", file_regression)
+	advanced_file_regression.check_file(tmp_pathplus / "code.py")
 
 	# Calling a second time shouldn't change anything
 	with in_directory(tmp_pathplus):
@@ -212,7 +211,7 @@ def test_cli_verbose_verbose(
 @not_pypy("Output differs on PyPy")
 def test_cli_syntax_error(
 		tmp_pathplus: PathPlus,
-		file_regression: FileRegressionFixture,
+		advanced_file_regression: AdvancedFileRegressionFixture,
 		advanced_data_regression: AdvancedDataRegressionFixture,
 		demo_environment,
 		):
@@ -244,7 +243,7 @@ def test_cli_syntax_error(
 @only_pypy("Output differs on PyPy")
 def test_cli_syntax_error_pypy(
 		tmp_pathplus: PathPlus,
-		file_regression: FileRegressionFixture,
+		advanced_file_regression: AdvancedFileRegressionFixture,
 		advanced_data_regression: AdvancedDataRegressionFixture,
 		demo_environment,
 		):
@@ -276,7 +275,7 @@ def test_cli_syntax_error_pypy(
 @min_version("3.10", reason="Output differs on Python 3.10+")
 def test_cli_syntax_error_py310(
 		tmp_pathplus: PathPlus,
-		file_regression: FileRegressionFixture,
+		advanced_file_regression: AdvancedFileRegressionFixture,
 		advanced_data_regression: AdvancedDataRegressionFixture,
 		demo_environment,
 		):
@@ -307,7 +306,7 @@ def test_cli_syntax_error_py310(
 
 def test_cli_no_config(
 		tmp_pathplus: PathPlus,
-		file_regression: FileRegressionFixture,
+		advanced_file_regression: AdvancedFileRegressionFixture,
 		advanced_data_regression: AdvancedDataRegressionFixture,
 		):
 

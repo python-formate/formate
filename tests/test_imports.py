@@ -1,7 +1,6 @@
 # 3rd party
 import pytest
-from coincidence import check_file_regression
-from pytest_regressions.file_regression import FileRegressionFixture
+from coincidence.regressions import AdvancedFileRegressionFixture
 
 # this package
 from formate.imports import CollectionsABCRewriter, rewrite_collections_abc_imports
@@ -71,10 +70,10 @@ params = pytest.mark.parametrize(
 
 
 @params
-def test_rewrite_collections_abc_imports(code, file_regression: FileRegressionFixture):
-	check_file_regression(rewrite_collections_abc_imports(code), file_regression, extension="._py")
+def test_rewrite_collections_abc_imports(code, advanced_file_regression: AdvancedFileRegressionFixture):
+	advanced_file_regression.check(rewrite_collections_abc_imports(code), extension="._py")
 
 
 @params
-def test_CollectionsABCRewriter(code, file_regression: FileRegressionFixture):
-	check_file_regression(CollectionsABCRewriter(code).rewrite(), file_regression, extension="._py")
+def test_CollectionsABCRewriter(code, advanced_file_regression: AdvancedFileRegressionFixture):
+	advanced_file_regression.check(CollectionsABCRewriter(code).rewrite(), extension="._py")

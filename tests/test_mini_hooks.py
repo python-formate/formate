@@ -3,8 +3,7 @@ from textwrap import dedent
 
 # 3rd party
 import pytest
-from coincidence import check_file_regression
-from pytest_regressions.file_regression import FileRegressionFixture
+from coincidence.regressions import AdvancedFileRegressionFixture
 
 # this package
 from formate.mini_hooks import check_ast, noqa_reformat, squish_stubs
@@ -67,7 +66,7 @@ def test_check_ast():
 	assert check_ast('\n'.join(code)) == '\n'.join(code)
 
 
-def test_squish_stubs(file_regression: FileRegressionFixture):
+def test_squish_stubs(advanced_file_regression: AdvancedFileRegressionFixture):
 	source = dedent(
 			'''\
 	#!/usr/bin/env python3
@@ -241,4 +240,4 @@ def test_squish_stubs(file_regression: FileRegressionFixture):
 	'''
 			)
 
-	check_file_regression(squish_stubs(source, "file.pyi"), file_regression, extension="._py_")
+	advanced_file_regression.check(squish_stubs(source, "file.pyi"), extension="._py_")
