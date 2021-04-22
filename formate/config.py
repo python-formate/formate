@@ -29,11 +29,10 @@ Read and parse formate configuration.
 # stdlib
 from operator import attrgetter
 from types import MappingProxyType
-from typing import Callable, List, Mapping, cast
+from typing import Callable, List, Mapping
 
 # 3rd party
-import toml
-from domdf_python_tools.paths import PathPlus
+import dom_toml
 from domdf_python_tools.typing import PathLike
 
 # this package
@@ -80,12 +79,12 @@ def load_toml(filename: PathLike) -> FormateConfigDict:
 	:param filename:
 	"""
 
-	formate_config: FormateConfigDict = {}
+	config = dom_toml.load(filename)
 
-	config = toml.loads(PathPlus(filename).read_text())
-
-	if "tool" in config and "formate" in config["tool"]:
+	if "formate" in config.get("tool", {}):
 		config = config["tool"]["formate"]
+
+	formate_config: FormateConfigDict = {}
 
 	if "hooks" in config:
 		formate_config["hooks"] = config["hooks"]
