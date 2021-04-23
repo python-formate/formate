@@ -24,9 +24,15 @@ For `setuptools <https://setuptools.readthedocs.io/en/latest/userguide/entry_poi
 .. code-block:: ini
 
 	[options.entry_points]
-
 	formate_hooks =
-	make_upper=<import path>:make_upper
+		make_upper=<import path>:make_upper
+
+or in ``pyproject.toml`` with :pep:`621`:
+
+.. code-block:: toml
+
+	[project.entry-points.formate_hooks]
+	make_upper = "import path>:make_upper"
 
 Hooks may also accept positional and/or keyword arguments, either named or with ``*args`` and ``**kwargs``:
 
@@ -54,7 +60,10 @@ which provides the configuration as the ``formate_global_config`` keyword argume
 
 .. code-block:: python
 
-	def change_indents(source: str, formate_global_config: Optional[Mapping] = None) -> str:
+	def change_indents(
+		source: str,
+		formate_global_config: Optional[Mapping] = None,
+		) -> str:
 		"""
 		Change the indents of the source.
 
@@ -83,7 +92,8 @@ which provides the configuration as the ``formate_filename`` keyword argument:
 		Lint Python stub files.
 
 		:param source: The source to check.
-		:param formate_filename: The name of the source file, to ensure this hook only runs on type stubs.
+		:param formate_filename: The name of the source file,
+			to ensure this hook only runs on type stubs.
 
 		:return: The reformatted source.
 		"""
