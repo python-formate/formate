@@ -95,7 +95,7 @@ The indent can also be configured via the ``indent`` key in the ``config`` table
 ``isort``
 -----------
 
-Calls `isort <https://pypi.org/project/isort/>`_, using the given keyword arguments as its configuration.
+Calls `isort <https://pypi.org/project/isort/>`__, using the given keyword arguments as its configuration.
 
 This hook only takes keyword arguments.
 
@@ -107,7 +107,7 @@ The max line length can be provided via the ``line_length`` keyword argument or 
 ``yapf``
 -----------
 
-Calls `yapf <https://github.com/google/yapf>`_, using the given keyword arguments as its configuration.
+Calls `yapf <https://github.com/google/yapf>`__, using the given keyword arguments as its configuration.
 
 This hook only takes keyword arguments.
 

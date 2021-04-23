@@ -43,6 +43,7 @@ extensions = [
 		"attr_utils.autoattrs",
 		"sphinx_click",
 		"sphinx_toolbox.pre_commit",
+		"html_section",
 		]
 sphinxemoji_style = "twemoji"
 gitstamp_fmt = "%d %b %Y"

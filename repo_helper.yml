@@ -53,6 +53,7 @@ extra_sphinx_extensions:
  - attr_utils.autoattrs
  - sphinx_click
  - sphinx_toolbox.pre_commit
+ - html_section
 
 sphinx_conf_epilogue:
  - html_logo = "../formate.png"
