@@ -32,7 +32,7 @@ or in ``pyproject.toml`` with :pep:`621`:
 .. code-block:: toml
 
 	[project.entry-points.formate_hooks]
-	make_upper = "import path>:make_upper"
+	make_upper = "<import path>:make_upper"
 
 Hooks may also accept positional and/or keyword arguments, either named or with ``*args`` and ``**kwargs``:
 
