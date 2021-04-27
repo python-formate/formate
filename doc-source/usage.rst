@@ -2,6 +2,11 @@
 Usage
 ========
 
+.. only:: latex
+
+	.. include:: _blurb.rst
+
+
 Command Line
 ---------------
 
