@@ -77,6 +77,7 @@ extensions = [
     "sphinx_click",
     "sphinx_toolbox.pre_commit",
     "html_section",
+    "latex_zwsp",
 ]
 sphinxemoji_style = "twemoji"
 gitstamp_fmt = "%d %b %Y"
@@ -108,7 +109,6 @@ add_module_names = false
 hide_none_rtype = true
 all_typevars = true
 overloads_location = "bottom"
-documentation_summary = "Python formatting mate."
 autodoc_exclude_members = [
     "__dict__",
     "__class__",

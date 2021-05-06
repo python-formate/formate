@@ -126,7 +126,7 @@ for·​mate
 Etymology 1
 ************
 
-`formic <https://en.wiktionary.org/wiki/formic#English>`_ +‎ `-ate <https://en.wiktionary.org/wiki/-ate#English>`_
+`formic <https://en.wiktionary.org/wiki/formic#English>`_ + `-ate <https://en.wiktionary.org/wiki/-ate#English>`_
 
 **formate** (plural `formates <https://en.wiktionary.org/wiki/formates#English>`_)
 
@@ -136,7 +136,7 @@ Etymology 1
 Etymology 2
 ************
 
-Portmanteau of `format <https://en.wiktionary.org/wiki/format#English>`_ +‎ `mate <https://en.wiktionary.org/wiki/mate#English>`_
+Portmanteau of `format <https://en.wiktionary.org/wiki/format#English>`_ + `mate <https://en.wiktionary.org/wiki/mate#English>`_
 
 **formate**
 
@@ -170,7 +170,6 @@ Contents
 	configuration
 	hooks
 	extending
-	contributing
 	Source
 
 .. toctree::

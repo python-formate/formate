@@ -10,6 +10,8 @@ Usage
 Command Line
 ---------------
 
+.. program:: formate
+
 .. click:: formate.__main__:main
 	:prog: formate
 	:nested: none

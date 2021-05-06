@@ -15,6 +15,7 @@ sys.path.append('.')
 config = SphinxConfig(globalns=globals())
 project = config["project"]
 author = config["author"]
+documentation_summary = config.description
 
 github_url = "https://github.com/{github_username}/{github_repository}".format_map(config)
 
@@ -63,4 +64,9 @@ autodoc_default_options = {
 		"exclude-members": ','.join(config["autodoc_exclude_members"]),
 		}
 
+latex_elements = {
+		"fncychap": "\\usepackage[Bjarne]{fncychap}\n\\ChNameAsIs\n\\ChTitleAsIs\n",
+		}
+
 html_logo = "../formate.png"
+html_favicon = "formate.ico"
