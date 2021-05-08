@@ -52,7 +52,7 @@ __license__: str = "MIT License"
 __version__: str = "0.4.4"
 __email__: str = "dominic@davis-foster.co.uk"
 
-__all__ = ["call_hooks", "isort_hook", "yapf_hook", "Reformatter", "reformat_file"]
+__all__ = ["call_hooks", "reformat_file", "Reformatter", "isort_hook", "yapf_hook"]
 
 # TODO: Ideas for hooks
 # * https://github.com/asottile/add-trailing-comma

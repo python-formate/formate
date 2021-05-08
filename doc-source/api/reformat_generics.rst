@@ -3,3 +3,5 @@
 =================================
 
 .. automodule:: formate.reformat_generics
+	:exclude-members: __repr__
+	:member-order: bysource

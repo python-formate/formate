@@ -87,7 +87,7 @@ This hook takes no arguments.
 Reformats generics (:class:`typing.Generic`, :py:obj:`typing.Union`, :py:obj:`typing.Callable` etc.).
 
 This hook takes a single keyword argument: ``indent``.
-The indent can also be configured via the ``indent`` key in the ``config`` table.
+The indent can also be configured via the ``indent`` key in the :ref:`config <formate_toml_config>` table.
 
 
 .. _isort:
@@ -99,7 +99,8 @@ Calls `isort <https://pypi.org/project/isort/>`__, using the given keyword argum
 
 This hook only takes keyword arguments.
 
-The max line length can be provided via the ``line_length`` keyword argument or in the ``config`` table as ``line_length``.
+The max line length can be provided via the ``line_length`` keyword argument
+or in the :ref:`config <formate_toml_config>` table as ``line_length``.
 
 
 .. _yapf:
@@ -111,4 +112,5 @@ Calls `yapf <https://github.com/google/yapf>`__, using the given keyword argumen
 
 This hook only takes keyword arguments.
 
-The indent can be configured via the ``use_tabs`` keyword argument or in the ``config`` table as ``indent``.
+The indent can be configured via the ``use_tabs`` keyword argument
+or in the :ref:`config <formate_toml_config>` table as ``indent``.

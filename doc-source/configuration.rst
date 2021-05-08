@@ -4,11 +4,11 @@ Configuration
 
 ``formate`` is configured using the ``formate.toml`` file in the root of your project
 (alongside ``setup.py``, ``tox.ini`` etc.).
-
-The ``-c / --config-file`` option can be used to point to a file with a different name,
+The file uses the `TOML <https://github.com/toml-lang/toml>`_ syntax, built around a top-level mapping of two keys.
+The :option:`-c / --config-file <formate -c>` option can be used to point to a file with a different name,
 but at this time the file must be TOML and must have the same layout.
 
-The file uses the `TOML <https://github.com/toml-lang/toml>`_ syntax, built around a top-level mapping of two keys:
+The two top-level keys are:
 
 
 ``hooks``
@@ -23,7 +23,10 @@ This is a mapping of hook names to their settings. The values can be either:
 	+ ``args`` -- a list of positional arguments to pass to the hook function. Optional. Default ``()``.
 	+ ``kwargs`` -- a mapping of keyword arguments to pass to the hook. Optional. Default ``{}``.
 
-The `TOML <https://github.com/toml-lang/toml>`__ syntax allows for the mapping to spread over multiple tables, like so:
+|
+
+The `TOML <https://github.com/toml-lang/toml>`__ syntax
+allows for the mapping to spread over multiple tables, like so:
 
 .. code-block:: toml
 
@@ -42,6 +45,8 @@ The `TOML <https://github.com/toml-lang/toml>`__ syntax allows for the mapping t
 	remove_redundant_aliases = true
 
 
+.. _formate_toml_config:
+
 ``config``
 ------------
 
@@ -49,7 +54,7 @@ This is a mapping of general configuration settings, which hooks can use as they
 Common keys include ``indent``, indicating the type of indent to use, and ``line_length``,
 indicating how long lines may be.
 
-Example:
+**Example:**
 
 .. code-block:: toml
 
@@ -61,4 +66,4 @@ Example:
 
 Alternatively the configuration may be placed in the ``pyproject.toml`` file defined in :pep:`518`.
 The only difference is that ``hooks`` and ``config`` become ``tool.formate.hooks`` and ``tool.formate.config``.
-You must also pass :option:`--config--file pyproject.toml <formate -c>` on the command line.
+You must also pass :option:`--config-file pyproject.toml <formate -c>` on the command line.

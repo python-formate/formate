@@ -36,7 +36,7 @@ from attr_utils.serialise import serde
 from domdf_python_tools.typing import PathLike
 from typing_extensions import TypedDict
 
-__all__ = ["HooksMapping", "FormateConfigDict", "ExpandedHookDict", "EntryPoint", "Hook"]
+__all__ = ["FormateConfigDict", "ExpandedHookDict", "HooksMapping", "EntryPoint", "Hook"]
 
 #: Type hint for the ``hooks`` key of the ``formate`` configuration mapping.
 HooksMapping = Mapping[str, Union[int, "ExpandedHookDict"]]
@@ -175,3 +175,6 @@ class EntryPoint:
 	def _validate_obj(self, attribute, value):
 		if not callable(value):
 			raise TypeError(f"Entry points must be callables (e.g. classes and functions), not {type(value)!r}.")
+
+
+EntryPoint.to_dict.__doc__ += "\n\n:rtype:\n\n.. raw:: latex\n\n\t\\clearpage"

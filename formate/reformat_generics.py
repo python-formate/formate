@@ -52,7 +52,7 @@ import asttokens  # type: ignore
 from domdf_python_tools.stringlist import DelimitedList, StringList
 from domdf_python_tools.words import TAB
 
-__all__ = ["Generic", "List", "reformat_generics"]
+__all__ = ["reformat_generics", "Generic", "List"]
 
 collection_types = {"Union", "List", "Tuple", "Set", "Dict", "Callable", "Optional", "Literal"}
 
@@ -270,6 +270,10 @@ def reformat_generics(
 	:param \*\*kwargs:
 
 	:returns: The reformatted source.
+	
+	.. raw:: latex
+	
+		\clearpage
 	"""  # noqa: D400
 
 	offset = 0

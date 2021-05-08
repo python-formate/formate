@@ -3,3 +3,4 @@
 ========================
 
 .. automodule:: formate.imports
+	:no-autosummary:

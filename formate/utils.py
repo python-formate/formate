@@ -48,7 +48,7 @@ from domdf_python_tools.typing import PathLike
 from formate.classes import EntryPoint, Hook
 from formate.exceptions import HookNotFoundError
 
-__all__ = ["Rewriter", "import_entry_points", "normalize", "SyntaxTracebackHandler", "syntaxerror_for_file"]
+__all__ = ["import_entry_points", "normalize", "syntaxerror_for_file", "Rewriter", "SyntaxTracebackHandler"]
 
 _normalize_pattern = re.compile(r"[-_.]+")
 
@@ -57,10 +57,10 @@ def normalize(name: str) -> str:
 	"""
 	Normalize the given name into lowercase, with underscores replaced by hyphens.
 
-	From :pep:`503` (public domain).
-
 	:param name: The hook name.
 	"""
+
+	# From PEP 503 (public domain).
 
 	return _normalize_pattern.sub('-', name).lower()
 

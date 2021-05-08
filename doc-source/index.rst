@@ -180,6 +180,12 @@ Contents
 	api/formate
 	api/*
 
+.. sidebar-links::
+	:github:
+	:pypi: formate
+
+	Contributing Guide<https://contributing.repo-helper.uk>
+
 
 .. start links
 
@@ -187,6 +193,6 @@ Contents
 
 	View the :ref:`Function Index <genindex>` or browse the `Source Code <_modules/index.html>`__.
 
-	`Browse the GitHub Repository <https://github.com/repo-helper/formate>`__
+	:github:repo:`Browse the GitHub Repository <repo-helper/formate>`
 
 .. end links

@@ -3,3 +3,4 @@
 ================
 
 .. automodule:: formate
+	:member-order: bysource

@@ -3,3 +3,4 @@
 ========================
 
 .. automodule:: formate.ellipses
+	:no-autosummary:
