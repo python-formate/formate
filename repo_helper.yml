@@ -55,6 +55,7 @@ extra_sphinx_extensions:
  - sphinx_toolbox.pre_commit
  - html_section
  - latex_zwsp
+ - ch_head_space
 
 sphinx_conf_epilogue:
  - html_logo = "../formate.png"
@@ -68,3 +69,6 @@ mypy_deps:
 
 exclude_files:
  - contributing
+
+mypy_plugins:
+ - attr_utils.mypy_plugin

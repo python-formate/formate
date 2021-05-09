@@ -177,4 +177,5 @@ class EntryPoint:
 			raise TypeError(f"Entry points must be callables (e.g. classes and functions), not {type(value)!r}.")
 
 
-EntryPoint.to_dict.__doc__ += "\n\n:rtype:\n\n.. raw:: latex\n\n\t\\clearpage"
+if EntryPoint.to_dict.__doc__ is not None:
+	EntryPoint.to_dict.__doc__ += "\n\n:rtype:\n\n.. raw:: latex\n\n\t\\clearpage"

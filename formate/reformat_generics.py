@@ -270,9 +270,9 @@ def reformat_generics(
 	:param \*\*kwargs:
 
 	:returns: The reformatted source.
-	
+
 	.. raw:: latex
-	
+
 		\clearpage
 	"""  # noqa: D400
 
