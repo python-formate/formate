@@ -135,7 +135,8 @@ def isort_hook(
 		isort_config = isort.Config(settings_file=str(kwargs["isort_config_file"]))
 	else:
 		if "line_length" not in kwargs and formate_global_config:
-			kwargs["line_length"] = formate_global_config["line_length"]
+			if "line_length" in (formate_global_config or {}):
+				kwargs["line_length"] = formate_global_config["line_length"]
 
 		parsed_kwargs = {}
 		import_headings = {}
@@ -189,10 +190,12 @@ def yapf_hook(source: str, formate_global_config: Optional[Mapping] = None, **kw
 
 	else:
 		if "use_tabs" not in kwargs and formate_global_config:
-			kwargs["use_tabs"] = formate_global_config["indent"] == TAB
+			if "indent" in (formate_global_config or {}):
+				kwargs["use_tabs"] = formate_global_config["indent"] == TAB
 
 		if "column_limit" not in kwargs and formate_global_config:
-			kwargs["column_limit"] = formate_global_config["line_length"]
+			if "line_length" in (formate_global_config or {}):
+				kwargs["column_limit"] = formate_global_config["line_length"]
 
 		with TemporaryPathPlus() as tmpdir:
 			config_file = tmpdir / ".style.yapf"
