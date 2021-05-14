@@ -72,3 +72,8 @@ exclude_files:
 
 mypy_plugins:
  - attr_utils.mypy_plugin
+
+third_party_version_matrix:
+ click:
+  - 7
+  - 8

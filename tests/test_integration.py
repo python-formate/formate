@@ -3,6 +3,7 @@ import re
 from typing import Union, no_type_check
 
 # 3rd party
+import click
 import pytest
 from _pytest.capture import CaptureResult
 from coincidence.regressions import AdvancedDataRegressionFixture, AdvancedFileRegressionFixture
@@ -304,7 +305,26 @@ def test_cli_syntax_error_py310(
 	check_out(result, advanced_data_regression)
 
 
+@pytest.mark.skipif(click.__version__.split('.')[0] != '7', reason="Output differs on Click 8")
 def test_cli_no_config(
+		tmp_pathplus: PathPlus,
+		advanced_file_regression: AdvancedFileRegressionFixture,
+		advanced_data_regression: AdvancedDataRegressionFixture,
+		):
+
+	result: Result
+
+	with in_directory(tmp_pathplus):
+		runner = CliRunner(mix_stderr=False)
+		result = runner.invoke(main, args=["--no-colour", "--verbose"])
+
+	assert result.exit_code == 2
+
+	check_out(result, advanced_data_regression)
+
+
+@pytest.mark.skipif(click.__version__.split('.')[0] == '7', reason="Output differs on Click 8")
+def test_cli_no_config_click8(
 		tmp_pathplus: PathPlus,
 		advanced_file_regression: AdvancedFileRegressionFixture,
 		advanced_data_regression: AdvancedDataRegressionFixture,

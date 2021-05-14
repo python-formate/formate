@@ -1,0 +1,8 @@
+err:
+- 'Usage: main [OPTIONS] [FILENAME]...'
+- Try 'main -h' for help.
+- ''
+- 'Error: Config file ''formate.toml'' not found'
+- ''
+out:
+- ''
