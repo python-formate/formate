@@ -54,6 +54,8 @@ Hooks may also accept positional and/or keyword arguments, either named or with 
 			return source.lower()
 
 
+.. clearpage::
+
 Some hooks may require access the the global configuration dict (the ``[config]`` table in ``formate.toml``).
 Hooks can request this by using the :deco:`formate.config.wants_global_config` decorator,
 which provides the configuration as the ``formate_global_config`` keyword argument:
@@ -82,8 +84,8 @@ which provides the configuration as the ``formate_global_config`` keyword argume
 
 
 Similarly, some hooks may want to know which filename is being reformatted.
-They can request this using the :deco:`formate.config.wants_filename` decorator,
-which provides the configuration as the ``formate_filename`` keyword argument:
+They can request this using the :deco:`formate.config.wants_filename` decorator
+(new in version 0.2.0), which provides the configuration as the ``formate_filename`` keyword argument:
 
 .. code-block:: python
 
@@ -104,5 +106,3 @@ which provides the configuration as the ``formate_filename`` keyword argument:
 		...
 
 		return reformatted_source
-
-.. versionadded:: 0.2.0

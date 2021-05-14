@@ -19,8 +19,16 @@ This hook takes no arguments.
 ``collections-import-rewrite``
 ---------------------------------
 
+.. raw:: latex
+
+	\begin{flushleft}
+
 Identify deprecated :file:`from collections import {<abc>}` imports,
 and rewrite them as :file:`from collections.abc import {<abc>}`.
+
+.. raw:: latex
+
+	\end{flushleft}
 
 This hook takes no arguments.
 

@@ -8,8 +8,10 @@ The file uses the `TOML <https://github.com/toml-lang/toml>`_ syntax, built arou
 The :option:`-c / --config-file <formate -c>` option can be used to point to a file with a different name,
 but at this time the file must be TOML and must have the same layout.
 
-The two top-level keys are:
+The two top-level keys are :ref:`hooks <formate_toml_hooks>` and :ref:`config <formate_toml_config>`.
 
+
+.. _formate_toml_hooks:
 
 ``hooks``
 ------------

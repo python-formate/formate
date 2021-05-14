@@ -117,6 +117,10 @@ def wants_filename(func: Callable[..., str]) -> Callable[..., str]:
 	.. versionadded:: 0.2.0
 
 	:param func:
+
+	:rtype:
+
+	.. clearpage::
 	"""
 
 	func.wants_filename = True  # type: ignore

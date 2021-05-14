@@ -169,6 +169,8 @@ def syntaxerror_for_file(filename: PathLike):
 	This is useful for syntax errors raised when parsing source into an AST.
 
 	:param filename:
+
+	.. clearpage::
 	"""  # noqa: D400
 
 	try:

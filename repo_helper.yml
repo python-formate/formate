@@ -14,7 +14,6 @@ enable_conda: false
 use_whey: true
 min_coverage: 95
 sphinx_html_theme: furo
-standalone_contrib_guide: true
 preserve_custom_theme: true
 
 python_versions:
@@ -54,10 +53,11 @@ extra_sphinx_extensions:
  - sphinx_click
  - sphinx_toolbox.pre_commit
  - html_section
- - latex_zwsp
- - ch_head_space
 
 sphinx_conf_epilogue:
+ - "\tfrom sphinx_toolbox.latex import replace_unknown_unicode"
+ - "\tapp.connect('build-finished', replace_unknown_unicode)"
+ - ''
  - html_logo = "../formate.png"
  - html_favicon = "formate.ico"
 
