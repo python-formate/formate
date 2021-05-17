@@ -56,7 +56,8 @@ Hooks may also accept positional and/or keyword arguments, either named or with 
 
 .. clearpage::
 
-Some hooks may require access the the global configuration dict (the ``[config]`` table in ``formate.toml``).
+Some hooks may require access the the global configuration dict
+(the :ref:`[config] <formate_toml_config>` table in ``formate.toml``).
 Hooks can request this by using the :deco:`formate.config.wants_global_config` decorator,
 which provides the configuration as the ``formate_global_config`` keyword argument:
 

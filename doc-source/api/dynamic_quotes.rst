@@ -3,3 +3,4 @@
 ===============================
 
 .. automodule:: formate.dynamic_quotes
+	:no-autosummary:

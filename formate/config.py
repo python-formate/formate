@@ -114,15 +114,11 @@ def wants_filename(func: _C_str) -> _C_str:
 	Decorator to indicate to ``formate`` that the filename being reformatted should be passed to this hook.
 
 	The configuration will be provided as the
-	``formate_filename``: :class:`~domdf_python_tools.typing.PathLike` keyword argument.
+	``formate_filename``: :py:obj:`~domdf_python_tools.typing.PathLike` keyword argument.
 
 	.. versionadded:: 0.2.0
 
 	:param func:
-
-	:rtype:
-
-	.. clearpage::
 	"""
 
 	func.wants_filename = True  # type: ignore

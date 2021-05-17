@@ -3,6 +3,8 @@
 #  classes.py
 """
 Core classes.
+
+.. autosummary-widths:: 7/16 9/16
 """
 #
 #  Copyright © 2020-2021 Dominic Davis-Foster <dominic@davis-foster.co.uk>
@@ -82,6 +84,8 @@ class ExpandedHookDict(_BaseExpandedHookDict):
 class Hook:
 	"""
 	Represents a ``formate`` reformatting hook.
+
+	.. autosummary-widths:: 6/16 10/16
 	"""
 
 	#: The name of the hook. The name is normalized into lowercase, with underscores replaced by hyphens.

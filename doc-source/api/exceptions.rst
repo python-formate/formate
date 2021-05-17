@@ -3,3 +3,4 @@
 ==========================
 
 .. automodule:: formate.exceptions
+	:no-autosummary:

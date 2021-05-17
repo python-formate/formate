@@ -3,6 +3,8 @@
 #  utils.py
 """
 Utility functions.
+
+.. autosummary-widths:: 6/16 10/16
 """
 #
 #  Copyright © 2020-2021 Dominic Davis-Foster <dominic@davis-foster.co.uk>
@@ -99,6 +101,8 @@ def import_entry_points(hooks: List[Hook]) -> Dict[str, EntryPoint]:
 class Rewriter(ast.NodeVisitor):
 	"""
 	ABC for rewriting Python source files from an AST and a token stream.
+
+	.. autosummary-widths:: 8/16 8/16
 	"""
 
 	#: The original source.

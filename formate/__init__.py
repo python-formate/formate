@@ -215,12 +215,14 @@ class Reformatter:
 
 	:param filename: The filename to reformat.
 	:param config: The ``formate`` configuration, parsed from a TOML file (or similar).
+
+	.. autosummary-widths:: 5/16 11/16
 	"""
 
 	#: The filename being reformatted.
 	filename: str
 
-	#: The filename being reformatted.
+	#: The filename being reformatted, as a POSIX-style path.
 	file_to_format: PathPlus
 
 	#: The ``formate`` configuration, parsed from a TOML file (or similar).
@@ -271,6 +273,10 @@ class Reformatter:
 	def to_string(self) -> str:
 		"""
 		Return the reformatted file as a string.
+
+		:rtype:
+
+		.. latex:clearpage::
 		"""
 
 		if self._reformatted_source is None:
@@ -297,6 +303,8 @@ def reformat_file(
 	:param filename: The filename to reformat.
 	:param config: The ``formate`` configuration, parsed from a TOML file (or similar).
 	:param colour: Whether to force coloured output on (:py:obj:`True`) or off (:py:obj:`False`).
+
+	.. latex:clearpage::
 	"""
 
 	r = Reformatter(filename, config)

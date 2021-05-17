@@ -53,6 +53,7 @@ extra_sphinx_extensions:
  - sphinx_click
  - sphinx_toolbox.pre_commit
  - html_section
+ - autosummary_widths
 
 sphinx_conf_epilogue:
  - "\tfrom sphinx_toolbox.latex import replace_unknown_unicode"

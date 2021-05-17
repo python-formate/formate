@@ -2,5 +2,12 @@
 :mod:`formate.imports`
 ========================
 
+.. raw:: latex
+
+	\begin{flushleft}
+
 .. automodule:: formate.imports
-	:no-autosummary:
+
+.. raw:: latex
+
+	\end{flushleft}
