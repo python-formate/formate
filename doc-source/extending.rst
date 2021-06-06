@@ -107,3 +107,8 @@ They can request this using the :deco:`formate.config.wants_filename` decorator
 		...
 
 		return reformatted_source
+
+
+-----
+
+See :github:repo:`repo-helper/formate-black` for an example extension.
