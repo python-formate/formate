@@ -163,6 +163,11 @@ Contents
 
 
 .. toctree::
+	:hidden:
+
+	Home<self>
+
+.. toctree::
 	:maxdepth: 3
 	:caption: Documentation
 	:glob:
