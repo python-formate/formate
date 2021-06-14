@@ -61,7 +61,35 @@ class QuoteRewriter(Rewriter):  # noqa: D101
 			else:
 				self.generic_visit(node)
 
-	def rewrite_quotes_for_node(self, node: Union[ast.Str, ast.Constant]):
+	def visit_definition(self, node: Union[ast.ClassDef, ast.FunctionDef, ast.AsyncFunctionDef]) -> None:
+		"""
+		Mark the docstring of the function or class to identify it later.
+
+		:param node:
+		"""
+
+		if node.body and isinstance(node.body[0], ast.Expr):
+			doc_node = node.body[0].value
+			doc_node.is_docstring = True  # type: ignore
+
+		self.generic_visit(node)
+
+	def visit_ClassDef(self, node: ast.ClassDef) -> None:  # noqa: D102
+		self.visit_definition(node)
+
+	def visit_FunctionDef(self, node: ast.FunctionDef) -> None:  # noqa: D102
+		self.visit_definition(node)
+
+	def visit_ASyncFunctionDef(self, node: ast.AsyncFunctionDef) -> None:  # noqa: D102
+		self.visit_definition(node)
+
+	def rewrite_quotes_for_node(self, node: Union[ast.Str, ast.Constant]) -> None:
+		"""
+		Mark the area for rewriting quotes in the given node.
+
+		:param node:
+		"""
+
 		text_range = self.tokens.get_text_range(node)
 
 		if text_range == (0, 0):
@@ -69,18 +97,22 @@ class QuoteRewriter(Rewriter):  # noqa: D101
 
 		string = self.source[text_range[0]:text_range[1]]
 
-		if string in {'""', "''"}:
-			self.record_replacement(text_range, "''")
-		elif not re.match("^[\"']", string):
-			return
-		elif len(node.s) == 1:
-			self.record_replacement(text_range, repr(node.s))
-		elif '\n' in string:
-			return
-		elif '\n' in node.s or "\\n" in node.s:
+		if getattr(node, "is_docstring", False):
+			# TODO: format docstring with triple quotes and correct indentation
 			return
 		else:
-			self.record_replacement(text_range, double_repr_string(node.s))
+			if string in {'""', "''"}:
+				self.record_replacement(text_range, "''")
+			elif not re.match("^[\"']", string):
+				return
+			elif len(node.s) == 1:
+				self.record_replacement(text_range, repr(node.s))
+			elif '\n' in string:
+				return
+			elif '\n' in node.s or "\\n" in node.s:
+				return
+			else:
+				self.record_replacement(text_range, double_repr_string(node.s))
 
 
 def dynamic_quotes(source: str) -> str:

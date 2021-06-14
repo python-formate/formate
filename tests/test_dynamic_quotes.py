@@ -20,6 +20,11 @@ status_codes: Dict[str, str] = {
 		}
 """
 
+value_2 = """\
+def foo():
+	'''hello'''
+"""
+
 
 @pytest.mark.parametrize(
 		"value, expects",
@@ -45,6 +50,7 @@ status_codes: Dict[str, str] = {
 				("'\\''", "\"'\""),
 				("'quote \\''", "\"quote '\""),
 				(value_1, expected_1),
+				(value_2, value_2),
 				]
 		)
 def test_quotes(value: str, expects: str):
