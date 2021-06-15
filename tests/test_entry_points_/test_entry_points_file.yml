@@ -1,0 +1,9 @@
+black: formate.formate_black:black_hook
+collections-import-rewrite: formate.imports:rewrite_collections_abc_imports
+dynamic_quotes: formate.dynamic_quotes:dynamic_quotes
+ellipsis_reformat: formate.ellipses:ellipsis_reformat
+isort: formate:isort_hook
+noqa_reformat: formate.mini_hooks:noqa_reformat
+reformat-generics: formate.reformat_generics:reformat_generics
+squish_stubs: formate.mini_hooks:squish_stubs
+yapf: formate:yapf_hook
