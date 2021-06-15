@@ -1,6 +1,6 @@
 # 3rd party
-from coincidence import AdvancedDataRegressionFixture
 import entrypoints
+from coincidence import AdvancedDataRegressionFixture
 
 # These tests will fail if not installed and just running straight from source
 
@@ -16,19 +16,21 @@ def test_entry_points():
 		hook_names.remove("black")
 
 	assert hook_names == {
-			"reformat-generics",
-			"dynamic_quotes",
-			"noqa_reformat",
-			"squish_stubs",
-			"ellipsis_reformat",
-			"collections-import-rewrite",
-			"isort",
-			"yapf",
-			}, hook_names
+		"reformat-generics",
+		"dynamic_quotes",
+		"noqa_reformat",
+		"squish_stubs",
+		"ellipsis_reformat",
+		"collections-import-rewrite",
+		"isort",
+		"yapf",
+		}, hook_names
 
 
 def test_entry_points_file(advanced_data_regression: AdvancedDataRegressionFixture):
 	for config, distro in entrypoints.iter_files_distros():
 		if distro.name == "formate":
 			advanced_data_regression.check(dict(config["formate_hooks"]))
-		break
+		return
+
+	raise ValueError("Not found")
