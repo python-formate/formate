@@ -28,6 +28,8 @@ formate
 		  - |actions_linux| |actions_windows| |actions_macos| |coveralls|
 		* - PyPI
 		  - |pypi-version| |supported-versions| |supported-implementations| |wheel|
+		* - Anaconda
+		  - |conda-version| |conda-platform|
 		* - Activity
 		  - |commits-latest| |commits-since| |maintained| |pypi-downloads|
 		* - QA
@@ -92,6 +94,14 @@ formate
 		:wheel:
 		:alt: PyPI - Wheel
 
+	.. |conda-version| image:: https://img.shields.io/conda/v/domdfcoding/formate?logo=anaconda
+		:target: https://anaconda.org/domdfcoding/formate
+		:alt: Conda - Package Version
+
+	.. |conda-platform| image:: https://img.shields.io/conda/pn/domdfcoding/formate?label=conda%7Cplatform
+		:target: https://anaconda.org/domdfcoding/formate
+		:alt: Conda - Platform
+
 	.. |license| github-shield::
 		:license:
 		:alt: License
@@ -152,6 +162,8 @@ Installation
 .. installation:: formate
 	:pypi:
 	:github:
+	:anaconda:
+	:conda-channels: conda-forge, domdfcoding
 
 .. end installation
 

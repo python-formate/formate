@@ -9,12 +9,16 @@ assignee: 'domdfcoding'
 version: '0.4.6'
 license: 'MIT'
 short_desc: 'Python formatting mate.'
+primary_conda_channel: "domdfcoding"
 
-enable_conda: false
+enable_conda: true
 use_whey: true
 min_coverage: 95
 sphinx_html_theme: furo
 preserve_custom_theme: true
+
+conda_channels:
+ - conda-forge
 
 python_versions:
  - '3.6'

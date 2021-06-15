@@ -40,7 +40,7 @@ platforms = [ "Windows", "macOS", "Linux",]
 license-key = "MIT"
 
 [tool.mkrecipe]
-conda-channels = [ "repo-helper",]
+conda-channels = [ "conda-forge", "domdfcoding",]
 extras = "all"
 
 [tool.dep_checker]

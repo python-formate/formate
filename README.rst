@@ -31,6 +31,8 @@ See `the documentation`_ for more information.
 	  - |actions_linux| |actions_windows| |actions_macos| |coveralls|
 	* - PyPI
 	  - |pypi-version| |supported-versions| |supported-implementations| |wheel|
+	* - Anaconda
+	  - |conda-version| |conda-platform|
 	* - Activity
 	  - |commits-latest| |commits-since| |maintained| |pypi-downloads|
 	* - QA
@@ -94,6 +96,14 @@ See `the documentation`_ for more information.
 	:target: https://pypi.org/project/formate/
 	:alt: PyPI - Wheel
 
+.. |conda-version| image:: https://img.shields.io/conda/v/domdfcoding/formate?logo=anaconda
+	:target: https://anaconda.org/domdfcoding/formate
+	:alt: Conda - Package Version
+
+.. |conda-platform| image:: https://img.shields.io/conda/pn/domdfcoding/formate?label=conda%7Cplatform
+	:target: https://anaconda.org/domdfcoding/formate
+	:alt: Conda - Platform
+
 .. |license| image:: https://img.shields.io/github/license/repo-helper/formate
 	:target: https://github.com/repo-helper/formate/blob/master/LICENSE
 	:alt: License
@@ -123,12 +133,27 @@ Installation
 
 .. start installation
 
-``formate`` can be installed from PyPI.
+``formate`` can be installed from PyPI or Anaconda.
 
 To install with ``pip``:
 
 .. code-block:: bash
 
 	$ python -m pip install formate
+
+To install with ``conda``:
+
+	* First add the required channels
+
+	.. code-block:: bash
+
+		$ conda config --add channels https://conda.anaconda.org/conda-forge
+		$ conda config --add channels https://conda.anaconda.org/domdfcoding
+
+	* Then install
+
+	.. code-block:: bash
+
+		$ conda install formate
 
 .. end installation
