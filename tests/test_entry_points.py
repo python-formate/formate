@@ -1,5 +1,5 @@
 # 3rd party
-import entrypoints
+import entrypoints  # type: ignore
 from coincidence import AdvancedDataRegressionFixture
 
 # These tests will fail if not installed and just running straight from source
@@ -31,6 +31,6 @@ def test_entry_points_file(advanced_data_regression: AdvancedDataRegressionFixtu
 	for config, distro in entrypoints.iter_files_distros():
 		if distro.name == "formate":
 			advanced_data_regression.check(dict(config["formate_hooks"]))
-		return
+			return
 
 	raise ValueError("Not found")
