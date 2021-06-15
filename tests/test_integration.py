@@ -140,7 +140,9 @@ def test_reformatter_class(
 	assert not captured.err
 
 	# Calling a second time shouldn't change anything
-	assert reformat_file(tmp_pathplus / "code.py", config) == 0
+	r = Reformatter(tmp_pathplus / "code.py", config)
+	assert r.run() == 0
+	r.to_file()
 
 	advanced_file_regression.check_file(tmp_pathplus / "code.py")
 
