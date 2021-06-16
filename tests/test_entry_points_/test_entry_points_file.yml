@@ -1,4 +1,3 @@
-black: formate.formate_black:black_hook
 collections-import-rewrite: formate.imports:rewrite_collections_abc_imports
 dynamic_quotes: formate.dynamic_quotes:dynamic_quotes
 ellipsis_reformat: formate.ellipses:ellipsis_reformat
