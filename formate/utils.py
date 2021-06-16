@@ -163,6 +163,10 @@ class SyntaxTracebackHandler(TracebackHandler):
 		click.echo(terminal_colours.Fore.RED(f"Fatal: {e.__class__.__name__}: {e}"), err=True)
 		sys.exit(126)
 
+	def handle_HookNotFoundError(self, e: HookNotFoundError):  # noqa: D102
+		click.echo(terminal_colours.Fore.RED(f"Fatal: Hook not found: {e}"), err=True)
+		sys.exit(126)
+
 
 @contextmanager
 def syntaxerror_for_file(filename: PathLike):
