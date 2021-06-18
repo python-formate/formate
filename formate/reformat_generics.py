@@ -16,8 +16,6 @@ Example output, with a line length of ``100``:
 		Tuple[Union[str, bytes, int, float], ParamsMappingValueType],
 		None
 		]
-
-.. autosummary-widths:: 7/16 9/16
 """
 #
 #  Copyright © 2020-2021 Dominic Davis-Foster <dominic@davis-foster.co.uk>
@@ -116,7 +114,7 @@ class Generic:
 
 class List:
 	"""
-	Represents a list of elements, most often used within a :class:`typing.Callable`.
+	Represents a list of elements, most often used within a :py:obj:`typing.Callable`.
 
 	:param elements:
 	"""

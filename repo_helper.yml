@@ -56,8 +56,8 @@ extra_sphinx_extensions:
  - attr_utils.autoattrs
  - sphinx_click
  - sphinx_toolbox.pre_commit
- - html_section
- - autosummary_widths
+ - sphinx_toolbox_experimental.html_section
+ - sphinx_toolbox_experimental.autosummary_widths
 
 sphinx_conf_epilogue:
  - "\tfrom sphinx_toolbox.latex import replace_unknown_unicode"
@@ -65,6 +65,7 @@ sphinx_conf_epilogue:
  - ''
  - html_logo = "../formate.png"
  - html_favicon = "formate.ico"
+ - nitpicky = True
 
 imgbot_ignore:
  - "formate.*"

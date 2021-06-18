@@ -3,8 +3,6 @@
 #  utils.py
 """
 Utility functions.
-
-.. autosummary-widths:: 6/16 10/16
 """
 #
 #  Copyright © 2020-2021 Dominic Davis-Foster <dominic@davis-foster.co.uk>

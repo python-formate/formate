@@ -3,8 +3,6 @@
 #  classes.py
 """
 Core classes.
-
-.. autosummary-widths:: 7/16 9/16
 """
 #
 #  Copyright © 2020-2021 Dominic Davis-Foster <dominic@davis-foster.co.uk>

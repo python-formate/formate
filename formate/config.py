@@ -49,6 +49,10 @@ def parse_hooks(config: Mapping) -> List[Hook]:
 	Given a mapping parsed from a TOML file (or similar), return a list of hooks selected by the user.
 
 	:param config: The ``formate`` configuration, parsed from a TOML file (or similar).
+
+	:rtype:
+
+	.. latex:clearpage::
 	"""
 
 	hooks = list(Hook.parse(config["hooks"]))
