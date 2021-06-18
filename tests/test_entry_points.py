@@ -29,7 +29,7 @@ def test_entry_points():
 
 def test_entry_points_file(advanced_data_regression: AdvancedDataRegressionFixture):
 	for config, distro in entrypoints.iter_files_distros():
-		if distro.name == "formate":
+		if distro is not None and distro.name == "formate":
 			advanced_data_regression.check(dict(config["formate_hooks"]))
 			return
 
