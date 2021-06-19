@@ -43,6 +43,7 @@ known_third_party = [
     "coverage_pyver_pragma",
     "dom_toml",
     "domdf_python_tools",
+    "entrypoints",
     "importlib_metadata",
     "isort",
     "prettyprinter",
