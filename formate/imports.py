@@ -63,7 +63,7 @@ class CollectionsABCRewriter(Rewriter):
 
 		name: ast.alias
 		for name in node.names:
-			if name.name in collections.abc.__all__:  # type: ignore
+			if name.name in collections.abc.__all__:
 				collections_abc_imports.append(name.name)
 			else:
 				collections_imports.append(name.name)
