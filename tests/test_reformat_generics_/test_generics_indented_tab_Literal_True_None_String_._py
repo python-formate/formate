@@ -1,0 +1,3 @@
+
+class Foo:
+	dtype = Literal[True, None, "hello world", _MyEnum.VALUE]

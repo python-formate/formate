@@ -245,7 +245,7 @@ class UnionVisitor(ast.NodeVisitor):  # noqa: D101
 				self.structure.append(f'"{node.value}"')
 			elif node.value is Ellipsis:
 				self.structure.append("...")
-			elif node.value is None:
+			elif node.value is None or isinstance(node.value, bool):
 				self.structure.append(node.value)
 			else:
 				print(node, node.value)

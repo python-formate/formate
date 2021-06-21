@@ -43,6 +43,12 @@ class Foo:
 """
 
 
+example_6 = """
+class Foo:
+	dtype = Literal[True, None, "hello world", _MyEnum.VALUE]
+"""
+
+
 @pytest.mark.parametrize(
 		"code",
 		[
@@ -77,6 +83,7 @@ long_tuple = "Tuple[int, int, str, float, str, int, bytes, int, int, str, float,
 				pytest.param(example_3, id="Literal"),
 				pytest.param(example_4, id="Literal in class"),
 				pytest.param(example_5, id="Union in class"),
+				pytest.param(example_6, id="Literal True None String"),
 				]
 		)
 @pytest.mark.parametrize(
