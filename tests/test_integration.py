@@ -79,13 +79,25 @@ def test_integration(
 
 	config = load_toml(tmp_pathplus / "formate.toml")
 
+	st = (tmp_pathplus / "code.py").stat()
+	assert st == st
+
 	assert reformat_file(tmp_pathplus / "code.py", config) == 1
 	advanced_file_regression.check_file(tmp_pathplus / "code.py")
 	check_out(capsys.readouterr(), advanced_data_regression)
 
+	# mtime should have changed
+	new_st = (tmp_pathplus / "code.py").stat()
+	assert new_st.st_mtime != st.st_mtime
+	assert new_st != st
+
 	# Calling a second time shouldn't change anything
 	assert reformat_file(tmp_pathplus / "code.py", config) == 0
 	advanced_file_regression.check_file(tmp_pathplus / "code.py")
+
+	# mtime should be the same
+	assert (tmp_pathplus / "code.py").stat().st_mtime == new_st.st_mtime
+	assert (tmp_pathplus / "code.py").stat() == new_st
 
 
 def test_integration_pyproject(
@@ -128,6 +140,9 @@ def test_reformatter_class(
 	with pytest.raises(ValueError, match=r"'Reformatter.run\(\)' must be called first!"):
 		r.get_diff()
 
+	st = (tmp_pathplus / "code.py").stat()
+	assert st == st
+
 	assert r.run() == 1
 	r.to_file()
 
@@ -138,6 +153,11 @@ def test_reformatter_class(
 
 	assert not captured.out
 	assert not captured.err
+
+	# mtime should have changed
+	new_st = (tmp_pathplus / "code.py").stat()
+	assert new_st.st_mtime != st.st_mtime
+	assert new_st != st
 
 	# Calling a second time shouldn't change anything
 	r = Reformatter(tmp_pathplus / "code.py", config)

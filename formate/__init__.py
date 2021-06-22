@@ -314,7 +314,6 @@ def reformat_file(
 
 	if ret:
 		click.echo(r.get_diff(), color=resolve_color_default(colour))
-
-	r.to_file()
+		r.to_file()
 
 	return ret
