@@ -84,3 +84,4 @@ def setup(app):
 html_logo = "../formate.png"
 html_favicon = "formate.ico"
 nitpicky = True
+ignore_missing_xrefs = ["asttokens.*"]
