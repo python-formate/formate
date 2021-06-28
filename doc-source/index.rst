@@ -188,6 +188,7 @@ Contents
 	configuration
 	hooks
 	extending
+	changelog
 	Source
 
 .. toctree::
