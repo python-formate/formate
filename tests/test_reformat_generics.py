@@ -42,7 +42,6 @@ class Foo:
 	dtype = typing.Union[typing.List, typing.Tuple, typing.Mapping, typing.MutableMapping, typing.Counter, typing.ChainMap, typing.Collection, foo.bar.baz]
 """
 
-
 example_6 = """
 class Foo:
 	dtype = Literal[True, None, "hello world", _MyEnum.VALUE]
