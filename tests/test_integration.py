@@ -176,6 +176,9 @@ def test_cli(
 
 	result: Result
 
+	st = (tmp_pathplus / "code.py").stat()
+	assert st == st
+
 	with in_directory(tmp_pathplus):
 		runner = CliRunner(mix_stderr=False)
 		result = runner.invoke(
@@ -189,12 +192,21 @@ def test_cli(
 
 	check_out(result, advanced_data_regression)
 
+	# mtime should have changed
+	new_st = (tmp_pathplus / "code.py").stat()
+	assert new_st.st_mtime != st.st_mtime
+	assert new_st != st
+
 	# Calling a second time shouldn't change anything
 	with in_directory(tmp_pathplus):
 		runner = CliRunner(mix_stderr=False)
 		result = runner.invoke(main, args=["code.py"])
 
 	assert result.exit_code == 0
+
+	# mtime should be the same
+	assert (tmp_pathplus / "code.py").stat().st_mtime == new_st.st_mtime
+	assert (tmp_pathplus / "code.py").stat() == new_st
 
 
 def test_cli_verbose_verbose(
