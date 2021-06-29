@@ -10,6 +10,7 @@ from coincidence.regressions import AdvancedDataRegressionFixture, AdvancedFileR
 from coincidence.selectors import max_version, min_version, not_pypy, only_pypy
 from consolekit.terminal_colours import strip_ansi
 from consolekit.testing import CliRunner, Result
+from domdf_python_tools.compat import PYPY36
 from domdf_python_tools.paths import PathPlus, in_directory
 
 # this package
@@ -206,7 +207,6 @@ def test_cli(
 
 	# mtime should be the same
 	assert (tmp_pathplus / "code.py").stat().st_mtime == new_st.st_mtime
-	assert (tmp_pathplus / "code.py").stat() == new_st
 
 
 def test_cli_verbose_verbose(
