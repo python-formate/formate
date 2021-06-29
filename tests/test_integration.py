@@ -98,7 +98,6 @@ def test_integration(
 
 	# mtime should be the same
 	assert (tmp_pathplus / "code.py").stat().st_mtime == new_st.st_mtime
-	assert (tmp_pathplus / "code.py").stat() == new_st
 
 
 def test_integration_pyproject(
