@@ -10,6 +10,7 @@ Bugs Fixed
 
 * :func:`formate.reformat_file` -- Only write to the file if there have been any changes.
   This avoids unnecessary changes to the mtime.
+* :mod:`formate.reformat_generics` -- Don't crash if a generic's name contains a ``.``.
 
 
 0.4.7

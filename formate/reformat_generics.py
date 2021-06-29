@@ -48,6 +48,7 @@ from collections.abc import Collection
 from io import StringIO
 
 # 3rd party
+import astatine
 import asttokens  # type: ignore
 from domdf_python_tools.stringlist import DelimitedList, StringList
 from domdf_python_tools.words import TAB
@@ -204,7 +205,7 @@ class UnionVisitor(ast.NodeVisitor):  # noqa: D101
 
 	def visit_Subscript(self, node: ast.Subscript) -> None:  # noqa: D102
 		union = Generic(
-				node.value.id,  # type: ignore
+				'.'.join(astatine.get_attribute_name(node.value)),
 				UnionVisitor().visit(get_slice_value(node.slice)),
 				)
 		self.structure.append(union)
