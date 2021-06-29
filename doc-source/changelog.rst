@@ -2,7 +2,7 @@
 Changelog
 ===============
 
-Unreleased
+0.4.8
 -------------
 
 Bugs Fixed
