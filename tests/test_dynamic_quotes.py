@@ -51,6 +51,8 @@ def foo():
 				("'quote \\''", "\"quote '\""),
 				(value_1, expected_1),
 				(value_2, value_2),
+				('assert t.uname == "\\xe4\\xf6\\xfc"', 'assert t.uname == "äöü"'),
+				('assert t.uname == "\\udce4\\udcf6\\udcfc"', 'assert t.uname == "\\udce4\\udcf6\\udcfc"'),
 				]
 		)
 def test_quotes(value: str, expects: str):

@@ -2,6 +2,15 @@
 Changelog
 ===============
 
+0.4.9
+-------------
+
+Bugs Fixed
+^^^^^^^^^^^^^
+
+* :func:`formate.dynamic_quotes` -- Preserve surrogates in strings.
+  This prevents a crash when attempting to write the resulting file.
+
 0.4.8
 -------------
 

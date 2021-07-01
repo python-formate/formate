@@ -36,7 +36,7 @@ The rules are:
 import ast
 import re
 import sys
-from typing import Union
+from typing import Mapping, Union
 
 # 3rd party
 from domdf_python_tools.utils import double_repr_string
@@ -112,7 +112,10 @@ class QuoteRewriter(Rewriter):  # noqa: D101
 			elif '\n' in node.s or "\\n" in node.s:
 				return
 			else:
-				self.record_replacement(text_range, double_repr_string(node.s))
+				self.record_replacement(
+						text_range,
+						double_repr_string(node.s).translate(_surrogate_translator),
+						)
 
 
 def dynamic_quotes(source: str) -> str:
@@ -125,3 +128,24 @@ def dynamic_quotes(source: str) -> str:
 	"""
 
 	return QuoteRewriter(source).rewrite()
+
+
+class _LazyTranslate(Mapping):
+	"""
+	Escapes surrogates in the range U+D800 to U+DFFF, so they are left unchanged in the source.
+	"""
+
+	def __iter__(self):
+		raise NotImplementedError
+
+	def __len__(self):
+		raise NotImplementedError
+
+	def __getitem__(self, item: int) -> str:
+		if item in range(55296, 57343):
+			return repr(chr(item)).strip("'")
+		else:
+			return chr(item)
+
+
+_surrogate_translator = _LazyTranslate()

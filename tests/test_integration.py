@@ -10,7 +10,6 @@ from coincidence.regressions import AdvancedDataRegressionFixture, AdvancedFileR
 from coincidence.selectors import max_version, min_version, not_pypy, only_pypy
 from consolekit.terminal_colours import strip_ansi
 from consolekit.testing import CliRunner, Result
-from domdf_python_tools.compat import PYPY36
 from domdf_python_tools.paths import PathPlus, in_directory
 
 # this package
@@ -22,7 +21,10 @@ path_sub = re.compile(rf" .*/pytest-of-.*/pytest-\d+")
 
 
 @no_type_check
-def check_out(result: Union[Result, CaptureResult[str]], advanced_data_regression: AdvancedDataRegressionFixture):
+def check_out(
+		result: Union[Result, CaptureResult[str]],
+		advanced_data_regression: AdvancedDataRegressionFixture,
+		):
 
 	if hasattr(result, "stdout"):
 		stdout = result.stdout
@@ -59,6 +61,7 @@ def demo_environment(tmp_pathplus):
 			"\t\tpass",
 			'',
 			"print('hello world')",
+			r"assert t.uname == '\udce4\udcf6\udcfc'",
 			]
 
 	(tmp_pathplus / "code.py").write_lines(code, trailing_whitespace=True)
@@ -245,7 +248,6 @@ def test_cli_verbose_verbose(
 @not_pypy("Output differs on PyPy")
 def test_cli_syntax_error(
 		tmp_pathplus: PathPlus,
-		advanced_file_regression: AdvancedFileRegressionFixture,
 		advanced_data_regression: AdvancedDataRegressionFixture,
 		demo_environment,
 		):
@@ -277,7 +279,6 @@ def test_cli_syntax_error(
 @only_pypy("Output differs on PyPy")
 def test_cli_syntax_error_pypy(
 		tmp_pathplus: PathPlus,
-		advanced_file_regression: AdvancedFileRegressionFixture,
 		advanced_data_regression: AdvancedDataRegressionFixture,
 		demo_environment,
 		):
@@ -309,7 +310,6 @@ def test_cli_syntax_error_pypy(
 @min_version("3.10", reason="Output differs on Python 3.10+")
 def test_cli_syntax_error_py310(
 		tmp_pathplus: PathPlus,
-		advanced_file_regression: AdvancedFileRegressionFixture,
 		advanced_data_regression: AdvancedDataRegressionFixture,
 		demo_environment,
 		):
@@ -341,7 +341,6 @@ def test_cli_syntax_error_py310(
 @pytest.mark.skipif(click.__version__.split('.')[0] != '7', reason="Output differs on Click 8")
 def test_cli_no_config(
 		tmp_pathplus: PathPlus,
-		advanced_file_regression: AdvancedFileRegressionFixture,
 		advanced_data_regression: AdvancedDataRegressionFixture,
 		):
 
@@ -359,7 +358,6 @@ def test_cli_no_config(
 @pytest.mark.skipif(click.__version__.split('.')[0] == '7', reason="Output differs on Click 8")
 def test_cli_no_config_click8(
 		tmp_pathplus: PathPlus,
-		advanced_file_regression: AdvancedFileRegressionFixture,
 		advanced_data_regression: AdvancedDataRegressionFixture,
 		):
 
