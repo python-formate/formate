@@ -111,7 +111,7 @@ formate
 		:alt: GitHub top language
 
 	.. |commits-since| github-shield::
-		:commits-since: v0.4.8
+		:commits-since: v0.4.9
 		:alt: GitHub commits since tagged version
 
 	.. |commits-latest| github-shield::
