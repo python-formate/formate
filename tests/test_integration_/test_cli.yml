@@ -4,7 +4,7 @@ out:
 - Reformatting code.py
 - "--- code.py\t(original)"
 - "+++ code.py\t(reformatted)"
-- '@@ -1,11 +1,11 @@'
+- '@@ -1,12 +1,12 @@'
 - ' class F:'
 - "-\tfrom collections import ("
 - -Iterable,
@@ -18,8 +18,10 @@ out:
 - " \t\tpass"
 - ''
 - -print('hello world')
+- -assert t.uname == '\udce4\udcf6\udcfc'
 - ''
 - +print("hello world")
+- +assert t.uname == "\udce4\udcf6\udcfc"
 - +
 - ''
 - ''

@@ -8,3 +8,4 @@ class F:
 
 
 print("hello world")
+assert t.uname == "\udce4\udcf6\udcfc"
