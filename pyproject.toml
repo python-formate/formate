@@ -78,7 +78,9 @@ extensions = [
     "sphinx_toolbox.pre_commit",
     "sphinx_toolbox_experimental.html_section",
     "sphinx_toolbox_experimental.autosummary_widths",
+    "sphinx_toolbox_experimental.changelog",
     "sphinx_toolbox_experimental.missing_xref",
+    "local_extension",
 ]
 sphinxemoji_style = "twemoji"
 gitstamp_fmt = "%d %b %Y"

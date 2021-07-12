@@ -59,17 +59,20 @@ extra_sphinx_extensions:
  - sphinx_toolbox.pre_commit
  - sphinx_toolbox_experimental.html_section
  - sphinx_toolbox_experimental.autosummary_widths
-# - sphinx_toolbox_experimental.changelog
+ - sphinx_toolbox_experimental.changelog
  - sphinx_toolbox_experimental.missing_xref
+ - local_extension
 
 sphinx_conf_epilogue:
  - "\tfrom sphinx_toolbox.latex import replace_unknown_unicode"
  - "\tapp.connect('build-finished', replace_unknown_unicode)"
  - ''
  - html_logo = "../formate.png"
+ - latex_logo = "formate.png"
  - html_favicon = "formate.ico"
  - nitpicky = True
  - ignore_missing_xrefs = ["asttokens.*"]
+ - changelog_sections_numbered = False
 
 imgbot_ignore:
  - "formate.*"
