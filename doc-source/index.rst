@@ -212,6 +212,6 @@ Contents
 
 	View the :ref:`Function Index <genindex>` or browse the `Source Code <_modules/index.html>`__.
 
-	:github:repo:`Browse the GitHub Repository <repo-helper/formate>`
+	:github:repo:`Browse the GitHub Repository <python-formate/formate>`
 
 .. end links
