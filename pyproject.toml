@@ -131,6 +131,14 @@ autodoc_exclude_members = [
     "__hash__",
 ]
 
+[tool.mypy]
+python_version = "3.6"
+namespace_packages = true
+check_untyped_defs = true
+warn_unused_ignores = true
+no_implicit_optional = true
+plugins = [ "attr_utils.mypy_plugin",]
+
 [project.entry-points.formate_hooks]
 reformat-generics = "formate.reformat_generics:reformat_generics"
 dynamic_quotes = "formate.dynamic_quotes:dynamic_quotes"
