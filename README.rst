@@ -44,40 +44,40 @@ See `the documentation`_ for more information.
 	:target: https://formate.readthedocs.io/en/latest
 	:alt: Documentation Build Status
 
-.. |docs_check| image:: https://github.com/repo-helper/formate/workflows/Docs%20Check/badge.svg
-	:target: https://github.com/repo-helper/formate/actions?query=workflow%3A%22Docs+Check%22
+.. |docs_check| image:: https://github.com/python-formate/formate/workflows/Docs%20Check/badge.svg
+	:target: https://github.com/python-formate/formate/actions?query=workflow%3A%22Docs+Check%22
 	:alt: Docs Check Status
 
-.. |actions_linux| image:: https://github.com/repo-helper/formate/workflows/Linux/badge.svg
-	:target: https://github.com/repo-helper/formate/actions?query=workflow%3A%22Linux%22
+.. |actions_linux| image:: https://github.com/python-formate/formate/workflows/Linux/badge.svg
+	:target: https://github.com/python-formate/formate/actions?query=workflow%3A%22Linux%22
 	:alt: Linux Test Status
 
-.. |actions_windows| image:: https://github.com/repo-helper/formate/workflows/Windows/badge.svg
-	:target: https://github.com/repo-helper/formate/actions?query=workflow%3A%22Windows%22
+.. |actions_windows| image:: https://github.com/python-formate/formate/workflows/Windows/badge.svg
+	:target: https://github.com/python-formate/formate/actions?query=workflow%3A%22Windows%22
 	:alt: Windows Test Status
 
-.. |actions_macos| image:: https://github.com/repo-helper/formate/workflows/macOS/badge.svg
-	:target: https://github.com/repo-helper/formate/actions?query=workflow%3A%22macOS%22
+.. |actions_macos| image:: https://github.com/python-formate/formate/workflows/macOS/badge.svg
+	:target: https://github.com/python-formate/formate/actions?query=workflow%3A%22macOS%22
 	:alt: macOS Test Status
 
-.. |actions_flake8| image:: https://github.com/repo-helper/formate/workflows/Flake8/badge.svg
-	:target: https://github.com/repo-helper/formate/actions?query=workflow%3A%22Flake8%22
+.. |actions_flake8| image:: https://github.com/python-formate/formate/workflows/Flake8/badge.svg
+	:target: https://github.com/python-formate/formate/actions?query=workflow%3A%22Flake8%22
 	:alt: Flake8 Status
 
-.. |actions_mypy| image:: https://github.com/repo-helper/formate/workflows/mypy/badge.svg
-	:target: https://github.com/repo-helper/formate/actions?query=workflow%3A%22mypy%22
+.. |actions_mypy| image:: https://github.com/python-formate/formate/workflows/mypy/badge.svg
+	:target: https://github.com/python-formate/formate/actions?query=workflow%3A%22mypy%22
 	:alt: mypy status
 
-.. |requires| image:: https://requires.io/github/repo-helper/formate/requirements.svg?branch=master
-	:target: https://requires.io/github/repo-helper/formate/requirements/?branch=master
+.. |requires| image:: https://requires.io/github/python-formate/formate/requirements.svg?branch=master
+	:target: https://requires.io/github/python-formate/formate/requirements/?branch=master
 	:alt: Requirements Status
 
-.. |coveralls| image:: https://img.shields.io/coveralls/github/repo-helper/formate/master?logo=coveralls
-	:target: https://coveralls.io/github/repo-helper/formate?branch=master
+.. |coveralls| image:: https://img.shields.io/coveralls/github/python-formate/formate/master?logo=coveralls
+	:target: https://coveralls.io/github/python-formate/formate?branch=master
 	:alt: Coverage
 
-.. |codefactor| image:: https://img.shields.io/codefactor/grade/github/repo-helper/formate?logo=codefactor
-	:target: https://www.codefactor.io/repository/github/repo-helper/formate
+.. |codefactor| image:: https://img.shields.io/codefactor/grade/github/python-formate/formate?logo=codefactor
+	:target: https://www.codefactor.io/repository/github/python-formate/formate
 	:alt: CodeFactor Grade
 
 .. |pypi-version| image:: https://img.shields.io/pypi/v/formate
@@ -104,19 +104,19 @@ See `the documentation`_ for more information.
 	:target: https://anaconda.org/domdfcoding/formate
 	:alt: Conda - Platform
 
-.. |license| image:: https://img.shields.io/github/license/repo-helper/formate
-	:target: https://github.com/repo-helper/formate/blob/master/LICENSE
+.. |license| image:: https://img.shields.io/github/license/python-formate/formate
+	:target: https://github.com/python-formate/formate/blob/master/LICENSE
 	:alt: License
 
-.. |language| image:: https://img.shields.io/github/languages/top/repo-helper/formate
+.. |language| image:: https://img.shields.io/github/languages/top/python-formate/formate
 	:alt: GitHub top language
 
-.. |commits-since| image:: https://img.shields.io/github/commits-since/repo-helper/formate/v0.4.9
-	:target: https://github.com/repo-helper/formate/pulse
+.. |commits-since| image:: https://img.shields.io/github/commits-since/python-formate/formate/v0.4.9
+	:target: https://github.com/python-formate/formate/pulse
 	:alt: GitHub commits since tagged version
 
-.. |commits-latest| image:: https://img.shields.io/github/last-commit/repo-helper/formate
-	:target: https://github.com/repo-helper/formate/commit/master
+.. |commits-latest| image:: https://img.shields.io/github/last-commit/python-formate/formate
+	:target: https://github.com/python-formate/formate/commit/master
 	:alt: GitHub last commit
 
 .. |maintained| image:: https://img.shields.io/maintenance/yes/2021

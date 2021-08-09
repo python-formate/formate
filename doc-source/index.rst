@@ -203,7 +203,7 @@ Contents
 	:github:
 	:pypi: formate
 
-	Contributing Guide<https://contributing.repo-helper.uk>
+	Contributing Guide<https://contributing-to-formate.readthedocs.io>
 
 
 .. start links
