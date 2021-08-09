@@ -190,6 +190,7 @@ Contents
 	extending
 	changelog
 	Source
+	license
 
 .. toctree::
 	:maxdepth: 3
