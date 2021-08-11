@@ -3,13 +3,13 @@ Downloading source code
 =========================
 
 The ``formate`` source code is available on GitHub,
-and can be accessed from the following URL: https://github.com/repo-helper/formate
+and can be accessed from the following URL: https://github.com/python-formate/formate
 
 If you have ``git`` installed, you can clone the repository with the following command:
 
 .. prompt:: bash
 
-	git clone https://github.com/repo-helper/formate
+	git clone https://github.com/python-formate/formate
 
 .. parsed-literal::
 

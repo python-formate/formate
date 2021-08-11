@@ -4,7 +4,7 @@ modname: 'formate'
 copyright_years: '2020-2021'
 author: 'Dominic Davis-Foster'
 email: 'dominic@davis-foster.co.uk'
-username: 'repo-helper'
+username: 'python-formate'
 assignee: 'domdfcoding'
 version: '0.4.9'
 license: 'MIT'
@@ -69,7 +69,6 @@ sphinx_conf_epilogue:
  - ''
  - html_logo = "../formate.png"
  - latex_logo = "formate.png"
- - html_favicon = "formate.ico"
  - nitpicky = True
  - ignore_missing_xrefs = ["asttokens.*"]
  - changelog_sections_numbered = False

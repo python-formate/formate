@@ -47,15 +47,15 @@ from formate.utils import Rewriter
 __all__ = ["dynamic_quotes"]
 
 
-class QuoteRewriter(Rewriter):  # noqa: D101
+class QuoteRewriter(Rewriter):
 
 	if sys.version_info[:2] < (3, 8):  # pragma: no cover (py38+)
 
-		def visit_Str(self, node: ast.Str) -> None:  # noqa: D102
+		def visit_Str(self, node: ast.Str) -> None:
 			self.rewrite_quotes_for_node(node)
 	else:  # pragma: no cover (<py38)
 
-		def visit_Constant(self, node: ast.Constant) -> None:  # noqa: D102
+		def visit_Constant(self, node: ast.Constant) -> None:
 			if isinstance(node.value, str):
 				self.rewrite_quotes_for_node(node)
 			else:
@@ -74,13 +74,13 @@ class QuoteRewriter(Rewriter):  # noqa: D101
 
 		self.generic_visit(node)
 
-	def visit_ClassDef(self, node: ast.ClassDef) -> None:  # noqa: D102
+	def visit_ClassDef(self, node: ast.ClassDef) -> None:
 		self.visit_definition(node)
 
-	def visit_FunctionDef(self, node: ast.FunctionDef) -> None:  # noqa: D102
+	def visit_FunctionDef(self, node: ast.FunctionDef) -> None:
 		self.visit_definition(node)
 
-	def visit_ASyncFunctionDef(self, node: ast.AsyncFunctionDef) -> None:  # noqa: D102
+	def visit_ASyncFunctionDef(self, node: ast.AsyncFunctionDef) -> None:
 		self.visit_definition(node)
 
 	def rewrite_quotes_for_node(self, node: Union[ast.Str, ast.Constant]) -> None:

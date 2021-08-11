@@ -190,6 +190,7 @@ Contents
 	extending
 	changelog
 	Source
+	license
 
 .. toctree::
 	:maxdepth: 3
@@ -203,7 +204,7 @@ Contents
 	:github:
 	:pypi: formate
 
-	Contributing Guide<https://contributing.repo-helper.uk>
+	Contributing Guide<https://contributing-to-formate.readthedocs.io>
 
 
 .. start links
@@ -212,6 +213,6 @@ Contents
 
 	View the :ref:`Function Index <genindex>` or browse the `Source Code <_modules/index.html>`__.
 
-	:github:repo:`Browse the GitHub Repository <repo-helper/formate>`
+	:github:repo:`Browse the GitHub Repository <python-formate/formate>`
 
 .. end links

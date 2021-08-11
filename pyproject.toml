@@ -19,9 +19,9 @@ email = "dominic@davis-foster.co.uk"
 file = "LICENSE"
 
 [project.urls]
-Homepage = "https://github.com/repo-helper/formate"
-"Issue Tracker" = "https://github.com/repo-helper/formate/issues"
-"Source Code" = "https://github.com/repo-helper/formate"
+Homepage = "https://github.com/python-formate/formate"
+"Issue Tracker" = "https://github.com/python-formate/formate/issues"
+"Source Code" = "https://github.com/python-formate/formate"
 Documentation = "https://formate.readthedocs.io/en/latest"
 
 [project.scripts]
@@ -47,7 +47,7 @@ extras = "all"
 allowed_unused = [ "prettyprinter",]
 
 [tool.sphinx-pyproject]
-github_username = "repo-helper"
+github_username = "python-formate"
 github_repository = "formate"
 author = "Dominic Davis-Foster"
 project = "formate"
@@ -72,6 +72,7 @@ extensions = [
     "sphinxcontrib.default_values",
     "sphinxcontrib.toctree_plus",
     "sphinx_debuginfo",
+    "sphinx_licenseinfo",
     "seed_intersphinx_mapping",
     "attr_utils.autoattrs",
     "sphinx_click",
@@ -129,6 +130,14 @@ autodoc_exclude_members = [
     "__abstractmethods__",
     "__hash__",
 ]
+
+[tool.mypy]
+python_version = "3.6"
+namespace_packages = true
+check_untyped_defs = true
+warn_unused_ignores = true
+no_implicit_optional = true
+plugins = [ "attr_utils.mypy_plugin",]
 
 [project.entry-points.formate_hooks]
 reformat-generics = "formate.reformat_generics:reformat_generics"

@@ -1,6 +1,6 @@
 # This file is managed by 'repo_helper'. Don't edit it directly.
 ---
-name: mypy
+name: Safety
 
 on:
   push:
@@ -14,13 +14,8 @@ permissions:
 
 jobs:
   Run:
-    name: "mypy / ${{ matrix.os }}"
-    runs-on: ${{ matrix.os }}
-
-    strategy:
-      matrix:
-        os: ['ubuntu-20.04', 'windows-2019']
-      fail-fast: false
+    name: "Safety"
+    runs-on: "ubuntu-18.04"
 
     steps:
       - name: Checkout 🛎️
@@ -33,7 +28,7 @@ jobs:
           list-files: "json"
           filters: |
             code:
-              - '!(doc-source/**|CONTRIBUTING.rst|.imgbotconfig|.pre-commit-config.yaml|.pylintrc|.readthedocs.yml)'
+              - 'requirements.txt'
 
       - name: Setup Python 🐍
         if: steps.changes.outputs.code == 'true'
@@ -42,12 +37,13 @@ jobs:
           python-version: "3.6"
 
       - name: Install dependencies 🔧
+        if: steps.changes.outputs.code == 'true'
         run: |
           python -VV
           python -m site
           python -m pip install --upgrade pip setuptools wheel
-          python -m pip install --upgrade tox virtualenv
+          python -m pip install git+https://github.com/domdfcoding/safety@lower
 
-      - name: "Run mypy"
+      - name: "Run Safety"
         if: steps.changes.outputs.code == 'true'
-        run: "python -m tox -e mypy -s false"
+        run: "python -m safety check -r requirements.txt --full-report"
