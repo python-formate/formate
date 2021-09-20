@@ -138,7 +138,7 @@ namespace_packages = true
 check_untyped_defs = true
 warn_unused_ignores = true
 no_implicit_optional = true
-plugins = "attr_utils.mypy_plugin"
+plugins = [ "attr_utils.mypy_plugin",]
 show_error_codes = true
 
 [tool.snippet-fmt]
