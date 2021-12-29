@@ -9,4 +9,4 @@ domdf-python-tools>=2.5.0
 isort<5.10.0,>=5.5.2
 prettyprinter>=0.18.0
 typing-extensions>=3.7.4.3
-yapf<0.32.0,>=0.30.0
+yapf<0.33.0,>=0.30.0
