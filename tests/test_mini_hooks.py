@@ -241,3 +241,16 @@ def test_squish_stubs(advanced_file_regression: AdvancedFileRegressionFixture):
 			)
 
 	advanced_file_regression.check(squish_stubs(source, "file.pyi"), extension="._py_")
+
+
+def test_squish_stubs_not_pyi():
+	code = """
+	def foo():
+		...
+	"""
+
+	new_code = squish_stubs(code, formate_filename="code.pyi")
+	assert new_code != code
+
+	new_code = squish_stubs(code, formate_filename="code.py")
+	assert new_code == code

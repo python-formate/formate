@@ -17,3 +17,14 @@ def test_isort_stubs(advanced_file_regression: AdvancedFileRegressionFixture):
 			'',
 			])
 	advanced_file_regression.check(isort_hook(str(source), "utils.pyi"))
+
+
+def test_isort_skip_file(advanced_file_regression: AdvancedFileRegressionFixture):
+	source = StringList([
+			"# isort: skip_file",
+			"import datetime",
+			"import os",
+			"import asyncio",
+			])
+
+	assert isort_hook(str(source), "code.py") == source

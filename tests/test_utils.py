@@ -1,4 +1,6 @@
-# pylint: disable=cyclic-import
+# stdlib
+import ast
+
 # 3rd party
 import pytest
 
@@ -6,7 +8,7 @@ import pytest
 from formate.classes import Hook
 from formate.exceptions import HookNotFoundError
 from formate.reformat_generics import reformat_generics
-from formate.utils import import_entry_points, normalize
+from formate.utils import import_entry_points, normalize, syntaxerror_for_file
 
 
 @pytest.mark.parametrize(
@@ -51,3 +53,30 @@ def test_import_entry_points_not_found():
 		import_entry_points(hooks)
 
 	assert e.value.hook is hooks[0]
+
+
+def test_syntaxerror_for_file():
+
+	try:
+		with syntaxerror_for_file("code.py"):
+			ast.parse("def foo()pass")
+	except SyntaxError as e:
+		assert e.filename == "code.py"
+
+	try:
+		with syntaxerror_for_file("__init__.py"):
+			ast.parse("def foo()pass")
+	except SyntaxError as e:
+		assert e.filename == "__init__.py"
+
+	try:
+		with syntaxerror_for_file("code.py"):
+			ast.parse("def foo()pass", filename="code.py")
+	except SyntaxError as e:
+		assert e.filename == "code.py"
+
+	try:
+		with syntaxerror_for_file("code.py"):
+			ast.parse("def foo()pass", filename="__init__.py")
+	except SyntaxError as e:
+		assert e.filename == "__init__.py"

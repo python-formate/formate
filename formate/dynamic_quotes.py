@@ -80,7 +80,7 @@ class QuoteRewriter(Rewriter):
 	def visit_FunctionDef(self, node: ast.FunctionDef) -> None:
 		self.visit_definition(node)
 
-	def visit_ASyncFunctionDef(self, node: ast.AsyncFunctionDef) -> None:
+	def visit_AsyncFunctionDef(self, node: ast.AsyncFunctionDef) -> None:
 		self.visit_definition(node)
 
 	def rewrite_quotes_for_node(self, node: Union[ast.Str, ast.Constant]) -> None:

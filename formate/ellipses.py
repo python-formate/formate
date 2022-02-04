@@ -66,7 +66,7 @@ class EllipsisRewriter(Rewriter):
 		Responsible for the actual rewriting.
 		"""
 
-		if not node.body:
+		if not node.body:  # pragma: no cover
 			return
 
 		if not isinstance(node.body[0], ast.Expr):

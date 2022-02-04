@@ -60,6 +60,11 @@ def foo():
 	print('Hello World')
 """
 
+function_with_body_int = """
+def foo():
+	12345
+"""
+
 function_with_ellipsis = """
 def foo():
 	...
@@ -131,6 +136,9 @@ async def foo(): ...
 						async_function_with_ellipsis_inline,
 						async_function_with_ellipsis_inline,
 						id="async_function_with_ellipsis_inline"
+						),
+				pytest.param(
+						function_with_body_int, function_with_body_int, id="async_function_with_ellipsis_inline"
 						),
 				]
 		)
