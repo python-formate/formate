@@ -73,7 +73,7 @@ Move ellipses (``...``) for type stubs onto the end of the stub definition.
 
 	Before:
 
-	.. code-block:: python
+	.. code-block:: python3
 
 		def foo(value: str) -> int:
 			...

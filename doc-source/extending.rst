@@ -64,9 +64,9 @@ which provides the configuration as the ``formate_global_config`` keyword argume
 .. code-block:: python
 
 	def change_indents(
-		source: str,
-		formate_global_config: Optional[Mapping] = None,
-		) -> str:
+			source: str,
+			formate_global_config: Optional[Mapping] = None,
+			) -> str:
 		"""
 		Change the indents of the source.
 
@@ -79,7 +79,7 @@ which provides the configuration as the ``formate_global_config`` keyword argume
 		if formate_global_config is None:
 			formate_global_config = {}
 
-		indent = formate_global_config.get("indent", "\t")
+		indent = formate_global_config.get("indent", '\t')
 
 		return re.sub("(    |\t)", indent, source)
 

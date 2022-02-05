@@ -57,26 +57,26 @@ def test_import_entry_points_not_found():
 
 def test_syntaxerror_for_file():
 
-	try:
+	with pytest.raises(SyntaxError) as exc_info:  # noqa: PT012
 		with syntaxerror_for_file("code.py"):
 			ast.parse("def foo()pass")
-	except SyntaxError as e:
-		assert e.filename == "code.py"
 
-	try:
+	assert exc_info.value.filename == "code.py"
+
+	with pytest.raises(SyntaxError) as exc_info:  # noqa: PT012
 		with syntaxerror_for_file("__init__.py"):
 			ast.parse("def foo()pass")
-	except SyntaxError as e:
-		assert e.filename == "__init__.py"
 
-	try:
+	assert exc_info.value.filename == "__init__.py"
+
+	with pytest.raises(SyntaxError) as exc_info:  # noqa: PT012
 		with syntaxerror_for_file("code.py"):
 			ast.parse("def foo()pass", filename="code.py")
-	except SyntaxError as e:
-		assert e.filename == "code.py"
 
-	try:
+	assert exc_info.value.filename == "code.py"
+
+	with pytest.raises(SyntaxError) as exc_info:  # noqa: PT012
 		with syntaxerror_for_file("code.py"):
 			ast.parse("def foo()pass", filename="__init__.py")
-	except SyntaxError as e:
-		assert e.filename == "__init__.py"
+
+	assert exc_info.value.filename == "__init__.py"
