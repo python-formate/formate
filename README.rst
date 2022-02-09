@@ -111,7 +111,7 @@ See `the documentation`_ for more information.
 .. |language| image:: https://img.shields.io/github/languages/top/python-formate/formate
 	:alt: GitHub top language
 
-.. |commits-since| image:: https://img.shields.io/github/commits-since/python-formate/formate/v0.4.9
+.. |commits-since| image:: https://img.shields.io/github/commits-since/python-formate/formate/v0.4.10
 	:target: https://github.com/python-formate/formate/pulse
 	:alt: GitHub commits since tagged version
 
