@@ -100,7 +100,7 @@ class Rewriter(ast.NodeVisitor):
 	"""
 	ABC for rewriting Python source files from an AST and a token stream.
 
-	.. autosummary-widths:: 8/16 8/16
+	.. autosummary-widths:: 8/16
 	"""
 
 	#: The original source.

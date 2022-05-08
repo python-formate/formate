@@ -83,7 +83,7 @@ class Hook:
 	"""
 	Represents a ``formate`` reformatting hook.
 
-	.. autosummary-widths:: 6/16 10/16
+	.. autosummary-widths:: 6/16
 	"""
 
 	#: The name of the hook. The name is normalized into lowercase, with underscores replaced by hyphens.

@@ -16,6 +16,7 @@ use_whey: true
 min_coverage: 95
 sphinx_html_theme: furo
 preserve_custom_theme: true
+docs_fail_on_warning: true
 
 conda_channels:
  - conda-forge
@@ -58,8 +59,8 @@ extra_sphinx_extensions:
  - attr_utils.autoattrs
  - sphinx_click
  - sphinx_toolbox.pre_commit
- - sphinx_toolbox_experimental.html_section
- - sphinx_toolbox_experimental.autosummary_widths
+ - sphinx_toolbox.more_autosummary.column_widths
+ - sphinx-favicon
  - sphinx_toolbox_experimental.changelog
  - sphinx_toolbox_experimental.missing_xref
  - local_extension
@@ -73,6 +74,8 @@ sphinx_conf_epilogue:
  - nitpicky = True
  - ignore_missing_xrefs = ["asttokens.*"]
  - changelog_sections_numbered = False
+ - needspace_amount = r"5\baselineskip"
+ - 'favicons = [{"rel": "icon", "href": "https://python-formate.github.io/assets/formate.ico",  "sizes": "48x48", "type": "image/vnd.microsoft.icon"}]'
 
 imgbot_ignore:
  - "formate.*"

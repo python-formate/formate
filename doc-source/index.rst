@@ -208,6 +208,12 @@ Contents
 	Contributing Guide<https://contributing-to-formate.readthedocs.io>
 
 
+.. sidebar-links::
+	:caption: Links
+	:github:
+	:pypi: formate
+
+
 .. start links
 
 .. only:: html

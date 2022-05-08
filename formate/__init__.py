@@ -216,7 +216,7 @@ class Reformatter:
 	:param filename: The filename to reformat.
 	:param config: The ``formate`` configuration, parsed from a TOML file (or similar).
 
-	.. autosummary-widths:: 5/16 11/16
+	.. autosummary-widths:: 5/16
 	"""
 
 	#: The filename being reformatted.
