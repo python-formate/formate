@@ -24,7 +24,7 @@ path_sub = re.compile(rf" .*/pytest-of-.*/pytest-\d+")
 def check_out(
 		result: Union[Result, CaptureResult[str]],
 		advanced_data_regression: AdvancedDataRegressionFixture,
-		):
+		) -> None:
 
 	if hasattr(result, "stdout"):
 		stdout = result.stdout
@@ -45,7 +45,7 @@ def check_out(
 
 
 @pytest.fixture()
-def demo_environment(tmp_pathplus):
+def demo_environment(tmp_pathplus: PathPlus) -> None:
 
 	example_formate_toml = PathPlus(__file__).parent / "example_formate.toml"
 	(tmp_pathplus / "formate.toml").write_text(example_formate_toml.read_text())
@@ -68,17 +68,17 @@ def demo_environment(tmp_pathplus):
 
 
 @pytest.fixture()
-def demo_pyproject_environment(demo_environment, tmp_pathplus):
+def demo_pyproject_environment(demo_environment: None, tmp_pathplus: PathPlus) -> None:
 	example_formate_toml = PathPlus(__file__).parent / "example_pyproject.toml"
 	(tmp_pathplus / "pyproject.toml").write_text(example_formate_toml.read_text())
 
 
+@pytest.mark.usefixtures("demo_environment")
 def test_integration(
 		tmp_pathplus: PathPlus,
 		advanced_file_regression: AdvancedFileRegressionFixture,
 		capsys,
 		advanced_data_regression: AdvancedDataRegressionFixture,
-		demo_environment,
 		):
 
 	config = load_toml(tmp_pathplus / "formate.toml")
@@ -103,12 +103,12 @@ def test_integration(
 	assert (tmp_pathplus / "code.py").stat().st_mtime == new_st.st_mtime
 
 
+@pytest.mark.usefixtures("demo_pyproject_environment")
 def test_integration_pyproject(
 		tmp_pathplus: PathPlus,
 		advanced_file_regression: AdvancedFileRegressionFixture,
 		capsys,
 		advanced_data_regression: AdvancedDataRegressionFixture,
-		demo_pyproject_environment,
 		):
 
 	config = load_toml(tmp_pathplus / "pyproject.toml")
@@ -122,12 +122,12 @@ def test_integration_pyproject(
 	advanced_file_regression.check_file(tmp_pathplus / "code.py")
 
 
+@pytest.mark.usefixtures("demo_environment")
 def test_reformatter_class(
 		tmp_pathplus: PathPlus,
 		advanced_file_regression: AdvancedFileRegressionFixture,
 		capsys,
 		advanced_data_regression: AdvancedDataRegressionFixture,
-		demo_environment,
 		):
 
 	config = load_toml(tmp_pathplus / "formate.toml")
@@ -170,11 +170,11 @@ def test_reformatter_class(
 	advanced_file_regression.check_file(tmp_pathplus / "code.py")
 
 
+@pytest.mark.usefixtures("demo_environment")
 def test_cli(
 		tmp_pathplus: PathPlus,
 		advanced_file_regression: AdvancedFileRegressionFixture,
 		advanced_data_regression: AdvancedDataRegressionFixture,
-		demo_environment,
 		):
 
 	result: Result
@@ -211,11 +211,11 @@ def test_cli(
 	assert (tmp_pathplus / "code.py").stat().st_mtime == new_st.st_mtime
 
 
+@pytest.mark.usefixtures("demo_environment")
 def test_cli_verbose_verbose(
 		tmp_pathplus: PathPlus,
 		advanced_file_regression: AdvancedFileRegressionFixture,
 		advanced_data_regression: AdvancedDataRegressionFixture,
-		demo_environment,
 		):
 
 	result: Result
@@ -244,12 +244,12 @@ def test_cli_verbose_verbose(
 	check_out(result, advanced_data_regression)
 
 
+@pytest.mark.usefixtures("demo_environment")
 @max_version("3.9.9", reason="Output differs on Python 3.10+")
 @not_pypy("Output differs on PyPy")
 def test_cli_syntax_error(
 		tmp_pathplus: PathPlus,
 		advanced_data_regression: AdvancedDataRegressionFixture,
-		demo_environment,
 		):
 
 	code = [
@@ -276,11 +276,11 @@ def test_cli_syntax_error(
 	check_out(result, advanced_data_regression)
 
 
+@pytest.mark.usefixtures("demo_environment")
 @only_pypy("Output differs on PyPy")
 def test_cli_syntax_error_pypy(
 		tmp_pathplus: PathPlus,
 		advanced_data_regression: AdvancedDataRegressionFixture,
-		demo_environment,
 		):
 
 	code = [
@@ -307,11 +307,11 @@ def test_cli_syntax_error_pypy(
 	check_out(result, advanced_data_regression)
 
 
+@pytest.mark.usefixtures("demo_environment")
 @min_version("3.10", reason="Output differs on Python 3.10+")
 def test_cli_syntax_error_py310(
 		tmp_pathplus: PathPlus,
 		advanced_data_regression: AdvancedDataRegressionFixture,
-		demo_environment,
 		):
 
 	code = [

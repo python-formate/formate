@@ -42,30 +42,32 @@ Example output, with a line length of ``100``:
 # stdlib
 import ast
 import sys
-import textwrap
 import typing
 from collections.abc import Collection
 from io import StringIO
+from textwrap import indent as indent_string
 
 # 3rd party
 import astatine
-import asttokens  # type: ignore
+import asttokens  # type: ignore[import]
 from domdf_python_tools.stringlist import DelimitedList, StringList
 from domdf_python_tools.words import TAB
 
-__all__ = ["reformat_generics", "Generic", "List"]
+__all__ = ("reformat_generics", "Generic", "List")
 
 collection_types = {"Union", "List", "Tuple", "Set", "Dict", "Callable", "Optional", "Literal"}
 
 subclasses = [Collection]
+# pylint: disable=loop-global-usage
 while subclasses:
 	subclass = subclasses.pop(0)
 	if subclass.__module__ == "collections.abc":
 		collection_types.add(subclass.__name__)
 		subclasses.extend(subclass.__subclasses__())
+		# pylint: enable=loop-global-usage
 
 
-def get_slice_value(ast_slice):  # py36: ast.Index  # py39: ast.Tuple
+def get_slice_value(ast_slice):  # py36: ast.Index  # py39: ast.Tuple  # noqa: MAN001,MAN002
 	"""
 	Return the value of the slice in a Python version-independent way.
 
@@ -103,11 +105,12 @@ class Generic:
 		if line_offset + len(repr(self)) > 110:
 			# Line too long as is
 			elements: DelimitedList[str] = DelimitedList()
+			offset_plus_4 = line_offset + 4
 			for element in self.elements:
 				if isinstance(element, Generic):
-					elements.append(textwrap.indent(element.format(line_offset + 4), '\t'))
+					elements.append(indent_string(element.format(offset_plus_4), '\t'))
 				else:
-					elements.append(textwrap.indent(str(element), '\t'))
+					elements.append(indent_string(str(element), '\t'))
 			return f"{self.name}[\n{elements:,\n}\n	]"
 		else:
 			return repr(self)
@@ -188,13 +191,15 @@ class UnionVisitor(ast.NodeVisitor):
 		parts: DelimitedList[str] = DelimitedList()
 		value: typing.Union[ast.Name, ast.expr] = node.value
 
+		NameNode, AttributeNode = ast.Name, ast.Attribute
+
 		while True:
-			if isinstance(value, ast.Name):
+			if isinstance(value, NameNode):
 				parts.append(value.id)
 				break
-			elif isinstance(value, ast.Attribute):
-				parts.append(value.value.id)  # type: ignore
-				value = value.attr  # type: ignore
+			elif isinstance(value, AttributeNode):
+				parts.append(value.value.id)  # type: ignore[attr-defined]
+				value = value.attr  # type: ignore[assignment]
 			elif isinstance(value, str):
 				parts.append(value)
 				break
@@ -301,7 +306,7 @@ def reformat_generics(
 			if in_class and len(formatted_obj) > 1:
 				buf.write(formatted_obj[0])
 				buf.write('\n')
-				buf.write(textwrap.indent(str(StringList(formatted_obj[1:])), indent))
+				buf.write(indent_string(str(StringList(formatted_obj[1:])), indent))
 			elif in_class:
 				buf.write(formatted_obj[0])
 			else:

@@ -39,7 +39,7 @@ from domdf_python_tools.typing import PathLike
 from formate.classes import FormateConfigDict, Hook
 from formate.utils import import_entry_points
 
-__all__ = ["parse_hooks", "parse_global_config", "load_toml", "wants_global_config", "wants_filename", "_C_str"]
+__all__ = ("parse_hooks", "parse_global_config", "load_toml", "wants_global_config", "wants_filename", "_C_str")
 
 _C_str = TypeVar("_C_str", bound=Callable[..., str])
 
@@ -109,7 +109,7 @@ def wants_global_config(func: _C_str) -> _C_str:
 	:param func:
 	"""
 
-	func.wants_global_config = True  # type: ignore
+	func.wants_global_config = True  # type: ignore[attr-defined]
 	return func
 
 
@@ -125,5 +125,5 @@ def wants_filename(func: _C_str) -> _C_str:
 	:param func:
 	"""
 
-	func.wants_filename = True  # type: ignore
+	func.wants_filename = True  # type: ignore[attr-defined]
 	return func

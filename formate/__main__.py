@@ -41,7 +41,7 @@ from domdf_python_tools.typing import PathLike
 # this package
 from formate import Reformatter
 
-__all__ = ["main"]
+__all__ = ("main", )
 
 
 @flag_option("--diff", "show_diff", help="Show a diff of changes made")
@@ -74,7 +74,7 @@ def main(
 		verbose: bool = False,
 		show_traceback: bool = False,
 		show_diff: bool = False,
-		):
+		) -> None:
 	"""
 	Reformat the given Python source files.
 	"""
@@ -99,12 +99,12 @@ def main(
 
 	for path in filename:
 		for pattern in exclude or []:
-			if re.match(fnmatch.translate(pattern), str(path)):
+			if re.match(fnmatch.translate(pattern), str(path)):  # pylint: disable=loop-invariant-statement
 				continue
 
 		path = PathPlus(path)
 
-		if path.suffix not in {".py", ".pyi", ''} or path.is_dir():
+		if path.suffix not in {".py", ".pyi", ''} or path.is_dir():  # pylint: disable=loop-invariant-statement
 			if verbose >= 2:
 				click.echo(f"Skipping {path} as it doesn't appear to be a Python file")
 

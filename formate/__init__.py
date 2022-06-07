@@ -52,7 +52,7 @@ __license__: str = "MIT License"
 __version__: str = "0.4.10"
 __email__: str = "dominic@davis-foster.co.uk"
 
-__all__ = ["call_hooks", "reformat_file", "Reformatter", "isort_hook", "yapf_hook"]
+__all__ = ("call_hooks", "reformat_file", "Reformatter", "isort_hook", "yapf_hook")
 
 # TODO: Ideas for hooks
 # * https://github.com/asottile/add-trailing-comma
@@ -144,7 +144,7 @@ def isort_hook(
 		for option, value in kwargs.items():
 			if option.startswith("import_heading"):
 				import_headings[option[len("import_heading") + 1:]] = value
-			elif option in isort_string_or_sequence:
+			elif option in isort_string_or_sequence:  # pylint: disable=loop-global-usage
 				if isinstance(value, str):
 					value = (value, )
 				elif not isinstance(value, Sequence):
@@ -183,7 +183,7 @@ def yapf_hook(source: str, formate_global_config: Optional[Mapping] = None, **kw
 	"""
 
 	# 3rd party
-	from yapf.yapflib.yapf_api import FormatCode  # type: ignore
+	from yapf.yapflib.yapf_api import FormatCode  # type: ignore[import]
 
 	if "yapf_style" in kwargs:
 		return FormatCode(source, style_config=str(kwargs["yapf_style"]))[0]
@@ -296,7 +296,7 @@ def reformat_file(
 		filename: PathLike,
 		config: FormateConfigDict,
 		colour: ColourTrilean = None,
-		):
+		) -> int:
 	"""
 	Reformat the given file, and show the diff if changes were made.
 

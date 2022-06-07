@@ -1,5 +1,5 @@
 # 3rd party
-import entrypoints  # type: ignore
+import entrypoints  # type: ignore[import]
 from coincidence import AdvancedDataRegressionFixture
 
 # These tests will fail if not installed and just running straight from source

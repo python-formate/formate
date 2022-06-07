@@ -61,7 +61,7 @@ class Foo:
 						),
 				]
 		)
-def test_generics(code, advanced_file_regression: AdvancedFileRegressionFixture):
+def test_generics(code: str, advanced_file_regression: AdvancedFileRegressionFixture):
 	advanced_file_regression.check(reformat_generics(code), extension="._py")
 
 
@@ -92,7 +92,7 @@ long_tuple = "Tuple[int, int, str, float, str, int, bytes, int, int, str, float,
 				pytest.param("  ", id='2'),
 				]
 		)
-def test_generics_indented(code, advanced_file_regression: AdvancedFileRegressionFixture, indent: str):
+def test_generics_indented(code: str, advanced_file_regression: AdvancedFileRegressionFixture, indent: str):
 	advanced_file_regression.check(reformat_generics(code, indent=indent), extension="._py")
 
 

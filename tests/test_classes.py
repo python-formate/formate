@@ -14,7 +14,7 @@ def test_entrypoint_errors():
 			TypeError,
 			match=re.escape("Entry points must be callables (e.g. classes and functions), not <class 'str'>."),
 			):
-		EntryPoint(name="foo-bar", obj="not-a-callable")  # type: ignore
+		EntryPoint(name="foo-bar", obj="not-a-callable")  # type: ignore[arg-type]
 
 
 def test_hook_errors():

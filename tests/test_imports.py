@@ -70,10 +70,10 @@ params = pytest.mark.parametrize(
 
 
 @params
-def test_rewrite_collections_abc_imports(code, advanced_file_regression: AdvancedFileRegressionFixture):
+def test_rewrite_collections_abc_imports(code: str, advanced_file_regression: AdvancedFileRegressionFixture):
 	advanced_file_regression.check(rewrite_collections_abc_imports(code), extension="._py")
 
 
 @params
-def test_CollectionsABCRewriter(code, advanced_file_regression: AdvancedFileRegressionFixture):
+def test_CollectionsABCRewriter(code: str, advanced_file_regression: AdvancedFileRegressionFixture):
 	advanced_file_regression.check(CollectionsABCRewriter(code).rewrite(), extension="._py")

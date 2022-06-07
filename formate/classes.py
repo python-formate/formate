@@ -36,7 +36,7 @@ from attr_utils.serialise import serde
 from domdf_python_tools.typing import PathLike
 from typing_extensions import TypedDict
 
-__all__ = ["FormateConfigDict", "ExpandedHookDict", "HooksMapping", "EntryPoint", "Hook"]
+__all__ = ("FormateConfigDict", "ExpandedHookDict", "HooksMapping", "EntryPoint", "Hook")
 
 #: Type hint for the ``hooks`` key of the ``formate`` configuration mapping.
 HooksMapping = Mapping[str, Union[int, "ExpandedHookDict"]]
@@ -104,7 +104,7 @@ class Hook:
 	global_config: Mapping[str, Any] = attr.ib(factory=dict)
 
 	@name.validator
-	def _normalize(self, attribute, value):
+	def _normalize(self, attribute, value):  # noqa: MAN001,MAN002
 		# this package
 		from formate.utils import _normalize_pattern
 
@@ -167,14 +167,14 @@ class EntryPoint:
 	obj: Callable[..., str] = attr.ib()
 
 	@name.validator
-	def _normalize(self, attribute, value):
+	def _normalize(self, attribute, value):  # noqa: MAN001,MAN002
 		# this package
 		from formate.utils import _normalize_pattern
 
 		self.name = _normalize_pattern.sub('-', value).lower()
 
 	@obj.validator
-	def _validate_obj(self, attribute, value):
+	def _validate_obj(self, attribute, value):  # noqa: MAN001,MAN002
 		if not callable(value):
 			raise TypeError(f"Entry points must be callables (e.g. classes and functions), not {type(value)!r}.")
 

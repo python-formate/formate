@@ -44,7 +44,7 @@ from domdf_python_tools.utils import double_repr_string
 # this package
 from formate.utils import Rewriter
 
-__all__ = ["dynamic_quotes"]
+__all__ = ("dynamic_quotes", )
 
 
 class QuoteRewriter(Rewriter):
@@ -70,7 +70,7 @@ class QuoteRewriter(Rewriter):
 
 		if node.body and isinstance(node.body[0], ast.Expr):
 			doc_node = node.body[0].value
-			doc_node.is_docstring = True  # type: ignore
+			doc_node.is_docstring = True  # type: ignore[attr-defined]
 
 		self.generic_visit(node)
 
@@ -135,10 +135,10 @@ class _LazyTranslate(Mapping):
 	Escapes surrogates in the range U+D800 to U+DFFF, so they are left unchanged in the source.
 	"""
 
-	def __iter__(self):
+	def __iter__(self):  # noqa: MAN002
 		raise NotImplementedError
 
-	def __len__(self):
+	def __len__(self):  # noqa: MAN002
 		raise NotImplementedError
 
 	def __getitem__(self, item: int) -> str:

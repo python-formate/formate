@@ -48,7 +48,7 @@ from typing import Union
 # this package
 from formate.utils import Rewriter
 
-__all__ = ["EllipsisRewriter", "ellipsis_reformat"]
+__all__ = ("EllipsisRewriter", "ellipsis_reformat")
 
 
 class EllipsisRewriter(Rewriter):

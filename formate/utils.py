@@ -34,10 +34,10 @@ import sys
 from contextlib import contextmanager
 from itertools import starmap
 from operator import itemgetter
-from typing import Dict, List, Tuple
+from typing import TYPE_CHECKING, Dict, Iterator, List, Tuple
 
 # 3rd party
-import asttokens  # type: ignore
+import asttokens  # type: ignore[import]
 import click
 from consolekit import terminal_colours
 from consolekit.tracebacks import TracebackHandler
@@ -48,7 +48,11 @@ from domdf_python_tools.typing import PathLike
 from formate.classes import EntryPoint, Hook
 from formate.exceptions import HookNotFoundError
 
-__all__ = ["import_entry_points", "normalize", "syntaxerror_for_file", "Rewriter", "SyntaxTracebackHandler"]
+if TYPE_CHECKING:
+	# stdlib
+	from typing import NoReturn
+
+__all__ = ("import_entry_points", "normalize", "syntaxerror_for_file", "Rewriter", "SyntaxTracebackHandler")
 
 _normalize_pattern = re.compile(r"[-_.]+")
 
@@ -141,7 +145,7 @@ class Rewriter(ast.NodeVisitor):
 
 		return reformatted_source
 
-	def record_replacement(self, text_range: Tuple[int, int], new_source: str):
+	def record_replacement(self, text_range: Tuple[int, int], new_source: str) -> None:
 		"""
 		Record a region of text to be replaced.
 
@@ -157,17 +161,17 @@ class SyntaxTracebackHandler(TracebackHandler):
 	Subclass of :class:`consolekit.tracebacks.TracebackHandler` to additionally handle :exc:`SyntaxError`.
 	"""
 
-	def handle_SyntaxError(self, e: SyntaxError):  # noqa: D102
+	def handle_SyntaxError(self, e: SyntaxError) -> "NoReturn":  # noqa: D102
 		click.echo(terminal_colours.Fore.RED(f"Fatal: {e.__class__.__name__}: {e}"), err=True)
 		sys.exit(126)
 
-	def handle_HookNotFoundError(self, e: HookNotFoundError):  # noqa: D102
+	def handle_HookNotFoundError(self, e: HookNotFoundError) -> "NoReturn":  # noqa: D102
 		click.echo(terminal_colours.Fore.RED(f"Fatal: Hook not found: {e}"), err=True)
 		sys.exit(126)
 
 
 @contextmanager
-def syntaxerror_for_file(filename: PathLike):
+def syntaxerror_for_file(filename: PathLike) -> Iterator:
 	"""
 	Context manager to catch :exc:`SyntaxError` and set its filename to ``filename``
 	if the current filename is ``<unknown>``.

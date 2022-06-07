@@ -29,7 +29,7 @@ Exception classes.
 # this package
 from formate.classes import Hook
 
-__all__ = ["HookNotFoundError"]
+__all__ = ("HookNotFoundError", )
 
 
 class HookNotFoundError(ValueError):

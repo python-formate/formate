@@ -39,7 +39,7 @@ from domdf_python_tools.typing import PathLike
 # this package
 from formate.config import wants_filename
 
-__all__ = ["noqa_reformat", "check_ast", "squish_stubs"]
+__all__ = ("noqa_reformat", "check_ast", "squish_stubs")
 
 
 def noqa_reformat(source: str) -> str:
@@ -118,6 +118,9 @@ class _MultilineFunction(_Function):
 def _breakup_source(source: str) -> List[List[str]]:
 	blocks: List[List[str]] = [[]]
 
+	split_az_re = re.compile("[A-Za-z]")
+	split_az_underscore_re = re.compile("[A-Za-z)*_]")
+
 	for line in source.split('\n'):
 		if not line.strip():
 			if isinstance(blocks[-1], _Variables):
@@ -145,12 +148,12 @@ def _breakup_source(source: str) -> List[List[str]]:
 			elif isinstance(blocks[-1], _MultilineFunction):
 				if len(blocks[-1]) < 2:
 					blocks[-1].append(line)
-				elif re.split("[A-Za-z)*_]", line)[0] == re.split("[A-Za-z)*_]", blocks[-1][-1])[0]:
+				elif split_az_underscore_re.split(line)[0] == split_az_underscore_re.split(blocks[-1][-1])[0]:
 					blocks[-1].append(line)
 				else:
 					blocks.append(_Variables([line]))
 			elif isinstance(blocks[-1], _Function):
-				if re.split("[A-Za-z]", line)[0] == re.split("[A-Za-z]", blocks[-1][-1])[0]:
+				if split_az_re.split(line)[0] == split_az_re.split(blocks[-1][-1])[0]:
 					blocks.append(_Variables([line]))
 				elif line.rstrip().endswith(','):
 					blocks[-1] = _MultilineFunction([*blocks[-1], line])
@@ -171,19 +174,24 @@ def _breakup_source(source: str) -> List[List[str]]:
 	return blocks
 
 
-def _reformat_blocks(blocks: List[List[str]]):
+def _reformat_blocks(blocks: List[List[str]]) -> StringList:
 
 	cursor = 1
 
+	tab_re = re.compile("^[ \t]+")
+
 	while cursor < len(blocks):
 
+		# pylint: disable=loop-invariant-statement
 		if isinstance(blocks[cursor - 1], (_MultilineFunction, _DecoratedFunction, _Class)):
 			# Add a blank line after _Variables, a multi-line function, or a decorated function
 			blocks.insert(cursor, [])
 			cursor += 1
 
-		if blocks[cursor] and blocks[cursor - 1] and re.match("^[ \t]+", blocks[cursor - 1][-1]
-																) and not re.match("^[ \t]+", blocks[cursor][0]):
+		if (
+				blocks[cursor] and blocks[cursor - 1] and tab_re.match(blocks[cursor - 1][-1])
+				and not tab_re.match(blocks[cursor][0])
+				):
 			# Add a blank line after a dedent
 			blocks.insert(cursor, [])
 			cursor += 1
@@ -212,6 +220,7 @@ def _reformat_blocks(blocks: List[List[str]]):
 					and not isinstance(blocks[cursor + 1], (_DecoratedFunction, _MultilineFunction))
 					and blocks[cursor][-1].lstrip().startswith("class") and blocks[cursor + 1][0][0].isspace()
 					):
+				# pylint: enable=loop-invariant-statement
 				blocks.insert(cursor, [])
 				cursor += 2
 			else:

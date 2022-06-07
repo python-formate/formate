@@ -37,7 +37,7 @@ from domdf_python_tools.stringlist import DelimitedList
 # this package
 from formate.utils import Rewriter
 
-__all__ = ["CollectionsABCRewriter", "rewrite_collections_abc_imports"]
+__all__ = ("CollectionsABCRewriter", "rewrite_collections_abc_imports")
 
 
 class CollectionsABCRewriter(Rewriter):
@@ -63,7 +63,7 @@ class CollectionsABCRewriter(Rewriter):
 
 		name: ast.alias
 		for name in node.names:
-			if name.name in collections.abc.__all__:
+			if name.name in collections.abc.__all__:  # pylint: disable=dotted-import-in-loop
 				collections_abc_imports.append(name.name)
 			else:
 				collections_imports.append(name.name)
