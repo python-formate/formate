@@ -37,7 +37,7 @@ from operator import itemgetter
 from typing import TYPE_CHECKING, Dict, Iterator, List, Tuple
 
 # 3rd party
-import asttokens  # type: ignore[import]
+import asttokens
 import click
 from consolekit import terminal_colours
 from consolekit.tracebacks import TracebackHandler
@@ -126,6 +126,8 @@ class Rewriter(ast.NodeVisitor):
 		self.tokens = asttokens.ASTTokens(source, parse=True)
 		self.replacements: List[Tuple[Tuple[int, int], str]] = []
 
+		assert self.tokens.tree is not None
+
 	def rewrite(self) -> str:
 		"""
 		Rewrite the source and return the new source.
@@ -133,7 +135,9 @@ class Rewriter(ast.NodeVisitor):
 		:returns: The reformatted source.
 		"""
 
-		self.visit(self.tokens.tree)
+		tree = self.tokens.tree
+		assert tree is not None
+		self.visit(tree)
 
 		reformatted_source = self.source
 

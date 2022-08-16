@@ -49,7 +49,7 @@ from textwrap import indent as indent_string
 
 # 3rd party
 import astatine
-import asttokens  # type: ignore[import]
+import asttokens
 from domdf_python_tools.stringlist import DelimitedList, StringList
 from domdf_python_tools.words import TAB
 
@@ -286,11 +286,13 @@ def reformat_generics(
 	buf = StringIO()
 	visitor = Visitor()
 	atok = asttokens.ASTTokens(source, parse=True)
+	tree = atok.tree
+	assert tree is not None
 
 	indent = (formate_global_config or {}).get("indent", kwargs.get("indent", TAB))
 
 	try:
-		for union_node, union_obj, in_class in visitor.visit(atok.tree):
+		for union_node, union_obj, in_class in visitor.visit(tree):
 			text_range = atok.get_text_range(union_node)
 			buf.write(source[offset:text_range[0]])
 
