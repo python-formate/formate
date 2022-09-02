@@ -65,8 +65,8 @@ formate
 		:workflow: mypy
 		:alt: mypy status
 
-	.. |requires| image:: https://dependency-dash.herokuapp.com/github/python-formate/formate/badge.svg
-		:target: https://dependency-dash.herokuapp.com/github/python-formate/formate/
+	.. |requires| image:: https://dependency-dash.repo-helper.uk/github/python-formate/formate/badge.svg
+		:target: https://dependency-dash.repo-helper.uk/github/python-formate/formate/
 		:alt: Requirements Status
 
 	.. |coveralls| coveralls-shield::
