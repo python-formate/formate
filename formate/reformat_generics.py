@@ -252,7 +252,7 @@ class UnionVisitor(ast.NodeVisitor):
 			elif node.value is Ellipsis:
 				self.structure.append("...")
 			elif node.value is None or isinstance(node.value, bool):
-				self.structure.append(node.value)
+				self.structure.append(str(node.value))
 			else:
 				print(node, node.value)
 				self.generic_visit(node)
