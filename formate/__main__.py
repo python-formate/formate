@@ -61,8 +61,10 @@ __all__ = ("main", )
 		"-c",
 		"--config-file",
 		type=click.STRING,
-		help=
-		"The path or filename of the TOML configuration file to use. If a filename is given it is searched for in the current and parent directories.",
+		help=(
+				"The path or filename of the TOML configuration file to use. "
+				"If a filename is given it is searched for in the current and parent directories."
+				),
 		default="formate.toml",
 		show_default=True,
 		)
