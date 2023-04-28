@@ -60,7 +60,7 @@ __all__ = ("main", )
 		"-c",
 		"--config-file",
 		type=click.STRING,
-		help="The path to the TOML configuration file to use.",
+		help="The path or filename of the TOML configuration file to use. If a filename is given it is searched for in the current and parent directories.",
 		default="formate.toml",
 		show_default=True,
 		)
@@ -91,6 +91,17 @@ def main(
 	from formate.utils import SyntaxTracebackHandler, syntaxerror_for_file
 
 	retv = 0
+
+	config_file = PathPlus(config_file)
+
+	# If `config_file` is a filename (rather than a path), look in CWD and parent directories
+	if len(config_file.parts) == 1 and not config_file.exists():
+		# Just a filename, not in CWD
+		for parent in PathPlus.cwd().parents:
+			candidate = parent / config_file
+			if candidate.exists():
+				config_file = candidate
+				break
 
 	try:
 		config = load_toml(config_file)

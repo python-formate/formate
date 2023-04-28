@@ -179,6 +179,9 @@ def yapf_hook(source: str, formate_global_config: Optional[Mapping] = None, **kw
 	:param formate_global_config: The global configuration dictionary. Optional.
 	:param \*\*kwargs:
 
+	If ``yapf_style`` is given as a keyword argument, use that style.
+	If a filename is given as the style it is searched for in the current and parent directories, and the style taken from the configuration in that file.
+
 	:returns: The reformatted source.
 	"""
 
@@ -186,7 +189,19 @@ def yapf_hook(source: str, formate_global_config: Optional[Mapping] = None, **kw
 	from yapf.yapflib.yapf_api import FormatCode  # type: ignore[import]
 
 	if "yapf_style" in kwargs:
-		return FormatCode(source, style_config=str(kwargs["yapf_style"]))[0]
+		yapf_style = PathPlus(kwargs["yapf_style"])
+		# yapf_style may be a filename or the name of a style
+
+		# If `yapf_style` is a filename (or the name of a style, as opposed to a path), look in CWD and parent directories
+		if len(yapf_style.parts) == 1 and not yapf_style.exists():
+			# Just a filename, not in CWD
+			for parent in PathPlus.cwd().parents:
+				candidate = parent / yapf_style
+				if candidate.exists():
+					yapf_style = candidate
+					break
+
+		return FormatCode(source, style_config=str(yapf_style))[0]
 
 	else:
 		if "use_tabs" not in kwargs and formate_global_config:
