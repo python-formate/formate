@@ -96,10 +96,8 @@ def main(
 
 	retv = 0
 
-	config_file = PathPlus(config_file)
-
 	# If `config_file` is a filename (rather than a path), look in CWD and parent directories
-	config_file = _find_from_parents(config_file)
+	config_file = _find_from_parents(PathPlus(config_file))
 
 	try:
 		config = load_toml(config_file)
