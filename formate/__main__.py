@@ -40,6 +40,7 @@ from domdf_python_tools.typing import PathLike
 
 # this package
 from formate import Reformatter
+from formate.utils import _find_from_parents
 
 __all__ = ("main", )
 
@@ -60,7 +61,8 @@ __all__ = ("main", )
 		"-c",
 		"--config-file",
 		type=click.STRING,
-		help="The path or filename of the TOML configuration file to use. If a filename is given it is searched for in the current and parent directories.",
+		help=
+		"The path or filename of the TOML configuration file to use. If a filename is given it is searched for in the current and parent directories.",
 		default="formate.toml",
 		show_default=True,
 		)
@@ -95,13 +97,7 @@ def main(
 	config_file = PathPlus(config_file)
 
 	# If `config_file` is a filename (rather than a path), look in CWD and parent directories
-	if len(config_file.parts) == 1 and not config_file.exists():
-		# Just a filename, not in CWD
-		for parent in PathPlus.cwd().parents:
-			candidate = parent / config_file
-			if candidate.exists():
-				config_file = candidate
-				break
+	config_file = _find_from_parents(config_file)
 
 	try:
 		config = load_toml(config_file)

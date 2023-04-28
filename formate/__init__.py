@@ -44,7 +44,7 @@ from isort.exceptions import FileSkipComment
 # this package
 from formate.classes import FormateConfigDict, Hook
 from formate.config import parse_hooks, wants_filename, wants_global_config
-from formate.utils import syntaxerror_for_file
+from formate.utils import _find_from_parents, syntaxerror_for_file
 
 __author__: str = "Dominic Davis-Foster"
 __copyright__: str = "2020-2021 Dominic Davis-Foster"
@@ -189,17 +189,9 @@ def yapf_hook(source: str, formate_global_config: Optional[Mapping] = None, **kw
 	from yapf.yapflib.yapf_api import FormatCode  # type: ignore[import]
 
 	if "yapf_style" in kwargs:
-		yapf_style = PathPlus(kwargs["yapf_style"])
 		# yapf_style may be a filename or the name of a style
-
 		# If `yapf_style` is a filename (or the name of a style, as opposed to a path), look in CWD and parent directories
-		if len(yapf_style.parts) == 1 and not yapf_style.exists():
-			# Just a filename, not in CWD
-			for parent in PathPlus.cwd().parents:
-				candidate = parent / yapf_style
-				if candidate.exists():
-					yapf_style = candidate
-					break
+		yapf_style = _find_from_parents(PathPlus(kwargs["yapf_style"]))
 
 		return FormatCode(source, style_config=str(yapf_style))[0]
 

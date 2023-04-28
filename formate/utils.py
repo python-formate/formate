@@ -29,12 +29,13 @@ Utility functions.
 # stdlib
 import ast
 import os
+import pathlib
 import re
 import sys
 from contextlib import contextmanager
 from itertools import starmap
 from operator import itemgetter
-from typing import TYPE_CHECKING, Dict, Iterator, List, Tuple
+from typing import TYPE_CHECKING, Dict, Iterator, List, Tuple, TypeVar
 
 # 3rd party
 import asttokens
@@ -194,3 +195,22 @@ def syntaxerror_for_file(filename: PathLike) -> Iterator:
 			e.filename = os.fspath(filename)
 
 		raise e
+
+
+_P = TypeVar("_P", bound=pathlib.Path)
+
+
+def _find_from_parents(path: _P) -> _P:
+	"""
+	Try to find ``path`` in the current directory or its parents.
+
+	If the file can't be found ``path`` is returned.
+	"""
+
+	if len(path.parts) == 1 and not path.exists():
+		for parent in path.cwd().parents:
+			candidate = parent / path
+			if candidate.exists():
+				return candidate
+
+	return path
