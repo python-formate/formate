@@ -33,18 +33,31 @@ from typing import Iterable, List, Optional
 # 3rd party
 import click
 from consolekit import click_command
-from consolekit.options import MultiValueOption, colour_option, flag_option, verbose_option
+from consolekit.options import MultiValueOption, colour_option, flag_option, verbose_option, version_option
 from consolekit.terminal_colours import ColourTrilean, resolve_color_default
 from consolekit.tracebacks import handle_tracebacks, traceback_option
 from domdf_python_tools.typing import PathLike
 
-# this package
-from formate import Reformatter
-from formate.utils import _find_from_parents
-
-__all__ = ("main", )
+__all__ = ("main", "version_callback")
 
 
+def version_callback(ctx: click.Context, param: click.Option, value: int):
+	# this package
+	import formate
+
+	if not value or ctx.resilient_parsing:
+		return
+
+	if value > 1:
+		python_version = sys.version.replace('\n', ' ')
+		click.echo(f"formate version {formate.__version__}, Python {python_version}")
+	else:
+		click.echo(f"formate version {formate.__version__}")
+
+	ctx.exit()
+
+
+@version_option(version_callback)
 @flag_option("--diff", "show_diff", help="Show a diff of changes made")
 @traceback_option()
 @colour_option()
@@ -91,8 +104,9 @@ def main(
 	from domdf_python_tools.paths import PathPlus
 
 	# this package
+	from formate import Reformatter
 	from formate.config import load_toml
-	from formate.utils import SyntaxTracebackHandler, syntaxerror_for_file
+	from formate.utils import SyntaxTracebackHandler, _find_from_parents, syntaxerror_for_file
 
 	retv = 0
 
