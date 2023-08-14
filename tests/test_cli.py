@@ -1,12 +1,10 @@
 # stdlib
-import re
 import sys
-from typing import Optional
 
 # 3rd party
 import pytest
 from coincidence.regressions import AdvancedFileRegressionFixture
-from consolekit.testing import CliRunner
+from consolekit.testing import CliRunner, _click_major
 from domdf_python_tools.words import LF
 
 # this package
@@ -14,7 +12,23 @@ import formate
 from formate.__main__ import main
 
 
-def test_help(advanced_file_regression: AdvancedFileRegressionFixture):
+@pytest.mark.parametrize(
+		"click_version",
+		[
+				pytest.param(
+						'7',
+						marks=pytest.mark.skipif(_click_major == 8, reason="Output differs on click 8"),
+						),
+				pytest.param(
+						'8',
+						marks=pytest.mark.skipif(_click_major != 8, reason="Output differs on click 8"),
+						),
+				]
+		)
+def test_help(
+		advanced_file_regression: AdvancedFileRegressionFixture,
+		click_version: str,
+		):
 
 	runner = CliRunner()
 

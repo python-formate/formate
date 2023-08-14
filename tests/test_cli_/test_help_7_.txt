@@ -1,0 +1,17 @@
+Usage: main [OPTIONS] [FILENAME]...
+
+  Reformat the given Python source files.
+
+Options:
+  -c, --config-file TEXT  The path or filename of the TOML configuration file to
+                          use. If a filename is given it is searched for in the
+                          current and parent directories.  [default:
+                          formate.toml]
+
+  -e, --exclude PATTERN   Patterns for files to exclude from formatting.
+  -v, --verbose           Show verbose output.
+  --colour / --no-colour  Whether to use coloured output.
+  -T, --traceback         Show the complete traceback on error.
+  --diff                  Show a diff of changes made
+  --version               Show the version and exit.
+  -h, --help              Show this message and exit.
