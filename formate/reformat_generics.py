@@ -233,10 +233,10 @@ class UnionVisitor(ast.NodeVisitor):
 	def visit_AsyncFunctionDef(self, node: ast.AsyncFunctionDef) -> None:
 		return None
 
-	def visit_NameConstant(self, node: ast.NameConstant) -> None:
-		self.structure.append(node.value)
-
 	if sys.version_info[:2] < (3, 8):  # pragma: no cover (py38+)
+
+		def visit_NameConstant(self, node: ast.NameConstant) -> None:
+			self.structure.append(node.value)
 
 		def visit_Str(self, node: ast.Str) -> None:
 			self.structure.append(f'"{node.s}"')

@@ -72,15 +72,23 @@ class EllipsisRewriter(Rewriter):
 		if not isinstance(node.body[0], ast.Expr):
 			return
 
-		if not isinstance(node.body[0].value, (ast.Constant, ast.Ellipsis)):
-			return
-
-		if sys.version_info < (3, 8):  # pragma: no cover (py38+)
-			if not isinstance(node.body[0].value, ast.Ellipsis):
+		if sys.version_info >= (3, 12):  # pragma: no cover (<py312)
+			if not isinstance(node.body[0].value, ast.Constant):
+				return
+			if not node.body[0].value.value is Ellipsis:
 				return
 
-		else:  # pragma: no cover (<py38)
+		elif sys.version_info >= (3, 8):  # pragma: no cover (<py38)
+			if not isinstance(node.body[0].value, (ast.Constant, ast.Ellipsis)):
+				return
+
 			if not node.body[0].value.value is Ellipsis:
+				return
+		else:  # pragma: no cover (py38+)
+			if not isinstance(node.body[0].value, (ast.Constant, ast.Ellipsis)):
+				return
+
+			if not isinstance(node.body[0].value, ast.Ellipsis):
 				return
 
 		body_text_range = self.tokens.get_text_range(node)

@@ -46,6 +46,11 @@ from formate.utils import Rewriter
 
 __all__ = ("dynamic_quotes", )
 
+if sys.version_info >= (3, 12):
+	StrOrConstant = ast.Constant
+else:
+	StrOrConstant = Union[ast.Str, ast.Constant]
+
 
 class QuoteRewriter(Rewriter):
 
@@ -83,7 +88,7 @@ class QuoteRewriter(Rewriter):
 	def visit_AsyncFunctionDef(self, node: ast.AsyncFunctionDef) -> None:
 		self.visit_definition(node)
 
-	def rewrite_quotes_for_node(self, node: Union[ast.Str, ast.Constant]) -> None:
+	def rewrite_quotes_for_node(self, node: StrOrConstant) -> None:
 		"""
 		Mark the area for rewriting quotes in the given node.
 
@@ -101,20 +106,26 @@ class QuoteRewriter(Rewriter):
 			# TODO: format docstring with triple quotes and correct indentation
 			return
 		else:
+
+			if sys.version_info >= (3, 12):  # pragma: no cover (<py312)
+				value = node.value
+			else:  # pragma: no cover (py312+)
+				value = node.s
+
 			if string in {'""', "''"}:
 				self.record_replacement(text_range, "''")
 			elif not re.match("^[\"']", string):
 				return
-			elif len(node.s) == 1:
-				self.record_replacement(text_range, repr(node.s))
+			elif len(value) == 1:
+				self.record_replacement(text_range, repr(value))
 			elif '\n' in string:
 				return
-			elif '\n' in node.s or "\\n" in node.s:
+			elif '\n' in value or "\\n" in value:
 				return
 			else:
 				self.record_replacement(
 						text_range,
-						double_repr_string(node.s).translate(_surrogate_translator),
+						double_repr_string(value).translate(_surrogate_translator),
 						)
 
 
