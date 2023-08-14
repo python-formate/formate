@@ -41,7 +41,11 @@ from domdf_python_tools.typing import PathLike
 __all__ = ("main", "version_callback")
 
 
-def version_callback(ctx: click.Context, param: click.Option, value: int):
+def version_callback(ctx: click.Context, param: click.Option, value: int) -> None:
+	"""
+	Callback for displaying the package version (and optionally the Python runtime).
+	"""
+
 	# this package
 	import formate
 
