@@ -158,13 +158,15 @@ class Visitor(ast.NodeVisitor):
 		super().visit(node)
 		return self.unions
 
-	def visit_FunctionDef(self, node: ast.FunctionDef) -> None:
+	@staticmethod
+	def visit_FunctionDef(node: ast.FunctionDef) -> None:
 		return None
 
 	def visit_ClassDef(self, node: ast.ClassDef) -> None:
 		self.unions.extend(ClassVisitor().visit(node))
 
-	def visit_AsyncFunctionDef(self, node: ast.AsyncFunctionDef) -> None:
+	@staticmethod
+	def visit_AsyncFunctionDef(node: ast.AsyncFunctionDef) -> None:
 		return None
 
 
@@ -221,16 +223,19 @@ class UnionVisitor(ast.NodeVisitor):
 			elements.extend(UnionVisitor().visit(child))
 		self.structure.append(List(elements))
 
-	def visit_Load(self, node: ast.Load) -> None:
+	@staticmethod
+	def visit_Load(node: ast.Load) -> None:
 		return None
 
-	def visit_FunctionDef(self, node: ast.FunctionDef) -> None:
+	@staticmethod
+	def visit_FunctionDef(node: ast.FunctionDef) -> None:
 		return None
 
 	def visit_ClassDef(self, node: ast.ClassDef) -> None:
 		self.generic_visit(node)
 
-	def visit_AsyncFunctionDef(self, node: ast.AsyncFunctionDef) -> None:
+	@staticmethod
+	def visit_AsyncFunctionDef(node: ast.AsyncFunctionDef) -> None:
 		return None
 
 	if sys.version_info[:2] < (3, 8):  # pragma: no cover (py38+)

@@ -166,11 +166,13 @@ class SyntaxTracebackHandler(TracebackHandler):
 	Subclass of :class:`consolekit.tracebacks.TracebackHandler` to additionally handle :exc:`SyntaxError`.
 	"""
 
-	def handle_SyntaxError(self, e: SyntaxError) -> "NoReturn":  # noqa: D102
+	@staticmethod
+	def handle_SyntaxError(e: SyntaxError) -> "NoReturn":  # noqa: D102
 		click.echo(terminal_colours.Fore.RED(f"Fatal: {e.__class__.__name__}: {e}"), err=True)
 		sys.exit(126)
 
-	def handle_HookNotFoundError(self, e: HookNotFoundError) -> "NoReturn":  # noqa: D102
+	@staticmethod
+	def handle_HookNotFoundError(e: HookNotFoundError) -> "NoReturn":  # noqa: D102
 		click.echo(terminal_colours.Fore.RED(f"Fatal: Hook not found: {e}"), err=True)
 		sys.exit(126)
 
