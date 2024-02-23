@@ -55,4 +55,4 @@ known_third_party = [
     "typing_extensions",
     "yapf",
 ]
-known_first_party = "formate"
+known_first_party = [ "formate",]
