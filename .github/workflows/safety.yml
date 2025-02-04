@@ -46,4 +46,5 @@ jobs:
 
       - name: "Run Safety"
         if: steps.changes.outputs.code == 'true'
-        run: "python -m safety check -r requirements.txt --full-report"
+        # 47833: Click mktemp/mkstemp issue involving the pager we don't use
+        run: "python -m safety check -r requirements.txt -i 47833 --full-report"
