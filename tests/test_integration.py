@@ -9,7 +9,7 @@ from _pytest.capture import CaptureResult
 from coincidence.regressions import AdvancedDataRegressionFixture, AdvancedFileRegressionFixture
 from coincidence.selectors import max_version, min_version, not_pypy, only_pypy
 from consolekit.terminal_colours import strip_ansi
-from consolekit.testing import CliRunner, Result
+from consolekit.testing import CliRunner, Result, click_version
 from domdf_python_tools.paths import PathPlus, in_directory
 
 # this package
@@ -338,7 +338,7 @@ def test_cli_syntax_error_py310(
 	check_out(result, advanced_data_regression)
 
 
-@pytest.mark.skipif(click.__version__.split('.')[0] != '7', reason="Output differs on Click 8")
+@pytest.mark.skipif(click_version[0] != 7, reason="Output differs on Click 8")
 def test_cli_no_config(
 		tmp_pathplus: PathPlus,
 		advanced_data_regression: AdvancedDataRegressionFixture,
@@ -355,7 +355,7 @@ def test_cli_no_config(
 	check_out(result, advanced_data_regression)
 
 
-@pytest.mark.skipif(click.__version__.split('.')[0] == '7', reason="Output differs on Click 8")
+@pytest.mark.skipif(click_version[0] == 7, reason="Output differs on Click 8")
 def test_cli_no_config_click8(
 		tmp_pathplus: PathPlus,
 		advanced_data_regression: AdvancedDataRegressionFixture,

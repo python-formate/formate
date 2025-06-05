@@ -23,15 +23,33 @@ conda_channels:
 
 python_versions:
   '3.7':
+   matrix_exclude:
+    click:
+     - 8.2
   '3.8':
+   matrix_exclude:
+    click:
+     - 8.2
   '3.9':
+   matrix_exclude:
+    click:
+     - 8.2
   '3.10':
   '3.11':
   '3.12':
   '3.13':
   pypy37:
+   matrix_exclude:
+    click:
+     - 8.2
   pypy38:
+   matrix_exclude:
+    click:
+     - 8.2
   pypy39:
+   matrix_exclude:
+    click:
+     - 8.2
 
 keywords:
  - formatting
@@ -95,3 +113,4 @@ third_party_version_matrix:
   - 7
   - 8.0
   - 8.1
+  - 8.2
