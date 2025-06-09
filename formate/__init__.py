@@ -186,7 +186,7 @@ def yapf_hook(source: str, formate_global_config: Optional[Mapping] = None, **kw
 	"""
 
 	# 3rd party
-	from yapf.yapflib.yapf_api import FormatCode  # type: ignore[import]
+	from yapf.yapflib.yapf_api import FormatCode  # type: ignore[import-untyped]
 
 	if "yapf_style" in kwargs:
 		# yapf_style may be a filename or the name of a style
