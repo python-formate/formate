@@ -188,32 +188,41 @@ def yapf_hook(source: str, formate_global_config: Optional[Mapping] = None, **kw
 	# 3rd party
 	from yapf.yapflib.yapf_api import FormatCode  # type: ignore[import-untyped]
 
-	if "yapf_style" in kwargs:
-		# yapf_style may be a filename or the name of a style
-		# If `yapf_style` is a filename (or the name of a style, as opposed to a path), look in CWD and parent directories
-		yapf_style = _find_from_parents(PathPlus(kwargs["yapf_style"]))
+	with TemporaryPathPlus() as tmpdir:
+		config_file = tmpdir / ".style.yapf"
+		config = ConfigParser()
 
-		return FormatCode(source, style_config=str(yapf_style))[0]
+		if "yapf_style" in kwargs:
+			# yapf_style may be a filename or the name of a style
+			# If `yapf_style` is a filename (or the name of a style, as opposed to a path), look in CWD and parent directories
+			yapf_style = _find_from_parents(PathPlus(kwargs["yapf_style"]))
 
-	else:
-		if "use_tabs" not in kwargs and formate_global_config:
-			if "indent" in (formate_global_config or {}):
-				kwargs["use_tabs"] = formate_global_config["indent"] == TAB
+			with yapf_style.open() as fp:
+				config.read_file(fp)
 
-		if "column_limit" not in kwargs and formate_global_config:
-			if "line_length" in (formate_global_config or {}):
-				kwargs["column_limit"] = formate_global_config["line_length"]
+			if "use_tabs" not in config["style"] and formate_global_config:
+				if "indent" in (formate_global_config or {}):
+					config["style"]["use_tabs"] = str(formate_global_config["indent"] == TAB)
 
-		with TemporaryPathPlus() as tmpdir:
-			config_file = tmpdir / ".style.yapf"
+			if "column_limit" not in config["style"] and formate_global_config:
+				if "line_length" in (formate_global_config or {}):
+					config["style"]["column_limit"] = str(formate_global_config["line_length"])
 
-			config = ConfigParser()
+		else:
+			if "use_tabs" not in kwargs and formate_global_config:
+				if "indent" in (formate_global_config or {}):
+					kwargs["use_tabs"] = formate_global_config["indent"] == TAB
+
+			if "column_limit" not in kwargs and formate_global_config:
+				if "line_length" in (formate_global_config or {}):
+					kwargs["column_limit"] = formate_global_config["line_length"]
+
 			config.read_dict({"style": kwargs})
 
-			with config_file.open('w') as fp:
-				config.write(fp)
+		with config_file.open('w') as fp:
+			config.write(fp)
 
-			return FormatCode(source, style_config=str(config_file))[0]
+		return FormatCode(source, style_config=str(config_file))[0]
 
 
 class Reformatter:
