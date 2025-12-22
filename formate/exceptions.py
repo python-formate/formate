@@ -35,6 +35,8 @@ __all__ = ("HookNotFoundError", )
 class HookNotFoundError(ValueError):
 	"""
 	Exception to indicate the specified hook could not be found.
+
+	:param hook: The missing hook.
 	"""
 
 	#: The missing hook.

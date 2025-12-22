@@ -64,6 +64,8 @@ class EllipsisRewriter(Rewriter):
 			) -> None:
 		"""
 		Responsible for the actual rewriting.
+
+		:param node: The node to rewrite.
 		"""
 
 		if not node.body:  # pragma: no cover

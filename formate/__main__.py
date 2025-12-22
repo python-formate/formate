@@ -41,7 +41,7 @@ from domdf_python_tools.typing import PathLike
 __all__ = ("main", "version_callback")
 
 
-def version_callback(ctx: click.Context, param: click.Option, value: int) -> None:
+def version_callback(ctx: click.Context, param: click.Option, value: int) -> None:  # noqa: PRM002
 	"""
 	Callback for displaying the package version (and optionally the Python runtime).
 	"""
@@ -87,7 +87,7 @@ def version_callback(ctx: click.Context, param: click.Option, value: int) -> Non
 		)
 @click.argument("filename", type=click.STRING, nargs=-1)
 @click_command()
-def main(
+def main(  # noqa: PRM002
 		filename: Iterable[PathLike],
 		config_file: PathLike,
 		exclude: "Optional[List[str]]",

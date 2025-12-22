@@ -3,7 +3,6 @@ import re
 from typing import Union, no_type_check
 
 # 3rd party
-import click
 import pytest
 from _pytest.capture import CaptureResult
 from coincidence.regressions import AdvancedDataRegressionFixture, AdvancedFileRegressionFixture

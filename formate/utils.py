@@ -105,6 +105,8 @@ class Rewriter(ast.NodeVisitor):
 	"""
 	ABC for rewriting Python source files from an AST and a token stream.
 
+	:param source: The original source.
+
 	.. autosummary-widths:: 8/16
 	"""
 
@@ -202,7 +204,7 @@ def syntaxerror_for_file(filename: PathLike) -> Iterator:
 _P = TypeVar("_P", bound=pathlib.Path)
 
 
-def _find_from_parents(path: _P) -> _P:
+def _find_from_parents(path: _P) -> _P:  # noqa: PRM002
 	"""
 	Try to find ``path`` in the current directory or its parents.
 
