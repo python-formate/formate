@@ -1,0 +1,7 @@
+filename: code.py
+lineno: 1
+msg: end of line (EOL) while scanning string literal
+offset: 2
+text: 'f''
+
+  '

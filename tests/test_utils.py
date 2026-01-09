@@ -4,7 +4,7 @@ import ast
 # 3rd party
 import pytest
 from coincidence.regressions import AdvancedDataRegressionFixture
-from coincidence.selectors import max_version, min_version
+from coincidence.selectors import max_version, min_version, not_pypy, only_pypy
 
 # this package
 from formate import yapf_hook
@@ -92,9 +92,10 @@ def test_syntaxerror_for_file():
 @pytest.mark.parametrize(
 		"python_version",
 		[
-				pytest.param("3.7", marks=max_version("3.9")),
-				pytest.param("3.10", marks=[min_version("3.10"), max_version("3.11")]),
-				pytest.param("3.12", marks=min_version("3.12")),
+				pytest.param("3.7", marks=[max_version("3.9"), not_pypy()]),
+				pytest.param("pypy3.7", marks=[max_version("3.9"), only_pypy()]),
+				pytest.param("3.10", marks=[min_version("3.10"), max_version("3.11"), not_pypy()]),
+				pytest.param("3.12", marks=[min_version("3.12"), not_pypy()]),
 				],
 		)
 def test_syntaxerror_for_file_f_string(
