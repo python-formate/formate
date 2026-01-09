@@ -3,8 +3,11 @@ import ast
 
 # 3rd party
 import pytest
+from coincidence.regressions import AdvancedDataRegressionFixture
+from coincidence.selectors import max_version, min_version
 
 # this package
+from formate import yapf_hook
 from formate.classes import Hook
 from formate.exceptions import HookNotFoundError
 from formate.reformat_generics import reformat_generics
@@ -80,3 +83,40 @@ def test_syntaxerror_for_file():
 			ast.parse("def foo()pass", filename="__init__.py")
 
 	assert exc_info.value.filename == "__init__.py"
+
+
+@pytest.mark.parametrize(
+		"python_version",
+		[
+				pytest.param("3.7", marks=max_version("3.9")),
+				pytest.param("3.10", marks=[min_version("3.10"), max_version("3.11")]),
+				pytest.param("3.12", marks=min_version("3.12")),
+				]
+		)
+def test_syntaxerror_for_file_f_string(python_version, advanced_data_regression: AdvancedDataRegressionFixture):
+
+	with pytest.raises(SyntaxError) as exc_info:  # noqa: PT012
+		with syntaxerror_for_file("code.py"):
+			ast.parse("f'")
+
+	exc: SyntaxError = exc_info.value
+	advanced_data_regression.check({
+			"msg": exc.msg,
+			"filename": exc.filename,
+			"lineno": exc.lineno,
+			"offset": exc.offset,
+			"text": exc.text,
+			})
+
+	with pytest.raises(SyntaxError) as exc_info:  # noqa: PT012
+		with syntaxerror_for_file("code.py"):
+			yapf_hook("f'")
+
+	exc: SyntaxError = exc_info.value
+	advanced_data_regression.check({
+			"msg": exc.msg,
+			"filename": exc.filename,
+			"lineno": exc.lineno,
+			"offset": exc.offset,
+			"text": exc.text,
+			})

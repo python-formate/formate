@@ -186,7 +186,8 @@ def yapf_hook(source: str, formate_global_config: Optional[Mapping] = None, **kw
 	"""
 
 	# 3rd party
-	from yapf.yapflib.yapf_api import FormatCode  # type: ignore[import-untyped]
+	from yapf.pytree.pytree_utils import ParseCodeToTree  # type: ignore[import-untyped]
+	from yapf.yapflib.yapf_api import FormatTree  # type: ignore[import-untyped]
 
 	with TemporaryPathPlus() as tmpdir:
 		config_file = tmpdir / ".style.yapf"
@@ -222,7 +223,8 @@ def yapf_hook(source: str, formate_global_config: Optional[Mapping] = None, **kw
 		with config_file.open('w') as fp:
 			config.write(fp)
 
-		return FormatCode(source, style_config=str(config_file))[0]
+		tree = ParseCodeToTree(source)
+		return FormatTree(tree, style_config=str(config_file))
 
 
 class Reformatter:

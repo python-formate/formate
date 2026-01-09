@@ -1,0 +1,5 @@
+filename: code.py
+lineno: 1
+msg: unterminated f-string literal (detected at line 1)
+offset: 1
+text: f'
