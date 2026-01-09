@@ -4,7 +4,7 @@ build-backend = "whey"
 
 [project]
 name = "formate"
-version = "0.8.0"
+version = "0.9.0"
 description = "Python formatting mate."
 readme = "README.rst"
 keywords = [ "formatting", "linting",]
