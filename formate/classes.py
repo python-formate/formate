@@ -30,7 +30,7 @@ Core classes.
 from typing import Any, Callable, Dict, Iterator, List, Mapping, Optional, Sequence, Union
 
 # 3rd party
-import attr
+import attrs
 from attr_utils.pprinter import pretty_repr
 from attr_utils.serialise import serde
 from domdf_python_tools.typing import PathLike
@@ -78,7 +78,7 @@ class ExpandedHookDict(_BaseExpandedHookDict):
 
 @pretty_repr
 @serde
-@attr.s
+@attrs.define
 class Hook:
 	"""
 	Represents a ``formate`` reformatting hook.
@@ -87,21 +87,21 @@ class Hook:
 	"""
 
 	#: The name of the hook. The name is normalized into lowercase, with underscores replaced by hyphens.
-	name: str = attr.ib()
+	name: str = attrs.field()
 
 	#: The priority of the hook.
-	priority: int = attr.ib(default=10)
+	priority: int = attrs.field(default=10)
 
 	#: The positional arguments passed to the hook function.
-	args: Sequence[Any] = attr.ib(default=(), converter=tuple)
+	args: Sequence[Any] = attrs.field(default=(), converter=tuple)
 
 	#: The keyword arguments passed to the hook function.
-	kwargs: Dict[str, Any] = attr.ib(default={})
+	kwargs: Dict[str, Any] = attrs.field(default={})
 
-	entry_point: Optional["EntryPoint"] = attr.ib(default=None)
+	entry_point: Optional["EntryPoint"] = attrs.field(default=None)
 
 	#: A read-only view on the global configuration mapping, for hooks to do with as they wish.
-	global_config: Mapping[str, Any] = attr.ib(factory=dict)
+	global_config: Mapping[str, Any] = attrs.field(factory=dict)
 
 	@name.validator
 	def _normalize(self, attribute, value):  # noqa: MAN001,MAN002
@@ -154,17 +154,17 @@ class Hook:
 
 
 @serde
-@attr.s
+@attrs.define
 class EntryPoint:
 	"""
 	Represents an entry point for a hook.
 	"""
 
 	#: The name of the entry point. The name is normalized into lowercase, with underscores replaced by hyphens.
-	name: str = attr.ib()
+	name: str = attrs.field()
 
 	#: The object the entry point refers to.
-	obj: Callable[..., str] = attr.ib()
+	obj: Callable[..., str] = attrs.field()
 
 	@name.validator
 	def _normalize(self, attribute, value):  # noqa: MAN001,MAN002

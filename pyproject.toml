@@ -55,9 +55,6 @@ extras = "all"
 [tool.dep_checker]
 allowed_unused = [ "prettyprinter",]
 
-[tool.dep_checker.name_mapping]
-attrs = "attr"
-
 [tool.sphinx-pyproject]
 github_username = "python-formate"
 github_repository = "formate"
