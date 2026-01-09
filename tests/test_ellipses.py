@@ -112,7 +112,7 @@ async def foo(): ...
 				pytest.param(
 						function_with_docstring_containing_stub,
 						function_with_docstring_containing_stub,
-						id="function_with_docstring_containing_stub"
+						id="function_with_docstring_containing_stub",
 						),
 				pytest.param(function_with_body, function_with_body, id="function_with_body"),
 				pytest.param(function_with_ellipsis, function_with_ellipsis_inline, id="function_with_ellipsis"),
@@ -130,17 +130,19 @@ async def foo(): ...
 				pytest.param(
 						async_function_with_ellipsis,
 						async_function_with_ellipsis_inline,
-						id="async_function_with_ellipsis"
+						id="async_function_with_ellipsis",
 						),
 				pytest.param(
 						async_function_with_ellipsis_inline,
 						async_function_with_ellipsis_inline,
-						id="async_function_with_ellipsis_inline"
+						id="async_function_with_ellipsis_inline",
 						),
 				pytest.param(
-						function_with_body_int, function_with_body_int, id="async_function_with_ellipsis_inline"
+						function_with_body_int,
+						function_with_body_int,
+						id="async_function_with_ellipsis_inline",
 						),
-				]
+				],
 		)
 def test_ellipsis_reformat(code: str, expected: str):
 	assert ellipsis_reformat(code) == expected

@@ -87,7 +87,7 @@ def version_callback(ctx: click.Context, param: click.Option, value: int) -> Non
 		)
 @click.argument("filename", type=click.STRING, nargs=-1)
 @click_command()
-def main(  # noqa: PRM002
+def main(
 		filename: Iterable[PathLike],
 		config_file: PathLike,
 		exclude: "Optional[List[str]]",

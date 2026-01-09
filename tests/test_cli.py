@@ -23,7 +23,7 @@ from formate.__main__ import main
 						'8',
 						marks=pytest.mark.skipif(_click_major != 8, reason="Output differs on click 8"),
 						),
-				]
+				],
 		)
 def test_help(
 		advanced_file_regression: AdvancedFileRegressionFixture,

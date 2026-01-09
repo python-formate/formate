@@ -46,9 +46,9 @@ from formate.utils import Rewriter
 
 __all__ = ("dynamic_quotes", )
 
-if sys.version_info >= (3, 12):
+if sys.version_info >= (3, 12):  # pragma: no cover (<py312)
 	StrOrConstant = ast.Constant
-else:
+else:  # pragma: no cover (py312+)
 	StrOrConstant = Union[ast.Str, ast.Constant]
 
 

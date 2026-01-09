@@ -53,7 +53,7 @@ def foo():
 				(value_2, value_2),
 				('assert t.uname == "\\xe4\\xf6\\xfc"', 'assert t.uname == "äöü"'),
 				('assert t.uname == "\\udce4\\udcf6\\udcfc"', 'assert t.uname == "\\udce4\\udcf6\\udcfc"'),
-				]
+				],
 		)
 def test_quotes(value: str, expects: str):
 	assert dynamic_quotes(value) == expects
@@ -79,7 +79,7 @@ def test_quotes(value: str, expects: str):
 				("def foo():\n\t'docstring'\n\t'hello\\nworld'", "def foo():\n\t'docstring'\n\t'hello\\nworld'"),
 				(
 						'def foo():\n\t\'docstring\'\n\t"hello\\nworld"',
-						'def foo():\n\t\'docstring\'\n\t"hello\\nworld"'
+						'def foo():\n\t\'docstring\'\n\t"hello\\nworld"',
 						),
 				('def foo():\n\t\'docstring\'\n\t"\\""', "def foo():\n\t'docstring'\n\t'\"'"),
 				('def foo():\n\t\'docstring\'\n\t"quote \\""', "def foo():\n\t'docstring'\n\t'quote \"'"),
@@ -87,13 +87,13 @@ def test_quotes(value: str, expects: str):
 				("def foo():\n\t'docstring'\n\t'quote \\''", "def foo():\n\t'docstring'\n\t\"quote '\""),
 				(
 						'def foo():\n\t\'docstring\'\n\tassert t.uname == "\\xe4\\xf6\\xfc"',
-						'def foo():\n\t\'docstring\'\n\tassert t.uname == "äöü"'
+						'def foo():\n\t\'docstring\'\n\tassert t.uname == "äöü"',
 						),
 				(
 						'def foo():\n\t\'docstring\'\n\tassert t.uname == "\\udce4\\udcf6\\udcfc"',
-						'def foo():\n\t\'docstring\'\n\tassert t.uname == "\\udce4\\udcf6\\udcfc"'
+						'def foo():\n\t\'docstring\'\n\tassert t.uname == "\\udce4\\udcf6\\udcfc"',
 						),
-				]
+				],
 		)
 def test_quotes_function(value: str, expects: str):
 	assert dynamic_quotes(value) == expects
@@ -104,7 +104,7 @@ def test_quotes_function(value: str, expects: str):
 		[
 				(
 						"async def foo():\n\t'docstring'\n\t'hello world'",
-						'async def foo():\n\t\'docstring\'\n\t"hello world"'
+						'async def foo():\n\t\'docstring\'\n\t"hello world"',
 						),
 				("async def foo():\n\t'docstring'\n\t''", "async def foo():\n\t'docstring'\n\t''"),
 				('async def foo():\n\t\'docstring\'\n\t""', "async def foo():\n\t'docstring'\n\t''"),
@@ -119,39 +119,39 @@ def test_quotes_function(value: str, expects: str):
 				('async def foo():\n\t\'docstring\'\n\t"☃"', "async def foo():\n\t'docstring'\n\t'☃'"),
 				(
 						'async def foo():\n\t\'docstring\'\n\tprint(123)\n"☃"',
-						"async def foo():\n\t'docstring'\n\tprint(123)\n'☃'"
+						"async def foo():\n\t'docstring'\n\tprint(123)\n'☃'",
 						),
 				(
 						'async def foo():\n\t\'docstring\'\n\t"☃"\nprint(123)',
-						"async def foo():\n\t'docstring'\n\t'☃'\nprint(123)"
+						"async def foo():\n\t'docstring'\n\t'☃'\nprint(123)",
 						),
 				(
 						"async def foo():\n\t'docstring'\n\t'hello\\nworld'",
-						"async def foo():\n\t'docstring'\n\t'hello\\nworld'"
+						"async def foo():\n\t'docstring'\n\t'hello\\nworld'",
 						),
 				(
 						'async def foo():\n\t\'docstring\'\n\t"hello\\nworld"',
-						'async def foo():\n\t\'docstring\'\n\t"hello\\nworld"'
+						'async def foo():\n\t\'docstring\'\n\t"hello\\nworld"',
 						),
 				('async def foo():\n\t\'docstring\'\n\t"\\""', "async def foo():\n\t'docstring'\n\t'\"'"),
 				(
 						'async def foo():\n\t\'docstring\'\n\t"quote \\""',
-						"async def foo():\n\t'docstring'\n\t'quote \"'"
+						"async def foo():\n\t'docstring'\n\t'quote \"'",
 						),
 				("async def foo():\n\t'docstring'\n\t'\\''", "async def foo():\n\t'docstring'\n\t\"'\""),
 				(
 						"async def foo():\n\t'docstring'\n\t'quote \\''",
-						"async def foo():\n\t'docstring'\n\t\"quote '\""
+						"async def foo():\n\t'docstring'\n\t\"quote '\"",
 						),
 				(
 						'async def foo():\n\t\'docstring\'\n\tassert t.uname == "\\xe4\\xf6\\xfc"',
-						'async def foo():\n\t\'docstring\'\n\tassert t.uname == "äöü"'
+						'async def foo():\n\t\'docstring\'\n\tassert t.uname == "äöü"',
 						),
 				(
 						'async def foo():\n\t\'docstring\'\n\tassert t.uname == "\\udce4\\udcf6\\udcfc"',
-						'async def foo():\n\t\'docstring\'\n\tassert t.uname == "\\udce4\\udcf6\\udcfc"'
+						'async def foo():\n\t\'docstring\'\n\tassert t.uname == "\\udce4\\udcf6\\udcfc"',
 						),
-				]
+				],
 		)
 def test_quotes_async_function(value: str, expects: str):
 	assert dynamic_quotes(value) == expects

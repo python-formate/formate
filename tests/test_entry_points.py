@@ -24,7 +24,7 @@ def test_entry_points():
 		"collections-import-rewrite",
 		"isort",
 		"yapf",
-		}, hook_names
+	}, hook_names
 
 
 def test_entry_points_file(advanced_data_regression: AdvancedDataRegressionFixture):

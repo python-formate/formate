@@ -57,9 +57,9 @@ class Foo:
 				pytest.param("Optional[Callable[[Optional[str]], Any]]", id="Complex Optional"),
 				pytest.param(
 						"_ParamsMappingValueType = Union[str, bytes, int, float, Iterable[Union[str, bytes, int, float]]]",
-						id="Complex Alias 1"
+						id="Complex Alias 1",
 						),
-				]
+				],
 		)
 def test_generics(code: str, advanced_file_regression: AdvancedFileRegressionFixture):
 	advanced_file_regression.check(reformat_generics(code), extension="._py")
@@ -74,7 +74,7 @@ long_tuple = "Tuple[int, int, str, float, str, int, bytes, int, int, str, float,
 				pytest.param(long_tuple, id="Long Tuple"),
 				pytest.param(
 						"_Data = Union[None, str, bytes, MutableMapping[str, Any], Iterable[Tuple[str, Optional[str]]], IO]",
-						id="Complex Alias 2"
+						id="Complex Alias 2",
 						),
 				pytest.param(example_1, id="Multiline 1"),
 				pytest.param(example_1a, id="Multiline 1a"),
@@ -83,14 +83,15 @@ long_tuple = "Tuple[int, int, str, float, str, int, bytes, int, int, str, float,
 				pytest.param(example_4, id="Literal in class"),
 				pytest.param(example_5, id="Union in class"),
 				pytest.param(example_6, id="Literal True None String"),
-				]
+				],
 		)
 @pytest.mark.parametrize(
-		"indent", [
+		"indent",
+		[
 				pytest.param('\t', id="tab"),
 				pytest.param("    ", id='4'),
 				pytest.param("  ", id='2'),
-				]
+				],
 		)
 def test_generics_indented(code: str, advanced_file_regression: AdvancedFileRegressionFixture, indent: str):
 	advanced_file_regression.check(reformat_generics(code, indent=indent), extension="._py")

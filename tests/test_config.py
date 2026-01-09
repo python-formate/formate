@@ -20,7 +20,7 @@ def test_parse_hooks():
 					"collections-import-rewrite": 20,
 					"noqa-reformat": 60,
 					"ellipsis-reformat": 70,
-					"isort": {"priority": 50, "kwargs": isort_kwargs}
+					"isort": {"priority": 50, "kwargs": isort_kwargs},
 					},
 			"config": global_config,
 			}

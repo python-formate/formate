@@ -25,17 +25,19 @@ from formate.utils import import_entry_points, normalize, syntaxerror_for_file
 				("foo-bar-baz", "foo-bar-baz"),
 				("foo_bar_baz", "foo-bar-baz"),
 				("foo_bar-baz", "foo-bar-baz"),
-				]
+				],
 		)
 def test_normalize(value: str, expects: str):
 	assert normalize(value) == expects
 
 
 def test_import_entry_points():
-	hooks = [Hook(
-			name="reformat-generics",
-			priority=40,
-			)]
+	hooks = [
+			Hook(
+					name="reformat-generics",
+					priority=40,
+					),
+			]
 
 	entry_points = import_entry_points(hooks)
 	assert entry_points
@@ -47,10 +49,12 @@ def test_import_entry_points():
 
 
 def test_import_entry_points_not_found():
-	hooks = [Hook(
-			name="i-dont-exist",
-			priority=40,
-			)]
+	hooks = [
+			Hook(
+					name="i-dont-exist",
+					priority=40,
+					),
+			]
 
 	with pytest.raises(HookNotFoundError, match="No such hook 'i-dont-exist'. Is it installed?") as e:
 		import_entry_points(hooks)
@@ -91,9 +95,12 @@ def test_syntaxerror_for_file():
 				pytest.param("3.7", marks=max_version("3.9")),
 				pytest.param("3.10", marks=[min_version("3.10"), max_version("3.11")]),
 				pytest.param("3.12", marks=min_version("3.12")),
-				]
+				],
 		)
-def test_syntaxerror_for_file_f_string(python_version, advanced_data_regression: AdvancedDataRegressionFixture):
+def test_syntaxerror_for_file_f_string(
+		python_version: str,
+		advanced_data_regression: AdvancedDataRegressionFixture,
+		):
 
 	with pytest.raises(SyntaxError) as exc_info:  # noqa: PT012
 		with syntaxerror_for_file("code.py"):
@@ -112,7 +119,7 @@ def test_syntaxerror_for_file_f_string(python_version, advanced_data_regression:
 		with syntaxerror_for_file("code.py"):
 			yapf_hook("f'")
 
-	exc: SyntaxError = exc_info.value
+	exc = exc_info.value
 	advanced_data_regression.check({
 			"msg": exc.msg,
 			"filename": exc.filename,

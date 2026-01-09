@@ -80,7 +80,7 @@ class EllipsisRewriter(Rewriter):
 			if not node.body[0].value.value is Ellipsis:
 				return
 
-		elif sys.version_info >= (3, 8):  # pragma: no cover (<py38)
+		elif sys.version_info >= (3, 8):  # pragma: no cover (<py38 OR py312+)
 			if not isinstance(node.body[0].value, (ast.Constant, ast.Ellipsis)):
 				return
 

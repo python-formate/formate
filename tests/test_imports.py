@@ -44,28 +44,30 @@ params = pytest.mark.parametrize(
 				pytest.param(multiple_mixed_imports_spaced_out, id="multiple_mixed_imports_spaced_out"),
 				pytest.param(
 						"# code.py\n__all__ = ['foo', 'bar']\n\nfrom collections import (\nIterable,\nCounter,\n)",
-						id="top_level_code_before"
+						id="top_level_code_before",
 						),
 				pytest.param(
 						"from collections import (\nIterable,\nCounter,\n)\nfrom .. import bar\nfrom . import baz\n",
-						id="top_level_relative"
+						id="top_level_relative",
 						),
 				pytest.param("class F:\n\tfrom collections import (\nIterable,\nCounter,\n)", id="in_class_tabs"),
 				pytest.param(
-						"def foo():\n\tfrom collections import (\nIterable,\nCounter,\n)", id="in_function_tabs"
+						"def foo():\n\tfrom collections import (\nIterable,\nCounter,\n)",
+						id="in_function_tabs",
 						),
 				pytest.param(
-						"class F:\n    from collections import (\nIterable,\nCounter,\n)", id="in_class_spaces"
+						"class F:\n    from collections import (\nIterable,\nCounter,\n)",
+						id="in_class_spaces",
 						),
 				pytest.param(
 						"def foo():\n    from collections import (\nIterable,\nCounter,\n)",
-						id="in_function_spaces"
+						id="in_function_spaces",
 						),
 				pytest.param(
 						"def foo():\n    from collections import (\nIterable,\nCounter,\n)\n    from typing import List",
-						id="in_function_another_import"
+						id="in_function_another_import",
 						),
-				]
+				],
 		)
 
 

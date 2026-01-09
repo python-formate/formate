@@ -237,7 +237,7 @@ def test_squish_stubs(advanced_file_regression: AdvancedFileRegressionFixture):
 	class DivergedBranches(Error): ...
 	def check_diverged(repo: Repo, current_sha: Any, new_sha: Any) -> None: ...
 
-	'''
+	''',
 			)
 
 	advanced_file_regression.check(squish_stubs(source, "file.pyi"), extension="._py_")
