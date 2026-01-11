@@ -123,7 +123,7 @@ See `the documentation`_ for more information.
 	:alt: Maintenance
 
 .. |pypi-downloads| image:: https://img.shields.io/pypi/dm/formate
-	:target: https://pypi.org/project/formate/
+	:target: https://pypistats.org/packages/formate
 	:alt: PyPI - Downloads
 
 .. end shields
