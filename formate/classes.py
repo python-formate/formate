@@ -76,6 +76,12 @@ class ExpandedHookDict(_BaseExpandedHookDict):
 	priority: int
 
 
+def _normalise_name(name: str) -> str:
+	# this package
+	from formate.utils import _normalize_pattern
+
+	return _normalize_pattern.sub('-', name).lower()
+
 @pretty_repr
 @serde
 @attrs.define
@@ -87,7 +93,7 @@ class Hook:
 	"""
 
 	#: The name of the hook. The name is normalized into lowercase, with underscores replaced by hyphens.
-	name: str = attrs.field()
+	name: str = attrs.field(converter=_normalise_name)
 
 	#: The priority of the hook.
 	priority: int = attrs.field(default=10)
@@ -102,13 +108,6 @@ class Hook:
 
 	#: A read-only view on the global configuration mapping, for hooks to do with as they wish.
 	global_config: Mapping[str, Any] = attrs.field(factory=dict)
-
-	@name.validator
-	def _normalize(self, attribute, value):  # noqa: MAN001,MAN002
-		# this package
-		from formate.utils import _normalize_pattern
-
-		self.name = _normalize_pattern.sub('-', value).lower()
 
 	@classmethod
 	def parse(cls, data: HooksMapping) -> Iterator["Hook"]:
@@ -161,17 +160,10 @@ class EntryPoint:
 	"""
 
 	#: The name of the entry point. The name is normalized into lowercase, with underscores replaced by hyphens.
-	name: str = attrs.field()
+	name: str = attrs.field(converter=_normalise_name)
 
 	#: The object the entry point refers to.
 	obj: Callable[..., str] = attrs.field()
-
-	@name.validator
-	def _normalize(self, attribute, value):  # noqa: MAN001,MAN002
-		# this package
-		from formate.utils import _normalize_pattern
-
-		self.name = _normalize_pattern.sub('-', value).lower()
 
 	@obj.validator
 	def _validate_obj(self, attribute, value):  # noqa: MAN001,MAN002
