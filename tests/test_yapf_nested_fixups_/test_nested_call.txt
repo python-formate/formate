@@ -1,0 +1,6 @@
+a = cls(
+    **dict(
+        map(
+            lambda f: (f[0].name, curried.get_in(f[1], d, f[0].default)),
+            from_fields,
+        )))

@@ -1,0 +1,8 @@
+def foo():
+	example = {
+			"table": {"nested_table": [
+					{"array_options": [1, 2, 3]},
+					{"another_array": [1, 2]},
+					{'c': 3},
+					]},
+			}
