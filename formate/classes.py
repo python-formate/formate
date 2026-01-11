@@ -82,6 +82,7 @@ def _normalise_name(name: str) -> str:
 
 	return _normalize_pattern.sub('-', name).lower()
 
+
 @pretty_repr
 @serde
 @attrs.define

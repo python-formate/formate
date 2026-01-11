@@ -224,7 +224,14 @@ def yapf_hook(source: str, formate_global_config: Optional[Mapping] = None, **kw
 			config.write(fp)
 
 		tree = ParseCodeToTree(source)
-		return FormatTree(tree, style_config=str(config_file))
+		reformatted_code: str = FormatTree(tree, style_config=str(config_file))
+
+		# Yapf can collapse nested calls onto one line but does nothing about the commas.
+		bad_nested_call = "), )"
+		while bad_nested_call in reformatted_code:
+			reformatted_code = reformatted_code.replace(bad_nested_call, "))")
+
+		return reformatted_code
 
 
 class Reformatter:
