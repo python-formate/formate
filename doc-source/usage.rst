@@ -26,7 +26,7 @@ To do so, add the following to your
 `.pre-commit-config.yaml <https://pre-commit.com/#2-add-a-pre-commit-configuration>`_ file:
 
 .. pre-commit::
-	:rev: 1.1.0
+	:rev: 1.1.1
 	:hooks: formate
 	:args: --verbose
 

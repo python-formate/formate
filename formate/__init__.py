@@ -50,7 +50,7 @@ from formate.utils import _find_from_parents, syntaxerror_for_file
 __author__: str = "Dominic Davis-Foster"
 __copyright__: str = "2020-2021 Dominic Davis-Foster"
 __license__: str = "MIT License"
-__version__: str = "1.1.0"
+__version__: str = "1.1.1"
 __email__: str = "dominic@davis-foster.co.uk"
 
 __all__ = ("call_hooks", "reformat_file", "Reformatter", "isort_hook", "yapf_hook")
