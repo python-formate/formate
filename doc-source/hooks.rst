@@ -63,6 +63,17 @@ Squash type stubs by removing unnecessary blank lines.
 
 This hook takes no arguments.
 
+.. _newline_after_equals:
+
+``newline_after_equals``
+------------------------
+
+Remove newlines (and any following whitespace) after equals signs..
+
+This hook takes no arguments.
+
+.. versionadded:: 1.1.0
+
 
 .. _ellipsis_reformat:
 

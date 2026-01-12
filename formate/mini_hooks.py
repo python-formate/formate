@@ -254,7 +254,7 @@ def newline_after_equals(source: str) -> str:
 	"""
 	Removes newlines immediately after equals signs.
 
-	.. versionadded:: 1.2.0
+	.. versionadded:: 1.1.0
 
 	:param source: The source to check.
 
