@@ -171,7 +171,7 @@ def isort_hook(
 		return source
 
 
-# e.g. " ), )" or " )))), )"
+# e.g. " )⸴ )" or " )))), )"
 yapf_nested_fixup_pattern = re.compile(r"([ \t])([)}\]]?)([)}\]], )([)}\]])")
 
 
