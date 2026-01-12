@@ -2,6 +2,7 @@ collections-import-rewrite: formate.imports:rewrite_collections_abc_imports
 dynamic_quotes: formate.dynamic_quotes:dynamic_quotes
 ellipsis_reformat: formate.ellipses:ellipsis_reformat
 isort: formate:isort_hook
+newline_after_equals: formate.mini_hooks:newline_after_equals
 noqa_reformat: formate.mini_hooks:noqa_reformat
 reformat-generics: formate.reformat_generics:reformat_generics
 squish_stubs: formate.mini_hooks:squish_stubs

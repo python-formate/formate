@@ -24,6 +24,7 @@ def test_entry_points():
 		"collections-import-rewrite",
 		"isort",
 		"yapf",
+		"newline_after_equals",
 	}, hook_names
 
 
