@@ -29,9 +29,11 @@ Small but mighty hooks.
 # stdlib
 import ast
 import re
+from collections import deque
 from typing import List
 
 # 3rd party
+import tokenize_rt  # type: ignore[import-untyped]
 from domdf_python_tools.paths import PathPlus
 from domdf_python_tools.stringlist import StringList
 from domdf_python_tools.typing import PathLike
@@ -39,7 +41,7 @@ from domdf_python_tools.typing import PathLike
 # this package
 from formate.config import wants_filename
 
-__all__ = ("noqa_reformat", "check_ast", "squish_stubs")
+__all__ = ("check_ast", "newline_after_equals", "noqa_reformat", "squish_stubs")
 
 
 def noqa_reformat(source: str) -> str:
@@ -246,3 +248,40 @@ def _reformat_blocks(blocks: List[List[str]]) -> StringList:
 	output.blankline(ensure_single=True)
 
 	return output
+
+
+def newline_after_equals(source: str) -> str:
+	"""
+	Removes newlines immediately after equals signs.
+
+	.. versionadded:: 1.2.0
+
+	:param source: The source to check.
+
+	:return: The reformatted source.
+	"""
+
+	original_tokens = deque(tokenize_rt.src_to_tokens(source))
+	tokens = []
+
+	while original_tokens:
+		token = original_tokens.popleft()
+
+		if token.name == "OP" and token.src == '=':
+			while True:
+
+				# TODO: handle spaces around equals (e.g. in function signature)
+				# Look ahead until there's a non-whitespace token.
+				next_token = original_tokens.popleft()
+				if next_token.name in {"UNIMPORTANT_WS", "NL"}:
+					pass
+				else:
+					break
+
+			tokens.append(token)
+			tokens.append(next_token)
+
+		else:
+			tokens.append(token)
+
+	return tokenize_rt.tokens_to_src(tokens)

@@ -6,7 +6,7 @@ import pytest
 from coincidence.regressions import AdvancedFileRegressionFixture
 
 # this package
-from formate.mini_hooks import check_ast, noqa_reformat, squish_stubs
+from formate.mini_hooks import check_ast, newline_after_equals, noqa_reformat, squish_stubs
 
 
 def test_noqa_reformat():
@@ -254,3 +254,33 @@ def test_squish_stubs_not_pyi():
 
 	new_code = squish_stubs(code, formate_filename="code.py")
 	assert new_code == code
+
+
+newline_after_equals_src = """
+def foo():
+
+	with pytest.raises(
+			ValueError,
+			match=
+			"This is a really long error message that exceeds the line length limit so gets pushed down!!!!!!",
+			):
+		pass
+
+"""
+
+no_newline_after_equals_src = """
+def foo():
+
+	with pytest.raises(
+			ValueError,
+			match="This is a shorter error message that's still too long to fit on one line.",
+			):
+		pass
+
+"""
+
+
+def test_newline_after_equals(advanced_file_regression: AdvancedFileRegressionFixture):
+
+	advanced_file_regression.check(newline_after_equals(newline_after_equals_src))
+	assert newline_after_equals(no_newline_after_equals_src) == no_newline_after_equals_src

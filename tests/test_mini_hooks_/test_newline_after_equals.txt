@@ -1,0 +1,8 @@
+
+def foo():
+
+	with pytest.raises(
+			ValueError,
+			match="This is a really long error message that exceeds the line length limit so gets pushed down!!!!!!",
+			):
+		pass
