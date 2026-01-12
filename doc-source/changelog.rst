@@ -2,6 +2,67 @@
 Changelog
 ===============
 
+1.1.1
+-------------
+
+Correctly handle "good" code in ``newline_after_equals``.
+
+1.1.0
+-------------
+
+Add new ``newline_after_equals`` hook to remove newlines after equals signs.
+
+1.0.2
+-------------
+
+Correctly handle single-element tuples in yapf nested commas fixup.
+
+1.0.1
+-------------
+
+Handle other nested cases (dicts and lists) for yapf commas fixup.
+
+1.0.0
+-------------
+
+* Bump ``dom-toml`` and use new ``attrs`` syntax rather than ``attr``.
+* Fix nested calls with commas in yapf hook.
+
+0.9.0
+-------------
+
+* Drop support for Python 3.6.
+* Ensure use_tabs/indent and column_limit/line_length options are passed through to yapf when using separate config file.
+* Ensure syntax errors from yapf are correctly handled.
+
+0.8.0
+-------------
+
+Cap yapf version due to issue with trailing commas and closing brackets.
+
+0.7.0
+-------------
+
+Add support for Python 3.13 and newer yapf and isort versions.
+
+0.6.0
+-------------
+
+* Add ``--version`` command line option.
+* Add support for Python 3.12.
+
+0.5.0
+-------------
+
+``formate.toml`` and the yapf style file (``.style.yapf``) may now be in the current working directory or any parent directory.
+This allows for instance the placing of global configuration in the home directory.
+
+0.4.10
+-------------
+
+* Fix typo in QuoteRewriter.visit_AsyncFunctionDef function name.
+* Move from ``repo-helper`` to ``python-formate`` organisations on GitHub.
+
 0.4.9
 -------------
 
