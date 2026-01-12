@@ -27,6 +27,7 @@ Python formatting mate.
 #
 
 # stdlib
+import re
 from configparser import ConfigParser
 from typing import Iterable, Mapping, Optional, Sequence
 
@@ -170,6 +171,10 @@ def isort_hook(
 		return source
 
 
+# e.g. " ), )" or " )))), )"
+yapf_nested_fixup_pattern = re.compile(r"([ \t])([)}\]]?)([)}\]], )([)}\]])")
+
+
 @wants_global_config
 def yapf_hook(source: str, formate_global_config: Optional[Mapping] = None, **kwargs) -> str:
 	r"""
@@ -227,22 +232,14 @@ def yapf_hook(source: str, formate_global_config: Optional[Mapping] = None, **kw
 		reformatted_code: str = FormatTree(tree, style_config=str(config_file))
 
 		# Yapf can collapse nested calls onto one line but does nothing about the commas.
-		# TODO: more performant, with re.sub?
-		for bad_pattern, good_pattern in [
-			("), )", "))"),
-			("), }", ")}"),
-			("), ]", ")]"),
+		while True:
+			matches = yapf_nested_fixup_pattern.findall(reformatted_code)
+			if not matches:
+				break
 
-			("], )", "])"),
-			("], }", "]}"),
-			("], ]", "]]"),
-
-			("}, )", "})"),
-			("}, }", "}}"),
-			("}, ]", "}]"),
-		]:
-
-			while bad_pattern in reformatted_code:
+			for match in matches:
+				bad_pattern = match[0] + match[1] + match[2] + match[3]
+				good_pattern = match[0] + match[1] + match[2][0] + match[3]
 				reformatted_code = reformatted_code.replace(bad_pattern, good_pattern)
 
 		return reformatted_code

@@ -32,3 +32,8 @@ def foo():
 	advanced_file_regression.check(
 			yapf_hook(src, yapf_style=PathPlus(__file__).parent.parent.joinpath(".style.yapf").as_posix()),
 			)
+
+
+def test_tuple():
+	src = 'top_tmp["normalized"] = top_tmp.apply(normalize, args=(max(top_tmp["intensity"]), ), axis=1)\n'
+	assert yapf_hook(src, yapf_style=PathPlus(__file__).parent.parent.joinpath(".style.yapf").as_posix()) == src
