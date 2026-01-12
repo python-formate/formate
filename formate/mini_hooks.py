@@ -268,15 +268,17 @@ def newline_after_equals(source: str) -> str:
 		token = original_tokens.popleft()
 
 		if token.name == "OP" and token.src == '=':
-			while True:
+			next_token = original_tokens.popleft()
+			if next_token.name == "NL":
+				while True:
 
-				# TODO: handle spaces around equals (e.g. in function signature)
-				# Look ahead until there's a non-whitespace token.
-				next_token = original_tokens.popleft()
-				if next_token.name in {"UNIMPORTANT_WS", "NL"}:
-					pass
-				else:
-					break
+					# TODO: handle spaces around equals (e.g. in function signature)
+					# Look ahead until there's a non-whitespace token.
+					next_token = original_tokens.popleft()
+					if next_token.name in {"UNIMPORTANT_WS", "NL"}:
+						pass
+					else:
+						break
 
 			tokens.append(token)
 			tokens.append(next_token)

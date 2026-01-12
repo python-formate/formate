@@ -284,3 +284,10 @@ def test_newline_after_equals(advanced_file_regression: AdvancedFileRegressionFi
 
 	advanced_file_regression.check(newline_after_equals(newline_after_equals_src))
 	assert newline_after_equals(no_newline_after_equals_src) == no_newline_after_equals_src
+
+	src = """
+def foo():
+	directive = SimpleNamespace()
+"""
+
+	assert newline_after_equals(src) == src
