@@ -172,7 +172,7 @@ def isort_hook(
 
 
 # e.g. " )⸴ )" or " )))), )"
-yapf_nested_fixup_pattern = re.compile(r"([ \t])([)}\]]?)([)}\]], )([)}\]])")
+yapf_nested_fixup_pattern = re.compile(r"(\n[ \t]*)([)}\]]*)([)}\]], )([)}\]])")
 
 
 @wants_global_config

@@ -37,3 +37,10 @@ def foo():
 def test_tuple():
 	src = 'top_tmp["normalized"] = top_tmp.apply(normalize, args=(max(top_tmp["intensity"]), ), axis=1)\n'
 	assert yapf_hook(src, yapf_style=PathPlus(__file__).parent.parent.joinpath(".style.yapf").as_posix()) == src
+
+	src = """[
+		((("bob", )⸴ ), {"use_repr": True, "oxford": True}, "'bob'"),
+		]
+""".replace('⸴', ',')
+
+	assert yapf_hook(src, yapf_style=PathPlus(__file__).parent.parent.joinpath(".style.yapf").as_posix()) == src
