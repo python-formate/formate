@@ -6,7 +6,7 @@ author: 'Dominic Davis-Foster'
 email: 'dominic@davis-foster.co.uk'
 username: 'python-formate'
 assignee: 'domdfcoding'
-version: '1.1.1'
+version: '1.1.2'
 license: 'MIT'
 short_desc: 'Python formatting mate.'
 primary_conda_channel: "domdfcoding"
