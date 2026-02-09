@@ -27,7 +27,7 @@ Core classes.
 #
 
 # stdlib
-from typing import Any, Callable, Dict, Iterator, List, Mapping, Optional, Sequence, Union
+from typing import Any, Callable, Dict, Iterator, List, Mapping, Optional, Sequence, Set, Union
 
 # 3rd party
 import attrs
@@ -109,6 +109,14 @@ class Hook:
 
 	#: A read-only view on the global configuration mapping, for hooks to do with as they wish.
 	global_config: Mapping[str, Any] = attrs.field(factory=dict)
+
+	@property
+	def supported_filetypes(self) -> Set[str]:
+		"""
+		The extensions of filetypes supported by this hook.
+		"""
+
+		return getattr(self.entry_point.obj, "supported_filetypes", {".py", ".pyi"})  # type: ignore[union-attr]
 
 	@classmethod
 	def parse(cls, data: HooksMapping) -> Iterator["Hook"]:

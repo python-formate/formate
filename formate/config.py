@@ -39,9 +39,48 @@ from domdf_python_tools.typing import PathLike
 from formate.classes import FormateConfigDict, Hook
 from formate.utils import import_entry_points
 
-__all__ = ("parse_hooks", "parse_global_config", "load_toml", "wants_global_config", "wants_filename", "_C_str")
+__all__ = (
+		"parse_hooks",
+		"parse_global_config",
+		"load_toml",
+		"wants_global_config",
+		"wants_filename",
+		"_C_str",
+		"HookConfigError",
+		"NoHooksError",
+		"NoSupportedHooksError",
+		"formats_filetypes",
+		"get_hooks_for_filetype",
+		)
 
 _C_str = TypeVar("_C_str", bound=Callable[..., str])
+
+
+class HookConfigError(ValueError):
+	"""
+	Base exception for errors with hook configuration.
+	"""
+
+
+class NoHooksError(HookConfigError):
+	"""
+	Exception for when no hooks are configured.
+	"""
+
+	def __init__(self):
+		super().__init__("No hooks configured")
+
+
+class NoSupportedHooksError(HookConfigError):
+	"""
+	Exception for when no hooks support the given file type.
+
+	:param filetype:
+	"""
+
+	def __init__(self, filetype: str):
+		super().__init__(f"No supported hooks for this file type ({filetype})")
+		self.filetype = filetype
 
 
 def parse_hooks(config: Mapping) -> List[Hook]:
@@ -66,6 +105,28 @@ def parse_hooks(config: Mapping) -> List[Hook]:
 	hooks = sorted(hooks, key=attrgetter("priority"))
 
 	return hooks
+
+
+def get_hooks_for_filetype(filetype: str, hooks: List[Hook]) -> List[Hook]:
+	"""
+	Filters the hooks to those that support the given filetype.
+
+	:param filetype:
+	:param hooks:
+	"""
+
+	if not hooks:
+		raise NoHooksError()
+
+	supported_hooks: List[Hook] = []
+	for hook in hooks:
+		if filetype in hook.supported_filetypes:
+			supported_hooks.append(hook)
+
+	if not supported_hooks:
+		raise NoSupportedHooksError(filetype=filetype)
+
+	return supported_hooks
 
 
 def parse_global_config(config: Mapping) -> MappingProxyType:
@@ -127,3 +188,19 @@ def wants_filename(func: _C_str) -> _C_str:
 
 	func.wants_filename = True  # type: ignore[attr-defined]
 	return func
+
+
+def formats_filetypes(*filetypes) -> Callable[[_C_str], _C_str]:
+	r"""
+	Decorator to indicate to ``formate`` that the hook formats the specified filetypes (as extensions, e.g. ``".js"``.
+
+	.. versionadded:: 1.2.0
+
+	:param \*filetypes:
+	"""
+
+	def deco(func: _C_str) -> _C_str:
+		func.supported_filetypes = set(filetypes)  # type: ignore[attr-defined]
+		return func
+
+	return deco

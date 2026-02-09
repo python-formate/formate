@@ -1,6 +1,6 @@
 # stdlib
 import re
-from typing import Union, no_type_check
+from typing import List, Mapping, Union, no_type_check
 
 # 3rd party
 import pytest
@@ -10,11 +10,14 @@ from coincidence.selectors import max_version, min_version, not_pypy, only_pypy
 from consolekit.terminal_colours import strip_ansi
 from consolekit.testing import CliRunner, Result, click_version
 from domdf_python_tools.paths import PathPlus, in_directory
+from domdf_python_tools.typing import PathLike
 
 # this package
+import formate
 from formate import Reformatter, reformat_file
 from formate.__main__ import main
-from formate.config import load_toml
+from formate.classes import EntryPoint, Hook
+from formate.config import formats_filetypes, load_toml, wants_filename
 
 path_sub = re.compile(r" .*/pytest-of-.*/pytest-\d+")
 
@@ -170,6 +173,32 @@ def test_reformatter_class(
 
 
 @pytest.mark.usefixtures("demo_environment")
+def test_reformatter_class_non_python_hook(
+		tmp_pathplus: PathPlus,
+		monkeypatch,
+		):
+
+	config = load_toml(tmp_pathplus / "formate.toml")
+	config["hooks"]["format-foo"] = {"priority": 10}  # type: ignore[index]
+
+	(tmp_pathplus / "code.foo").touch()
+
+	@formats_filetypes(".foo")
+	@wants_filename
+	def format_foo(source: str, formate_filename: PathLike) -> str:
+		return "Result of format-foo"
+
+	def parse_hooks(config: Mapping) -> List[Hook]:
+		return [Hook(name="format-foo", entry_point=EntryPoint("format-foo", format_foo))]
+
+	monkeypatch.setattr(formate, "parse_hooks", parse_hooks)
+	r = Reformatter(tmp_pathplus / "code.foo", config)
+
+	assert r.run()
+	assert r.to_string() == "Result of format-foo\n"
+
+
+@pytest.mark.usefixtures("demo_environment")
 def test_cli(
 		tmp_pathplus: PathPlus,
 		advanced_file_regression: AdvancedFileRegressionFixture,
@@ -224,6 +253,41 @@ def test_cli_verbose_verbose(
 		result = runner.invoke(
 				main,
 				args=["code.py", "--no-colour", "--diff", "--verbose", "-v"],
+				)
+
+	assert result.exit_code == 1
+
+	advanced_file_regression.check_file(tmp_pathplus / "code.py")
+
+	# Calling a second time shouldn't change anything
+	with in_directory(tmp_pathplus):
+		runner = CliRunner(mix_stderr=False)
+		result = runner.invoke(
+				main,
+				args=["code.py", "code.c", "--no-colour", "--diff", "--verbose", "-v"],
+				)
+
+	assert result.exit_code == 0
+
+	check_out(result, advanced_data_regression)
+
+
+@pytest.mark.usefixtures("demo_environment")
+def test_cli_verbose_verbose_no_supported_hooks(
+		tmp_pathplus: PathPlus,
+		advanced_file_regression: AdvancedFileRegressionFixture,
+		advanced_data_regression: AdvancedDataRegressionFixture,
+		):
+
+	result: Result
+	(tmp_pathplus / "code.c").touch()
+	(tmp_pathplus / "a_dir").mkdir()
+
+	with in_directory(tmp_pathplus):
+		runner = CliRunner(mix_stderr=False)
+		result = runner.invoke(
+				main,
+				args=["code.py", "a_dir", "--no-colour", "--diff", "--verbose", "-v"],
 				)
 
 	assert result.exit_code == 1

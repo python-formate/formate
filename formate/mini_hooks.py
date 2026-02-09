@@ -39,7 +39,7 @@ from domdf_python_tools.stringlist import StringList
 from domdf_python_tools.typing import PathLike
 
 # this package
-from formate.config import wants_filename
+from formate.config import formats_filetypes, wants_filename
 
 __all__ = ("check_ast", "newline_after_equals", "noqa_reformat", "squish_stubs")
 
@@ -71,6 +71,7 @@ def check_ast(source: str) -> str:
 	return source
 
 
+@formats_filetypes(".pyi")
 @wants_filename
 def squish_stubs(source: str, formate_filename: PathLike) -> str:
 	"""
@@ -87,7 +88,7 @@ def squish_stubs(source: str, formate_filename: PathLike) -> str:
 	filename = PathPlus(formate_filename)
 
 	if filename.suffix != ".pyi":
-		return source
+		raise ValueError(f"Unsupported filetype {filename.suffix!r}")
 
 	blocks = _breakup_source(source)
 	return str(_reformat_blocks(blocks))

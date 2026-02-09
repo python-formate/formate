@@ -1,0 +1,6 @@
+err:
+- ''
+out:
+- Checking code.py
+- Skipping code.c as no hooks support this filetype.
+- ''

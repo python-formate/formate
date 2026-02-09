@@ -44,7 +44,7 @@ from isort.exceptions import FileSkipComment
 
 # this package
 from formate.classes import FormateConfigDict, Hook
-from formate.config import parse_hooks, wants_filename, wants_global_config
+from formate.config import get_hooks_for_filetype, parse_hooks, wants_filename, wants_global_config
 from formate.utils import _find_from_parents, syntaxerror_for_file
 
 __author__: str = "Dominic Davis-Foster"
@@ -279,6 +279,7 @@ class Reformatter:
 		"""
 
 		hooks = parse_hooks(self.config)
+		hooks = get_hooks_for_filetype(self.file_to_format.suffix, hooks)
 		reformatted_source = StringList(call_hooks(hooks, self._unformatted_source, self.filename))
 		reformatted_source.blankline(ensure_single=True)
 

@@ -252,8 +252,8 @@ def test_squish_stubs_not_pyi():
 	new_code = squish_stubs(code, formate_filename="code.pyi")
 	assert new_code != code
 
-	new_code = squish_stubs(code, formate_filename="code.py")
-	assert new_code == code
+	with pytest.raises(ValueError, match=r"Unsupported filetype '\.py'"):
+		squish_stubs(code, formate_filename="code.py")
 
 
 newline_after_equals_src = """

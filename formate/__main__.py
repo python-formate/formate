@@ -38,6 +38,9 @@ from consolekit.terminal_colours import ColourTrilean, resolve_color_default
 from consolekit.tracebacks import handle_tracebacks, traceback_option
 from domdf_python_tools.typing import PathLike
 
+# this package
+from formate.config import NoSupportedHooksError
+
 __all__ = ("main", "version_callback")
 
 
@@ -129,9 +132,15 @@ def main(
 
 		path = PathPlus(path)
 
-		if path.suffix not in {".py", ".pyi", ''} or path.is_dir():  # pylint: disable=loop-invariant-statement
+		if path.is_dir():  # pylint: disable=loop-invariant-statement
 			if verbose >= 2:
-				click.echo(f"Skipping {path} as it doesn't appear to be a Python file")
+				click.echo(f"Skipping directory {path}")
+
+			continue
+
+		if not path.exists():  # pylint: disable=loop-invariant-statement
+			if verbose >= 2:
+				click.echo(f"Skipping {path} as it doesn't exist")
 
 			continue
 
@@ -139,7 +148,13 @@ def main(
 
 		with handle_tracebacks(show_traceback, cls=SyntaxTracebackHandler):
 			with syntaxerror_for_file(path):
-				ret_for_file = r.run()
+				try:
+					ret_for_file = r.run()
+				except NoSupportedHooksError:
+					if verbose >= 2:
+						click.echo(f"Skipping {path} as no hooks support this filetype.")
+
+					continue
 
 		if ret_for_file:
 			if verbose:
