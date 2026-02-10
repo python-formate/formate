@@ -144,7 +144,13 @@ def main(
 
 			continue
 
-		r = Reformatter(path, config=config)
+		try:
+			r = Reformatter(path, config=config)
+		except UnicodeDecodeError as e:
+			if verbose >= 2:
+				click.echo(f"Skipping {path} due to incorrect encoding: {e}")
+
+			continue
 
 		with handle_tracebacks(show_traceback, cls=SyntaxTracebackHandler):
 			with syntaxerror_for_file(path):

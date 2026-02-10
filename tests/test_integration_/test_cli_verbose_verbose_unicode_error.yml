@@ -1,0 +1,29 @@
+err:
+- ''
+out:
+- Reformatting code.py
+- "--- code.py\t(original)"
+- "+++ code.py\t(reformatted)"
+- '@@ -1,12 +1,12 @@'
+- ' class F:'
+- "-\tfrom collections import ("
+- -Iterable,
+- "-\tCounter,"
+- "-\t\t)"
+- "+\t# stdlib"
+- "+\tfrom collections import Counter"
+- "+\tfrom collections.abc import Iterable"
+- ''
+- " \tdef foo(self):"
+- " \t\tpass"
+- ''
+- -print('hello world')
+- -assert t.uname == '\udce4\udcf6\udcfc'
+- ''
+- +print("hello world")
+- +assert t.uname == "\udce4\udcf6\udcfc"
+- +
+- ''
+- 'Skipping image.png due to incorrect encoding: ''utf-8'' codec can''t decode byte
+  0x89 in position 0: invalid start byte'
+- ''

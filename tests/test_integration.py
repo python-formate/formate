@@ -1,5 +1,6 @@
 # stdlib
 import re
+import shutil
 from typing import List, Mapping, Union, no_type_check
 
 # 3rd party
@@ -303,6 +304,27 @@ def test_cli_verbose_verbose_no_supported_hooks(
 				)
 
 	assert result.exit_code == 0
+
+	check_out(result, advanced_data_regression)
+
+
+@pytest.mark.usefixtures("demo_environment")
+def test_cli_verbose_verbose_unicode_error(
+		tmp_pathplus: PathPlus,
+		advanced_data_regression: AdvancedDataRegressionFixture,
+		):
+
+	result: Result
+	shutil.copy2(PathPlus(__file__).parent / "image.png", tmp_pathplus / "image.png")
+
+	with in_directory(tmp_pathplus):
+		runner = CliRunner(mix_stderr=False)
+		result = runner.invoke(
+				main,
+				args=["code.py", "image.png", "--no-colour", "--diff", "--verbose", "-v"],
+				)
+
+	assert result.exit_code == 1
 
 	check_out(result, advanced_data_regression)
 
