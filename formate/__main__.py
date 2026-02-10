@@ -115,6 +115,10 @@ def main(
 	from formate.config import load_toml
 	from formate.utils import SyntaxTracebackHandler, _find_from_parents, syntaxerror_for_file
 
+	def verbose_echo(msg: str, level: int = 1):
+		if verbose >= level:
+			click.echo(msg)
+
 	retv = 0
 
 	# If `config_file` is a filename (rather than a path), look in CWD and parent directories
@@ -133,23 +137,17 @@ def main(
 		path = PathPlus(path)
 
 		if path.is_dir():  # pylint: disable=loop-invariant-statement
-			if verbose >= 2:
-				click.echo(f"Skipping directory {path}")
-
+			verbose_echo(f"Skipping directory {path}", 2)
 			continue
 
 		if not path.exists():  # pylint: disable=loop-invariant-statement
-			if verbose >= 2:
-				click.echo(f"Skipping {path} as it doesn't exist")
-
+			verbose_echo(f"Skipping {path} as it doesn't exist", 2)
 			continue
 
 		try:
 			r = Reformatter(path, config=config)
 		except UnicodeDecodeError as e:
-			if verbose >= 2:
-				click.echo(f"Skipping {path} due to incorrect encoding: {e}")
-
+			verbose_echo(f"Skipping {path} due to incorrect encoding: {e}", 2)
 			continue
 
 		with handle_tracebacks(show_traceback, cls=SyntaxTracebackHandler):
@@ -157,14 +155,11 @@ def main(
 				try:
 					ret_for_file = r.run()
 				except NoSupportedHooksError:
-					if verbose >= 2:
-						click.echo(f"Skipping {path} as no hooks support this filetype.")
-
+					verbose_echo(f"Skipping {path} as no hooks support this filetype.", 2)
 					continue
 
 		if ret_for_file:
-			if verbose:
-				click.echo(f"Reformatting {path}")
+			verbose_echo(f"Reformatting {path}")
 			if show_diff:
 				click.echo(r.get_diff(), color=resolve_color_default(colour))
 
