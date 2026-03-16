@@ -258,7 +258,7 @@ class Reformatter:
 	#: The filename being reformatted, as a POSIX-style path.
 	filename: str
 
-	#: The filename being reformatted, as a :class:`~.PathPlus` object.
+	#: The filename being reformatted, as a :class:`~domdf_python_tools.paths.PathPlus` object.
 	file_to_format: PathPlus
 
 	#: The file extension of the file being reformatted.
