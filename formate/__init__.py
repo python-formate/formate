@@ -255,11 +255,14 @@ class Reformatter:
 	.. autosummary-widths:: 5/16
 	"""
 
-	#: The filename being reformatted.
+	#: The filename being reformatted, as a POSIX-style path.
 	filename: str
 
-	#: The filename being reformatted, as a POSIX-style path.
+	#: The filename being reformatted, as a :class:`~.PathPlus` object.
 	file_to_format: PathPlus
+
+	#: The file extension of the file being reformatted.
+	filetype: str
 
 	#: The ``formate`` configuration, parsed from a TOML file (or similar).
 	config: FormateConfigDict
@@ -267,6 +270,7 @@ class Reformatter:
 	def __init__(self, filename: PathLike, config: FormateConfigDict):
 		self.file_to_format = PathPlus(filename)
 		self.filename = self.file_to_format.as_posix()
+		self.filetype = self.file_to_format.suffix
 		self.config = config
 		self._unformatted_source = self.file_to_format.read_text()
 		self._reformatted_source: Optional[str] = None
@@ -279,7 +283,7 @@ class Reformatter:
 		"""
 
 		hooks = parse_hooks(self.config)
-		hooks = get_hooks_for_filetype(self.file_to_format.suffix, hooks)
+		hooks = get_hooks_for_filetype(self.filetype, hooks)
 		reformatted_source = StringList(call_hooks(hooks, self._unformatted_source, self.filename))
 		reformatted_source.blankline(ensure_single=True)
 
